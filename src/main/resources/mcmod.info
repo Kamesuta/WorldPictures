@@ -1,0 +1,25 @@
+{
+	"modListVersion": 2,
+	"modList": [
+		{
+			"modid": "WorldPictures",
+			"name": "WorldPictures",
+			"description": "Can you see any pictures?",
+			"mcversion": "${mcversion}",
+			"version": "${version}",
+			"authorList": [
+				"Kamesuta"
+			],
+			"credits": "©2016 TeamFruit",
+			"dependants": [  ],
+			"dependencies": [ "Forge" ],
+			"parent": "",
+			"requiredMods": [ "Forge" ],
+			"logoFile": "/assets/worldpictures/logo.png",
+			"screenshots": [  ],
+			"updateUrl": "",
+			"url": "",
+			"useDependencyInformation": true
+		}
+	]
+}
