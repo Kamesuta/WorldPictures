@@ -1,15 +1,15 @@
-package com.kamesuta.mc.worldpictures.picture;
+package com.kamesuta.mc.worldpictures.texture;
 
 import net.minecraft.client.renderer.texture.TextureUtil;
 
-public abstract class AbstractPicture implements IPicture {
+public abstract class AbstractWorldTexture implements IWorldTexture {
 
-	public static final PictureDynamic NULL_PIECE;
-	public static PictureDynamic NULL_PICTURE;
+	public static final WorldTextureDynamic NULL_PIECE;
+	public static WorldTextureDynamic NULL_PICTURE;
 
 	protected int glTextureId = -1;
 
-	public AbstractPicture() {
+	public AbstractWorldTexture() {
 		super();
 	}
 
@@ -30,7 +30,7 @@ public abstract class AbstractPicture implements IPicture {
 	}
 
 	static {
-		NULL_PIECE = new PictureDynamic(16, 16);
+		NULL_PIECE = new WorldTextureDynamic(16, 16);
 		int[] null_picture_data = NULL_PIECE.getTextureData();
 
 		int[] colorA = new int[] { -524040, -524040, -524040, -524040, -524040, -524040, -524040, -524040 };

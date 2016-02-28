@@ -2,11 +2,11 @@ package com.kamesuta.mc.worldpictures.resource;
 
 import java.util.List;
 
-public class PicturesResource {
+public class WorldResource {
 	private final String id;
 	private final List<String> names;
 
-	public PicturesResource(String id, List<String> names) {
+	public WorldResource(String id, List<String> names) {
 		this.id = id;
 		this.names = names;
 	}
@@ -45,7 +45,7 @@ public class PicturesResource {
 			return false;
 		if (getClass() != obj.getClass())
 			return false;
-		PicturesResource other = (PicturesResource) obj;
+		WorldResource other = (WorldResource) obj;
 		if (id == null) {
 			if (other.id != null)
 				return false;

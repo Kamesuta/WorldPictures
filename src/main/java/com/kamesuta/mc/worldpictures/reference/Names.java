@@ -24,44 +24,25 @@ public final class Names {
 	}
 
 	public static final class Gui {
-		public static final class Load {
-			public static final String TITLE = "worldpictures.gui.title";
-			public static final String FOLDER_INFO = "worldpictures.gui.folderInfo";
-			public static final String OPEN_FOLDER = "worldpictures.gui.openFolder";
-			public static final String NO_WorldPictures = "worldpictures.gui.noway";
-		}
-
-		public static final class Save {
-			public static final String NEW = "worldpictures.gui.new";
-			public static final String LOAD = "worldpictures.gui.load";
-			public static final String SAVE = "worldpictures.gui.save";
-			public static final String SAVE_SELECTION = "worldpictures.gui.saveselection";
-			public static final String OFFSET_INC = "worldpictures.gui.offsetInc";
-			public static final String OFFSET_DEC = "worldpictures.gui.offsetDec";
-		}
-
+		public static final String TITLE = "worldpictures.gui.title";
+		public static final String NEW = "worldpictures.gui.new";
+		public static final String OFFSET_INC = "worldpictures.gui.offsetInc";
+		public static final String OFFSET_DEC = "worldpictures.gui.offsetDec";
 		public static final String ON = "worldpictures.gui.on";
 		public static final String OFF = "worldpictures.gui.off";
 		public static final String DONE = "worldpictures.gui.done";
 
 	}
 
-	public static final class ModId {
-		public static final String MINECRAFT = "minecraft";
-	}
-
 	public static final class Keys {
 		public static final String CATEGORY = "worldpictures.key.category";
-		public static final String LOAD = "worldpictures.key.load";
-		public static final String SAVE = "worldpictures.key.save";
-		public static final String CONTROL = "worldpictures.key.control";
+		public static final String GUI = "worldpictures.key.gui";
+		public static final String ACTION = "worldpictures.key.action";
 	}
 
 	public static final class Formats {
-		public static final String SUFFIX = ".way";
-		public static final String SUFFIX_JSON = ".json";
-		public static final String FORMAT_JSON = "Json";
-		public static final String FORMAT_SERIALIZE = "Serialize";
+		public static final String NAME_PICTURE = "picture";
+		public static final String NAME_VERTEX = "vertex";
 		public static final String SAVE_SUCCESS = "Successfully saving.";
 		public static final String SAVE_ERROR = "Save error has occured.";
 		public static final String LOAD_SUCCESS = "Successfully loading.";

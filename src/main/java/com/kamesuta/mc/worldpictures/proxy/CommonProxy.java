@@ -4,7 +4,7 @@ import java.io.File;
 
 import com.kamesuta.mc.worldpictures.handler.ConfigurationHandler;
 import com.kamesuta.mc.worldpictures.reference.Reference;
-import com.kamesuta.mc.worldpictures.resource.PicturesResourceManager;
+import com.kamesuta.mc.worldpictures.resource.WorldResourceManager;
 
 import cpw.mods.fml.common.event.FMLInitializationEvent;
 import cpw.mods.fml.common.event.FMLPostInitializationEvent;
@@ -12,12 +12,12 @@ import cpw.mods.fml.common.event.FMLPreInitializationEvent;
 import cpw.mods.fml.common.event.FMLServerStartingEvent;
 
 public abstract class CommonProxy {
-	public PicturesResourceManager resource;
+	public WorldResourceManager resource;
 
 	public void preInit(FMLPreInitializationEvent event) {
 		Reference.logger = event.getModLog();
 		ConfigurationHandler.init(event.getSuggestedConfigurationFile());
-		resource = new PicturesResourceManager(getWorldPicturesDirectory());
+		resource = new WorldResourceManager(getWorldPicturesDirectory());
 	}
 
 	public void init(FMLInitializationEvent event) {
