@@ -3,13 +3,13 @@ package com.kamesuta.mc.worldpictures.renderer;
 import java.util.Arrays;
 
 import org.lwjgl.opengl.GL11;
-import org.lwjgl.util.vector.Vector3f;
 
 import com.kamesuta.mc.worldpictures.WorldPictures;
 import com.kamesuta.mc.worldpictures.proxy.ClientProxy;
 import com.kamesuta.mc.worldpictures.reference.Names;
 import com.kamesuta.mc.worldpictures.resource.WorldResource;
 import com.kamesuta.mc.worldpictures.texture.WorldTextureManager;
+import com.kamesuta.mc.worldpictures.vertex.Vector3f;
 import com.kamesuta.mc.worldpictures.vertex.WorldVertexCompound;
 import com.kamesuta.mc.worldpictures.vertex.WorldVertexManager;
 import com.kamesuta.mc.worldpictures.vertex.WorldVertexObj;
@@ -56,6 +56,7 @@ public class Renderer {
 		GL11.glPushMatrix();
 		GL11.glTranslated(-x, -y, -z);
 
+		GL11.glDisable(GL11.GL_CULL_FACE);
 		// GL11.glDisable(GL11.GL_TEXTURE_2D);
 //		GL11.glDisable(GL11.GL_LIGHTING);
 		pictureManager.bindTexture(picture);
@@ -88,6 +89,7 @@ public class Renderer {
 
 		// GL11.glEnable(GL11.GL_TEXTURE_2D);
 		// cleanup
+		GL11.glEnable(GL11.GL_CULL_FACE);
 		GL11.glPopMatrix();
 	}
 }
