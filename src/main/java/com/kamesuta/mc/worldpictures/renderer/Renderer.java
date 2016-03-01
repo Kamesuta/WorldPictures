@@ -1,18 +1,12 @@
 package com.kamesuta.mc.worldpictures.renderer;
 
-import java.util.Arrays;
-
 import org.lwjgl.opengl.GL11;
 
 import com.kamesuta.mc.worldpictures.WorldPictures;
+import com.kamesuta.mc.worldpictures.objects.WorldObjClient;
 import com.kamesuta.mc.worldpictures.proxy.ClientProxy;
-import com.kamesuta.mc.worldpictures.reference.Names;
-import com.kamesuta.mc.worldpictures.resource.WorldResource;
 import com.kamesuta.mc.worldpictures.texture.WorldTextureManager;
-import com.kamesuta.mc.worldpictures.vertex.Vector3f;
-import com.kamesuta.mc.worldpictures.vertex.WorldVertexCompound;
 import com.kamesuta.mc.worldpictures.vertex.WorldVertexManager;
-import com.kamesuta.mc.worldpictures.vertex.WorldVertexObj;
 
 import cpw.mods.fml.common.eventhandler.SubscribeEvent;
 import cpw.mods.fml.relauncher.Side;
@@ -24,16 +18,11 @@ import net.minecraftforge.client.event.RenderWorldLastEvent;
 @SideOnly(Side.CLIENT)
 public class Renderer {
 	public static final Renderer INSTANCE = new Renderer();
-	public WorldTextureManager pictureManager = new WorldTextureManager(WorldPictures.proxy.resource);
+	public WorldTextureManager textureManager = new WorldTextureManager(WorldPictures.proxy.resource);
 	public WorldVertexManager vertexManager = new WorldVertexManager(WorldPictures.proxy.resource);
 	private final Profiler profiler = ClientProxy.MINECRAFT.mcProfiler;
 
-	public WorldResource picture = new WorldResource("abc", Arrays.asList(Names.Formats.NAME_PICTURE, Names.Formats.NAME_VERTEX));
-	public WorldVertexCompound vertex = new WorldVertexCompound(
-			2,
-			new WorldVertexObj(0, new Vector3f(10, 90, 10), new Vector3f(10, 90, 0), new Vector3f(0, 100, 0), new Vector3f(0, 100, 10)),
-			new WorldVertexObj(1, new Vector3f(10, 100, 10), new Vector3f(10, 100, 0), new Vector3f(0, 110, 0), new Vector3f(0, 110, 10))
-	);
+	public WorldObjClient picture = new WorldObjClient("abc");
 
 	private Renderer() {
 	}
@@ -59,8 +48,7 @@ public class Renderer {
 		GL11.glDisable(GL11.GL_CULL_FACE);
 		// GL11.glDisable(GL11.GL_TEXTURE_2D);
 //		GL11.glDisable(GL11.GL_LIGHTING);
-		pictureManager.bindTexture(picture);
-		vertexManager.drawVertex(picture);
+		picture.render(textureManager, vertexManager);
 /*		Tessellator tessellator = Tessellator.instance;
 		tessellator.startDrawingQuads();
 		tessellator.addVertexWithUV(10, 90, 10, 0, 1);

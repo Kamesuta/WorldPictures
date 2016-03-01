@@ -4,6 +4,10 @@ import com.kamesuta.mc.worldpictures.texture.WorldTextureManager;
 import com.kamesuta.mc.worldpictures.vertex.WorldVertexManager;
 
 public class WorldObjClient extends WorldObj {
+	public WorldObjClient(String id) {
+		super(id);
+	}
+
 	public WorldObjClient(WorldObj obj) {
 		super(obj);
 	}

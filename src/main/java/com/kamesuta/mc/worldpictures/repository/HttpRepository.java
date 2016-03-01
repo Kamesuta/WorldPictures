@@ -1,6 +1,7 @@
 package com.kamesuta.mc.worldpictures.repository;
 
 import java.io.File;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.URI;
@@ -8,6 +9,7 @@ import java.net.URISyntaxException;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.apache.commons.compress.utils.IOUtils;
 import org.apache.http.Header;
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
@@ -52,32 +54,26 @@ public class HttpRepository implements IRepository {
 	@Override
 	public void download(Agent agent, WorldResourceManager manager, WorldResource resource) throws SynchronizeException {
 		try {
-			URI uprepository = repository.resolve(Core);
+			URI downrepository = repository.resolve(FileDir);
 
-			MultipartEntityBuilder entitybuilder = MultipartEntityBuilder.create()
+			HttpEntity entity = MultipartEntityBuilder.create()
 			.addTextBody("worldpicture", resource.getId())
 			.addTextBody("id", agent.id)
-			.addTextBody("token", agent.token);
+			.addTextBody("token", agent.token)
+			.build();
 
-			File[] upfiles = manager.getResources(resource);
-			for (File upfile : upfiles) {
-				entitybuilder.addBinaryBody("upload_file", upfile, ContentType.DEFAULT_BINARY, upfile.getName());
-			}
-
-			HttpEntity entity = entitybuilder.build();
-
-			HttpPost httpPost = new HttpPost(uprepository);
-			httpPost.setEntity(entity);
-			HttpResponse response = httpClient.execute(httpPost);
-			HttpRepositoryResult result = new Gson()
-					.fromJson(new JsonReader(new InputStreamReader(response.getEntity().getContent())),
-							HttpRepositoryResult.class);
-			if (!result.success) {
-				throw new SynchronizeException(result.message);
+			File[] downfiles = manager.getResources(resource);
+			for (File downfile : downfiles) {
+				HttpPost httpPost = new HttpPost(downrepository);
+				httpPost.setEntity(entity);
+				HttpResponse response = httpClient.execute(httpPost);
+				entity = response.getEntity();
+				
+				IOUtils.copy(response.getEntity().getContent(), new FileOutputStream(downfile));
 			}
 		} catch (ClientProtocolException e) {
 			throw new SynchronizeException(e);
-		} catch (JsonParseException e) {
+		} catch (IllegalStateException e) {
 			throw new SynchronizeException(e);
 		} catch (IOException e) {
 			throw new SynchronizeException(e);
@@ -111,6 +107,8 @@ public class HttpRepository implements IRepository {
 				throw new SynchronizeException(result.message);
 			}
 		} catch (ClientProtocolException e) {
+			throw new SynchronizeException(e);
+		} catch (IllegalStateException e) {
 			throw new SynchronizeException(e);
 		} catch (JsonParseException e) {
 			throw new SynchronizeException(e);
