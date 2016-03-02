@@ -10,7 +10,8 @@ import java.util.Map;
 
 import com.google.common.collect.Maps;
 import com.google.gson.Gson;
-import com.google.gson.JsonParseException;
+import com.google.gson.JsonIOException;
+import com.google.gson.JsonSyntaxException;
 import com.google.gson.stream.JsonReader;
 import com.google.gson.stream.JsonWriter;
 import com.kamesuta.mc.worldpictures.reference.Names;
@@ -21,85 +22,81 @@ import com.kamesuta.mc.worldpictures.resource.WorldResourceManager;
 import net.minecraft.client.renderer.Tessellator;
 
 public class WorldVertexManager {
+	public static final int MilliPerTime = 1000;
+
 	private Tessellator tessellator = Tessellator.instance;
-	private final Map<WorldResource, WorldVertexCompound> mapVertexObjects = Maps.newHashMap();
+	private final Map<WorldResource, OneCut> mapVertexObjects = Maps.newHashMap();
 	private WorldResourceManager theResourceManager;
 
 	public WorldVertexManager(WorldResourceManager manager) {
 		this.theResourceManager = manager;
 	}
 
-	private Vector3f[] vectorpool = {
-		new Vector3f(),
-		new Vector3f(),
-		new Vector3f(),
-		new Vector3f(),
-		new Vector3f(),
-	};
+	private Square vectorpool = new Square(new Vector3f(), new Vector3f(), new Vector3f(), new Vector3f());
+	private Vector3f vectorpoollocal = new Vector3f();
 
-	protected void draw(WorldVertexCompound vertexes) {
-		long timeall = Math.max((long)(vertexes.time * 1000), 100);
-		long now = System.currentTimeMillis() % timeall;
+	protected void draw(OneCut vertexes) {
+		if (!vertexes.vertexes.isEmpty()) {
+			long timeall = Math.max(
+					(long)(vertexes.time * MilliPerTime),
+					(long)(OneCut.MinTimeLength * MilliPerTime)
+			);
+			long now = System.currentTimeMillis() % timeall;
 
-		WorldVertexObj prevlast = vertexes.vertexes.getFirst();
-		WorldVertexObj nextlast = vertexes.vertexes.getLast();
+			Scene
+				prevlast = vertexes.vertexes.getLast(),
+				nextlast = vertexes.vertexes.getLast();
 
-		int maxframe = 0;
-		for (WorldVertexObj vertex : vertexes.vertexes) {
-			maxframe = Math.max(maxframe, vertex.frame);
-		}
-
-		long oneFrameTime = timeall / maxframe;
-		for (WorldVertexObj vertex : vertexes.vertexes) {
-			long nowFrameTime = oneFrameTime * vertex.frame;
-			if (now > nowFrameTime) {
-				prevlast = vertex;
-			} else {
-				nextlast = vertex;
-				break;
+			int maxframe = 0;
+			for (Scene vertex : vertexes.vertexes) {
+				maxframe += vertex.getLength();
 			}
+
+			long oneFrameTime = timeall / maxframe;
+			long nowFrameTime = 0;
+			for (Scene vertex : vertexes.vertexes) {
+				nowFrameTime += oneFrameTime * vertex.getLength();
+				if (now > nowFrameTime) {
+					prevlast = vertex;
+				} else {
+					nextlast = vertex;
+					break;
+				}
+			}
+
+			long betweentime = oneFrameTime * prevlast.getLength();
+			long betweennow = now - (nowFrameTime - oneFrameTime * prevlast.getLength());
+			float progress = (float) betweennow / betweentime;
+
+			vectorpool.lt.set(prevlast.v.lt).add(vectorpoollocal.set(nextlast.v.lt).sub(prevlast.v.lt).scale(progress));
+			vectorpool.lb.set(prevlast.v.lb).add(vectorpoollocal.set(nextlast.v.lb).sub(prevlast.v.lb).scale(progress));
+			vectorpool.rb.set(prevlast.v.rb).add(vectorpoollocal.set(nextlast.v.rb).sub(prevlast.v.rb).scale(progress));
+			vectorpool.rt.set(prevlast.v.rt).add(vectorpoollocal.set(nextlast.v.rt).sub(prevlast.v.rt).scale(progress));
+
+			vectorpool.draw(tessellator);
 		}
-
-		long betweentime = oneFrameTime * (nextlast.frame - prevlast.frame);
-		long betweennow = now - (oneFrameTime * prevlast.frame);
-		float progress = (float) betweennow / betweentime;
-		Vector3f[] v = {
-			vectorpool[0].set(prevlast.vertex[0]).add(vectorpool[4].set(nextlast.vertex[0]).sub(prevlast.vertex[0]).scale(progress)),
-			vectorpool[1].set(prevlast.vertex[1]).add(vectorpool[4].set(nextlast.vertex[1]).sub(prevlast.vertex[1]).scale(progress)),
-			vectorpool[2].set(prevlast.vertex[2]).add(vectorpool[4].set(nextlast.vertex[2]).sub(prevlast.vertex[2]).scale(progress)),
-			vectorpool[3].set(prevlast.vertex[3]).add(vectorpool[4].set(nextlast.vertex[3]).sub(prevlast.vertex[3]).scale(progress))
-		};
-
-		draw(v);
-	}
-
-	protected void draw(Vector3f[] vertex) {
-		tessellator.startDrawingQuads();
-		tessellator.addVertexWithUV(vertex[0].x, vertex[0].y, vertex[0].z, 0, 0);
-		tessellator.addVertexWithUV(vertex[1].x, vertex[1].y, vertex[1].z, 0, 1);
-		tessellator.addVertexWithUV(vertex[2].x, vertex[2].y, vertex[2].z, 1, 1);
-		tessellator.addVertexWithUV(vertex[3].x, vertex[3].y, vertex[3].z, 1, 0);
-		tessellator.draw();
 	}
 
 	public void drawVertex(WorldResource location) {
 		draw(getVertex(location));
 	}
 
-	public WorldVertexCompound loadVertex(WorldResource location) {
-		WorldVertexCompound vertex = null;
+	public OneCut loadVertex(WorldResource location) {
+		OneCut vertex = null;
 		try {
 			vertex = this.readVertex(location);
 		} catch (IOException e) {
-			Reference.logger.warn("Failed to load vertex: " + location, e);
+			Reference.logger.warn("Failed to load vertex: " + location + ": " + e.getMessage());
+			Reference.logger.debug(e);
+			vertex = OneCut.NULL;
 		}
 
 		mapVertexObjects.put(location, vertex);
 		return vertex;
 	}
 
-	public WorldVertexCompound getVertex(WorldResource location) {
-		WorldVertexCompound vertex = this.mapVertexObjects.get(location);
+	public OneCut getVertex(WorldResource location) {
+		OneCut vertex = this.mapVertexObjects.get(location);
 
 		if (vertex == null) {
 			vertex = this.loadVertex(location);
@@ -112,7 +109,7 @@ public class WorldVertexManager {
 		this.mapVertexObjects.remove(location);
 	}
 
-	public boolean saveVertex(WorldResource location, WorldVertexCompound vertex) {
+	public boolean saveVertex(WorldResource location, OneCut vertex) {
 		boolean flag = true;
 		try {
 			writeVertex(location, vertex);
@@ -126,7 +123,7 @@ public class WorldVertexManager {
 	}
 
 	public boolean saveVertex(WorldResource location) {
-		WorldVertexCompound v = this.mapVertexObjects.get(location);
+		OneCut v = this.mapVertexObjects.get(location);
 		if (v != null) {
 			return saveVertex(location, v);
 		}
@@ -134,27 +131,29 @@ public class WorldVertexManager {
 		return false;
 	}
 
-	public WorldVertexCompound readVertex(WorldResource location) throws IOException {
-		WorldVertexCompound vertex;
+	public OneCut readVertex(WorldResource location) throws IOException {
+		OneCut vertex;
 		try {
 			File resource = theResourceManager.getResource(location, Names.Formats.NAME_VERTEX);
 			JsonReader jsr = new JsonReader(new InputStreamReader(new FileInputStream(resource)));
-			vertex = new Gson().fromJson(jsr, WorldVertexCompound.class);
+			vertex = new Gson().fromJson(jsr, OneCut.class);
 			jsr.close();
-		} catch (JsonParseException e) {
-			throw new IOException(Names.Formats.LOAD_ERROR, e);
+		} catch (JsonSyntaxException e) {
+			throw new IOException("Syntax error has occured. Is it right format?", e);
+		} catch (JsonIOException e) {
+			throw new IOException(e);
 		}
 		return vertex;
 	}
 
-	public void writeVertex(WorldResource location, WorldVertexCompound vertexes) throws IOException {
+	public void writeVertex(WorldResource location, OneCut vertexes) throws IOException {
 		try {
 			File resource = theResourceManager.getResource(location, Names.Formats.NAME_VERTEX);
 			JsonWriter jsw = new JsonWriter(new OutputStreamWriter(new FileOutputStream(resource)));
-			new Gson().toJson(vertexes, WorldVertexCompound.class, jsw);
+			new Gson().toJson(vertexes, OneCut.class, jsw);
 			jsw.close();
-		} catch (JsonParseException e) {
-			throw new IOException(Names.Formats.SAVE_ERROR, e);
+		} catch (JsonIOException e) {
+			throw new IOException(e);
 		}
 	}
 }

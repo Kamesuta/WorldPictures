@@ -23,26 +23,25 @@ public class WorldTextureManager {
 		IWorldTexture picture = this.mapTextureObjects.get(location);
 
 		if (picture == null) {
-			picture = new WorldTextureLink(location);
-			this.loadTexture(location, picture);
+			picture = this.loadTexture(location);
 		}
 
 		GL11.glBindTexture(GL11.GL_TEXTURE_2D, picture.getGlTextureId());
 	}
 
-	public boolean loadTexture(WorldResource location, IWorldTexture picture) {
-		boolean flag = true;
+	public IWorldTexture loadTexture(WorldResource location) {
+		IWorldTexture picture;
+
 		try {
-			picture.loadTexture(this.theResourceManager);
+			picture = new WorldTexture(theResourceManager, location);
 		} catch (IOException e) {
-			Reference.logger.warn("Failed to load texture: " + location, e);
-			picture = AbstractWorldTexture.NULL_PIECE;
-			this.mapTextureObjects.put(location, picture);
-			flag = false;
+			Reference.logger.warn("Failed to load texture: " + location);
+			Reference.logger.debug(e);
+			picture = WorldTexture.NULL;
 		}
 
 		this.mapTextureObjects.put(location, picture);
-		return flag;
+		return picture;
 	}
 
 	public IWorldTexture getTexture(WorldResource location) {

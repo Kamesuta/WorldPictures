@@ -2,6 +2,10 @@ package com.kamesuta.mc.worldpictures.gui;
 
 import com.kamesuta.mc.worldpictures.handler.ConfigurationHandler;
 import com.kamesuta.mc.worldpictures.reference.Names;
+import com.kamesuta.mc.worldpictures.renderer.Renderer;
+import com.kamesuta.mc.worldpictures.vertex.Vector3f;
+import com.kamesuta.mc.worldpictures.vertex.OneCut;
+import com.kamesuta.mc.worldpictures.vertex.Scene;
 
 import net.minecraft.client.gui.GuiButton;
 import net.minecraft.client.gui.GuiScreen;
@@ -36,22 +40,21 @@ public class GuiWorldPictures extends GuiScreenBase {
 	protected void actionPerformed(GuiButton guiButton) {
 		if (guiButton.enabled) {
 			if (guiButton.id == btnNew.id) {
-//				float h = 90;
-//				int split = 16;
-//				int split4 = split/4;
-//				double d45 = (360/split) * Math.PI / 180;
-//				float r = 10;
-//				WorldVertexObj[] v = new WorldVertexObj[split+1];
-//				for (int i = 0; i < split; i++) {
-//					v[i] = new WorldVertexObj(i,
-//							new Vector3f((float)(Math.sin((i+0*split4)*d45) * r), h, (float)(Math.cos((i+0*split4)*d45) * r)),
-//							new Vector3f((float)(Math.sin((i+1*split4)*d45) * r), h, (float)(Math.cos((i+1*split4)*d45) * r)),
-//							new Vector3f((float)(Math.sin((i+2*split4)*d45) * r), h, (float)(Math.cos((i+2*split4)*d45) * r)),
-//							new Vector3f((float)(Math.sin((i+3*split4)*d45) * r), h, (float)(Math.cos((i+3*split4)*d45) * r)));
-//				}
-//				v[split] = new WorldVertexObj(split, v[0]);
-//
-//				Renderer.INSTANCE.vertexManager.saveVertex(Renderer.INSTANCE.picture, new WorldVertexCompound(2, v));
+				float h = 90;
+				int split = 16;
+				int split4 = split/4;
+				double d45 = (360/split) * Math.PI / 180;
+				float r = 10;
+				Scene[] v = new Scene[split];
+				for (int i = 0; i < split; i++) {
+					v[i] = new Scene(
+							new Vector3f((float)(Math.sin((i+0*split4)*d45) * r), h, (float)(Math.cos((i+0*split4)*d45) * r)),
+							new Vector3f((float)(Math.sin((i+1*split4)*d45) * r), h, (float)(Math.cos((i+1*split4)*d45) * r)),
+							new Vector3f((float)(Math.sin((i+2*split4)*d45) * r), h, (float)(Math.cos((i+2*split4)*d45) * r)),
+							new Vector3f((float)(Math.sin((i+3*split4)*d45) * r), h, (float)(Math.cos((i+3*split4)*d45) * r)));
+				}
+
+				Renderer.INSTANCE.vertexManager.saveVertex(Renderer.INSTANCE.picture.picture, new OneCut(2, v));
 
 //				Renderer.INSTANCE.vertexManager.saveVertex(Renderer.INSTANCE.picture,
 //						new WorldVertexCompound(4,

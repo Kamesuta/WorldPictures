@@ -9,7 +9,7 @@ import com.kamesuta.mc.worldpictures.resource.WorldResource;
 public class WorldObj {
 	public static final List<String> WorldObjFiles = Arrays.asList(Names.Formats.NAME_PICTURE, Names.Formats.NAME_VERTEX);
 
-	protected WorldResource picture;
+	public WorldResource picture;
 
 	public WorldObj(String id) {
 		this.picture = new WorldResource(id, WorldObjFiles);

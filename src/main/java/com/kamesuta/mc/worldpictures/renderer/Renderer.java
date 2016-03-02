@@ -22,7 +22,7 @@ public class Renderer {
 	public WorldVertexManager vertexManager = new WorldVertexManager(WorldPictures.proxy.resource);
 	private final Profiler profiler = ClientProxy.MINECRAFT.mcProfiler;
 
-	public WorldObjClient picture = new WorldObjClient("abc");
+	public WorldObjClient picture = new WorldObjClient("abcd");
 
 	private Renderer() {
 	}
