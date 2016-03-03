@@ -25,7 +25,13 @@ public final class Names {
 
 	public static final class Gui {
 		public static final String TITLE = "worldpictures.gui.title";
+		public static final String ACTION = "worldpictures.gui.action";
 		public static final String NEW = "worldpictures.gui.new";
+		public static final String BUILD = "worldpictures.gui.buid";
+		public static final String POS = "worldpictures.gui.pos";
+		public static final String ADD = "worldpictures.gui.add";
+		public static final String NEXT = "worldpictures.gui.next";
+		public static final String PREV = "worldpictures.gui.prev";
 		public static final String OFFSET_INC = "worldpictures.gui.offsetInc";
 		public static final String OFFSET_DEC = "worldpictures.gui.offsetDec";
 		public static final String ON = "worldpictures.gui.on";

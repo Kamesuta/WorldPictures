@@ -6,6 +6,8 @@ import com.kamesuta.mc.worldpictures.WorldPictures;
 import com.kamesuta.mc.worldpictures.objects.WorldObjClient;
 import com.kamesuta.mc.worldpictures.proxy.ClientProxy;
 import com.kamesuta.mc.worldpictures.texture.WorldTextureManager;
+import com.kamesuta.mc.worldpictures.vertex.OneCut;
+import com.kamesuta.mc.worldpictures.vertex.SquareBuilder;
 import com.kamesuta.mc.worldpictures.vertex.WorldVertexManager;
 
 import cpw.mods.fml.common.eventhandler.SubscribeEvent;
@@ -21,6 +23,9 @@ public class Renderer {
 	public WorldTextureManager textureManager = new WorldTextureManager(WorldPictures.proxy.resource);
 	public WorldVertexManager vertexManager = new WorldVertexManager(WorldPictures.proxy.resource);
 	private final Profiler profiler = ClientProxy.MINECRAFT.mcProfiler;
+
+	public SquareBuilder squarebuilder = new SquareBuilder();
+	public OneCut cut = new OneCut(5);
 
 	public WorldObjClient picture = new WorldObjClient("abcd");
 
@@ -46,9 +51,17 @@ public class Renderer {
 		GL11.glTranslated(-x, -y, -z);
 
 		GL11.glDisable(GL11.GL_CULL_FACE);
-		// GL11.glDisable(GL11.GL_TEXTURE_2D);
 //		GL11.glDisable(GL11.GL_LIGHTING);
 		picture.render(textureManager, vertexManager);
+
+		GL11.glDisable(GL11.GL_TEXTURE_2D);
+		if (squarebuilder != null) {
+			GL11.glColor4f(1f, 1f, 0.5f, 1f);
+			squarebuilder.renderAssist();
+			GL11.glColor4f(0.5f, 0.5f, 1f, 0.5f);
+			squarebuilder.renderAssistLine();
+		}
+
 /*		Tessellator tessellator = Tessellator.instance;
 		tessellator.startDrawingQuads();
 		tessellator.addVertexWithUV(10, 90, 10, 0, 1);
@@ -75,7 +88,7 @@ public class Renderer {
 		//
 		// glDisableClientState(GL_VERTEX_ARRAY);
 
-		// GL11.glEnable(GL11.GL_TEXTURE_2D);
+		GL11.glEnable(GL11.GL_TEXTURE_2D);
 		// cleanup
 		GL11.glEnable(GL11.GL_CULL_FACE);
 		GL11.glPopMatrix();

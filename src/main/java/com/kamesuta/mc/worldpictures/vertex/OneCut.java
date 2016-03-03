@@ -19,4 +19,8 @@ public class OneCut {
 		this.time = time;
 		this.vertexes = vertexes;
 	}
+
+	public OneCut(float time) {
+		this(time, new LinkedList<Scene>());
+	}
 }
