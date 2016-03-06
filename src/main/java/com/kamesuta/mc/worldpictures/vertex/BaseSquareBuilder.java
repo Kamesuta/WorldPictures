@@ -156,4 +156,18 @@ public abstract class BaseSquareBuilder extends AbstractSquareBuilder {
 		return setPos((pos + size - 1) % size);
 	}
 
+	@Override
+	public Square build() throws IllegalStateException {
+		if (isReady()) {
+			return new Square(get(0), get(1), get(2), get(3));
+		} else {
+			throw new IllegalStateException("Not Ready");
+		}
+	}
+
+	@Override
+	public Vector3f[] export() {
+		return (Vector3f[]) data.toArray();
+	}
+
 }

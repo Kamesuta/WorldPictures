@@ -90,17 +90,4 @@ public class VertexSquareBuilder extends BaseSquareBuilder {
 		}
 	}
 
-	@Override
-	public Square build() throws IllegalStateException {
-		if (isReady()) {
-			return new Square(get(0), get(1), get(2), get(3));
-		} else {
-			throw new IllegalStateException("Not Ready");
-		}
-	}
-
-	@Override
-	public Vector3f[] export() {
-		return (Vector3f[]) data.toArray();
-	}
 }

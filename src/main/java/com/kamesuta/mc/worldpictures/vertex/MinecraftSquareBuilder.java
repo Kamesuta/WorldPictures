@@ -4,6 +4,10 @@ import org.lwjgl.opengl.GL11;
 
 import com.google.common.collect.Lists;
 
+/**
+ * Minecraft軸に沿った四角形を作成します。
+ * @author Kamesuta
+ */
 public class MinecraftSquareBuilder extends BaseSquareBuilder {
 
 	/**
@@ -46,37 +50,29 @@ public class MinecraftSquareBuilder extends BaseSquareBuilder {
 
 	@Override
 	public void set(int pos, Vector3f vec) {
+		int size = listSize();
+		if (0 < size && 1 <= pos) {
+			Vector3f vecA = get(0);
+			if (2 <= size && 2 <= pos) {
+				Vector3f vecB = get(1);
+				Vector3f vecC = (2 < size) ? get(2) : new Vector3f();
+				Vector3f vecD = (3 < size) ? get(3) : new Vector3f();
+				makeMinecraftSquare(vecA, vecB, vec, vecC, vecD);
+				super.set(2, vecC);
+				super.set(3, vecD);
+			} else if (!vecA.equals(vec)) {
+				Vector3f vecB = (1 < size) ? get(1) : new Vector3f();
+				toLine(vecB.set(vecA).negate().add(vec)).add(vecA);
+				super.set(1, vecB);
+			}
+		} else {
+			super.set(0, vec);
+		}
 	}
 
 	@Override
 	public void add(int pos, Vector3f vec) {
-		int size = listSize();
-		if (pos <= 0 || size == 0) {
-			super.set(0, vec);
-		} else {
-			Vector3f basepoint = get(0);
-			if (pos == 1 && 1 <= size) {
-				// Re-use Vector3f instance
-				Vector3f reUseVector = get(1);
-
-				Vector3f extend = reUseVector.set(basepoint).negate();
-				if (!basepoint.equals(vec)) {
-					toLine(extend.add(vec));
-					super.add(1, extend.add(basepoint));
-				}
-			} else {
-				// Re-use Vector3f instance
-				Vector3f reUseVector1 = get(2);
-				Vector3f reUseVector2 = get(3);
-
-				Vector3f extend = reUseVector1.set(basepoint).negate();
-				extend.add(vec);
-				Vector3f BtoA = reUseVector2.set(get(1)).sub(basepoint);
-				toLineExcept(extend, BtoA).add(basepoint);
-				super.set(2, BtoA.add(extend));
-				super.set(3, extend);
-			}
-		}
+		set(pos, vec);
 	}
 
 	/**
@@ -125,6 +121,21 @@ public class MinecraftSquareBuilder extends BaseSquareBuilder {
 		return toLine(target);
 	}
 
+	/**
+	 * 頂点A、頂点Bと、補助点Pを使い、2つのMinecraft軸と平行になる長方形ABCDとなるような頂点C、頂点Dを求めます
+	 * @param vecA 頂点A
+	 * @param vecB 頂点B
+	 * @param vecP 補助点P
+	 * @param vecD 頂点C
+	 * @param vecC 頂点D
+	 */
+	private void makeMinecraftSquare(Vector3f vecA, Vector3f vecB, Vector3f vecP, Vector3f vecC, Vector3f vecD) {
+		vecC.set(vecB).sub(vecA);
+		vecD.set(vecA).negate().add(vecP);
+		toLineExcept(vecD, vecC).add(vecA);
+		vecC.add(vecD);
+	}
+
 	@Override
 	public void renderAssist() {
 		GL11.glBegin(GL11.GL_LINE_LOOP);
@@ -134,13 +145,14 @@ public class MinecraftSquareBuilder extends BaseSquareBuilder {
 		GL11.glEnd();
 	}
 
+	private Vector3f rendererAssistLinePoolC = new Vector3f();
+	private Vector3f rendererAssistLinePoolD = new Vector3f();
 	@Override
 	public void renderAssistLine(Vector3f target) {
 		int size = listSize();
 		if (0 < size) {
 			Vector3f vec = get(0);
 			if (size == 1) {
-
 				float sx = target.x - vec.x;
 				float sy = target.y - vec.y;
 				float sz = target.z - vec.z;
@@ -161,29 +173,23 @@ public class MinecraftSquareBuilder extends BaseSquareBuilder {
 				}
 				GL11.glEnd();
 			} else if (2 <= size) {
-				Vector3f vec2 = get(1);
+				Vector3f vecA = get(0);
+				Vector3f vecB = get(1);
+				Vector3f vecC = rendererAssistLinePoolC;
+				Vector3f vecD = rendererAssistLinePoolD;
+				makeMinecraftSquare(vecA, vecB, target, vecC, vecD);
 				GL11.glBegin(GL11.GL_LINE_LOOP);
-				GL11.glVertex3f(vec.x, vec.y, vec.z);
-				GL11.glVertex3f(vec2.x, vec2.y, vec2.z);
-				GL11.glVertex3f(vec.x, vec.y, vec.z);
-				GL11.glVertex3f(vec.x, vec.y, vec.z);
+				GL11.glVertex3f(vecA.x, vecA.y, vecA.z);
+				GL11.glVertex3f(vecB.x, vecB.y, vecB.z);
+				GL11.glVertex3f(vecC.x, vecC.y, vecC.z);
+				GL11.glVertex3f(vecD.x, vecD.y, vecD.z);
+				GL11.glVertex3f(vecA.x, vecA.y, vecA.z);
+				GL11.glVertex3f(vecC.x, vecC.y, vecC.z);
+				GL11.glVertex3f(vecB.x, vecB.y, vecB.z);
+				GL11.glVertex3f(vecD.x, vecD.y, vecD.z);
 				GL11.glEnd();
 			}
 		}
-	}
-
-	@Override
-	public Square build() throws IllegalStateException {
-		if (isReady()) {
-			return new Square(get(0), get(1), get(2), get(3));
-		} else {
-			throw new IllegalStateException("Not Ready");
-		}
-	}
-
-	@Override
-	public Vector3f[] export() {
-		return (Vector3f[]) data.toArray();
 	}
 
 }

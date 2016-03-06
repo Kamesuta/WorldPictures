@@ -1,9 +1,10 @@
 package com.kamesuta.mc.worldpictures.vertex;
 
 /**
- * 2つの頂点と一つの向きから長方形を作成します。
+ * 2つの頂点と一つの向きから長方形を作成します。開発中、、、
  * @author Kamesuta
  */
+@Deprecated
 public class RectangleSquareBuilder extends ParallelogramSquareBuilder {
 
 	public RectangleSquareBuilder() {
