@@ -6,8 +6,10 @@ import com.kamesuta.mc.worldpictures.WorldPictures;
 import com.kamesuta.mc.worldpictures.objects.WorldObjClient;
 import com.kamesuta.mc.worldpictures.proxy.ClientProxy;
 import com.kamesuta.mc.worldpictures.texture.WorldTextureManager;
+import com.kamesuta.mc.worldpictures.vertex.ISquareBuilder;
+import com.kamesuta.mc.worldpictures.vertex.MinecraftSquareBuilder;
 import com.kamesuta.mc.worldpictures.vertex.OneCut;
-import com.kamesuta.mc.worldpictures.vertex.SquareBuilder;
+import com.kamesuta.mc.worldpictures.vertex.Vector3f;
 import com.kamesuta.mc.worldpictures.vertex.WorldVertexManager;
 
 import cpw.mods.fml.common.eventhandler.SubscribeEvent;
@@ -24,7 +26,7 @@ public class Renderer {
 	public WorldVertexManager vertexManager = new WorldVertexManager(WorldPictures.proxy.resource);
 	private final Profiler profiler = ClientProxy.MINECRAFT.mcProfiler;
 
-	public SquareBuilder squarebuilder = new SquareBuilder();
+	public ISquareBuilder squarebuilder = new MinecraftSquareBuilder();
 	public OneCut cut = new OneCut(5);
 
 	public WorldObjClient picture = new WorldObjClient("abcd");
@@ -59,7 +61,7 @@ public class Renderer {
 			GL11.glColor4f(1f, 1f, 0.5f, 1f);
 			squarebuilder.renderAssist();
 			GL11.glColor4f(0.5f, 0.5f, 1f, 0.5f);
-			squarebuilder.renderAssistLine();
+			squarebuilder.renderAssistLine(new Vector3f((float)x, (float)y, (float)z));
 		}
 
 /*		Tessellator tessellator = Tessellator.instance;

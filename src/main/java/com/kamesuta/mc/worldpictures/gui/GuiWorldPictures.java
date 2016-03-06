@@ -4,9 +4,9 @@ import com.kamesuta.mc.worldpictures.handler.ConfigurationHandler;
 import com.kamesuta.mc.worldpictures.proxy.ClientProxy;
 import com.kamesuta.mc.worldpictures.reference.Names;
 import com.kamesuta.mc.worldpictures.renderer.Renderer;
+import com.kamesuta.mc.worldpictures.vertex.MinecraftSquareBuilder;
 import com.kamesuta.mc.worldpictures.vertex.OneCut;
 import com.kamesuta.mc.worldpictures.vertex.Scene;
-import com.kamesuta.mc.worldpictures.vertex.SquareBuilder;
 import com.kamesuta.mc.worldpictures.vertex.Vector3f;
 
 import net.minecraft.client.entity.EntityPlayerSP;
@@ -62,6 +62,9 @@ public class GuiWorldPictures extends GuiScreenBase {
 
 		this.btnPos = new GuiButton(id++, 10, this.height - 180, 50, 20, I18n.format(Names.Gui.POS));
 		this.buttonList.add(this.btnPos);
+
+		this.btnPos = new GuiButton(id++, 10, this.height - 180, 50, 20, I18n.format(Names.Gui.POS));
+		this.buttonList.add(this.btnPos);
 	}
 
 	@Override
@@ -94,24 +97,22 @@ public class GuiWorldPictures extends GuiScreenBase {
 //								));
 			} else if (guiButton.id == btnNew.id) {
 				Renderer.INSTANCE.cut = new OneCut(5);
-				Renderer.INSTANCE.squarebuilder = new SquareBuilder();
+				Renderer.INSTANCE.squarebuilder = new MinecraftSquareBuilder();
 			} else if (guiButton.id == btnBuild.id) {
 				Renderer.INSTANCE.vertexManager.saveVertex(Renderer.INSTANCE.picture.picture, Renderer.INSTANCE.cut);
 			} else if (guiButton.id == btnAdd.id) {
 				Renderer.INSTANCE.cut.vertexes.add(new Scene(Renderer.INSTANCE.squarebuilder.build()));
-				Renderer.INSTANCE.squarebuilder = new SquareBuilder();
+				Renderer.INSTANCE.squarebuilder = new MinecraftSquareBuilder();
 			} else if (guiButton.id == btnNext.id) {
 				Renderer.INSTANCE.cut.vertexes.add(new Scene(Renderer.INSTANCE.squarebuilder.build()));
-				Renderer.INSTANCE.squarebuilder = new SquareBuilder();
 			} else if (guiButton.id == btnPrev.id) {
 				Renderer.INSTANCE.cut.vertexes.removeLast();
-				Renderer.INSTANCE.squarebuilder = new SquareBuilder();
 			} else if (guiButton.id == btnPos.id) {
 				EntityPlayerSP player = ClientProxy.MINECRAFT.thePlayer;
 				if (player != null)
 				{
 					Vector3f now = new Vector3f(MathHelper.floor_double(player.posX), MathHelper.floor_double(player.posY), MathHelper.floor_double(player.posZ));
-					Renderer.INSTANCE.squarebuilder.add(now);
+					Renderer.INSTANCE.squarebuilder.addLast(now);
 				}
 			}
 		}
