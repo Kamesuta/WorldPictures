@@ -2,59 +2,108 @@ package com.kamesuta.mc.worldpictures.vertex;
 
 import java.io.Serializable;
 
+/**
+ * ベクトルクラス
+ * @author Kamesuta
+ */
 public class Vector3f implements Serializable {
 	public static final float FLOAT_EPSILON = 10e-6f;
 
+	/**
+	 * X成分
+	 */
 	public float x;
+	/**
+	 * Y成分
+	 */
 	public float y;
+	/**
+	 * Z成分
+	 */
 	public float z;
 
+	/**
+	 * 力のないベクトルを作成します。
+	 */
 	public Vector3f() {
 		this(0, 0, 0);
 	}
 
+	/**
+	 * ベクトルインスタンスのコピー
+	 */
 	public Vector3f(Vector3f vec) {
 		this(vec.x, vec.y, vec.z);
 	}
 
+	/**
+	 * 各成分に同じ力を持ったベクトル
+	 */
 	public Vector3f(float num) {
 		this(num, num, num);
 	}
 
+	/**
+	 * 成分から作成
+	 */
 	public Vector3f(float x, float y, float z) {
 		this.x = x;
 		this.y = y;
 		this.z = z;
 	}
 
+	/**
+	 * X成分取得
+	 */
 	public final float getX() {
 		return this.x;
 	}
 
+	/**
+	 * Y成分取得
+	 */
 	public final float getY() {
 		return this.y;
 	}
 
+	/**
+	 * Z成分取得
+	 */
 	public final float getZ() {
 		return this.z;
 	}
 
+	/**
+	 * X成分設定
+	 */
 	public final void setX(float x) {
 		this.x = x;
 	}
 
+	/**
+	 * Y成分設定
+	 */
 	public final void setY(float y) {
 		this.y = y;
 	}
 
+	/**
+	 * Z成分設定
+	 */
 	public final void setZ(float z) {
 		this.z = z;
 	}
 
+	/**
+	 * 上書き
+	 */
 	public Vector3f set(Vector3f vec) {
 		return set(vec.x, vec.y, vec.z);
 	}
 
+	/**
+	 * 成分から上書き
+	 */
 	public Vector3f set(float x, float y, float z) {
 		this.x = x;
 		this.y = y;
@@ -62,22 +111,42 @@ public class Vector3f implements Serializable {
 		return this;
 	}
 
+	/**
+	 * 原点からの距離の2乗
+	 * @return 原点からの距離の2乗
+	 */
 	public float lengthSquared() {
 		return this.x * this.x + this.y * this.y + this.z * this.z;
 	}
 
+	/**
+	 * 2点の距離
+	 * @return 2点の距離
+	 */
 	public final double lengthTo(Vector3f vec) {
 		return Math.sqrt(lengthSquaredTo(vec));
 	}
 
+	/**
+	 * 2点の距離の2乗
+	 * @return 2点の距離の2乗
+	 */
 	public float lengthSquaredTo(Vector3f vec) {
 		return pow2(this.x - vec.x) + pow2(this.y - vec.y) + pow2(this.z - vec.z);
 	}
 
+	/**
+	 * 2乗
+	 * @param num 元
+	 * @return 2乗
+	 */
 	protected final float pow2(float num) {
 		return num * num;
 	}
 
+	/**
+	 * 原点を中心に反転
+	 */
 	public Vector3f negate() {
 		this.x = -this.x;
 		this.y = -this.y;
@@ -85,10 +154,17 @@ public class Vector3f implements Serializable {
 		return this;
 	}
 
+	/**
+	 * 内積
+	 */
 	public float dot(Vector3f vec) {
 		return this.x * vec.x + this.y * vec.y + this.z * vec.z;
 	}
 
+	/**
+	 * 大きさ変更
+	 * @param scale 大きさ(相対値)
+	 */
 	public Vector3f scale(double scale) {
 		this.x *= scale;
 		this.y *= scale;
@@ -96,6 +172,9 @@ public class Vector3f implements Serializable {
 		return this;
 	}
 
+	/**
+	 * 合成
+	 */
 	public Vector3f add(Vector3f vec) {
 		this.x += vec.x;
 		this.y += vec.y;
@@ -103,6 +182,9 @@ public class Vector3f implements Serializable {
 		return this;
 	}
 
+	/**
+	 * 成分から合成
+	 */
 	public Vector3f add(float x, float y, float z) {
 		this.x += x;
 		this.y += y;
@@ -110,6 +192,9 @@ public class Vector3f implements Serializable {
 		return this;
 	}
 
+	/**
+	 * 逆方向に合成
+	 */
 	public Vector3f sub(Vector3f vec) {
 		this.x -= vec.x;
 		this.y -= vec.y;
@@ -117,6 +202,9 @@ public class Vector3f implements Serializable {
 		return this;
 	}
 
+	/**
+	 * 成分から逆方向に合成
+	 */
 	public Vector3f sub(float x, float y, float z) {
 		this.x -= x;
 		this.y -= y;

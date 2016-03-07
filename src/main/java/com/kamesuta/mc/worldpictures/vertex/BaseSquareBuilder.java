@@ -29,12 +29,18 @@ public abstract class BaseSquareBuilder extends AbstractSquareBuilder {
 		return Math.min(squareSize(), data.size());
 	}
 
-	@Override
+	/**
+	 * 一つ以上の要素がありますか？
+	 * @return 要素存在
+	 */
 	public boolean hasSpace() {
 		return lastListPos() < lastSquarePos();
 	}
 
-	@Override
+	/**
+	 * 空きがありますか？
+	 * @return 空き存在
+	 */
 	public boolean hasData() {
 		return !data.isEmpty();
 	}
@@ -168,6 +174,84 @@ public abstract class BaseSquareBuilder extends AbstractSquareBuilder {
 	@Override
 	public Vector3f[] export() {
 		return (Vector3f[]) data.toArray();
+	}
+
+	/**
+	 * 四角形の終端位置
+	 * @return 四角形の終端位置
+	 */
+	public int lastSquarePos() {
+		return squareSize() - 1;
+	}
+
+	/**
+	 * 要素の終端位置
+	 * @return
+	 */
+	public int lastListPos() {
+		return Math.max(0, listSize() - 1);
+	}
+
+	/**
+	 * 四角形の両端であるか
+	 * @param pos 位置
+	 * @return 両端であるか
+	 */
+	public boolean isSquareEnds(int pos) {
+		return isEnds(0, lastSquarePos(), pos);
+	}
+
+	/**
+	 * 要素の両端であるか
+	 * @param pos 位置
+	 * @return 要素であるか
+	 */
+	public boolean isListEnds(int pos) {
+		return isEnds(0, lastListPos(), pos);
+	}
+
+	/**
+	 * 四角形の範囲内の位置
+	 * @param pos 位置
+	 * @return 範囲内の位置
+	 */
+	public int inSquareRangePos(int pos) {
+		return inRangePos(0, lastSquarePos(), pos);
+	}
+
+	/**
+	 * 要素の範囲内の位置
+	 * @param pos 位置
+	 * @return 要素の位置
+	 */
+	public int inListRangePos(int pos) {
+		return inRangePos(0, lastListPos(), pos);
+	}
+
+	/**
+	 * 四角形の範囲内であるか
+	 * @param pos 位置
+	 * @return 四角形の範囲内であるか
+	 */
+	public boolean inSquareRange(int pos) {
+		return inRange(0, lastSquarePos(), pos);
+	}
+
+	/**
+	 * 要素の範囲内であるか
+	 * @param pos 位置
+	 * @return 要素の範囲内であるか
+	 */
+	public boolean inListRange(int pos) {
+		return inRange(0, lastListPos(), pos);
+	}
+
+	/**
+	 * 完成することが可能か
+	 */
+	@Override
+	public boolean isReady() {
+		return !hasSpace();
 	}
 
 }

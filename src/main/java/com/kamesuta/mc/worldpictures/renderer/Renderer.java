@@ -7,8 +7,8 @@ import com.kamesuta.mc.worldpictures.objects.WorldObjClient;
 import com.kamesuta.mc.worldpictures.proxy.ClientProxy;
 import com.kamesuta.mc.worldpictures.texture.WorldTextureManager;
 import com.kamesuta.mc.worldpictures.vertex.ISquareBuilder;
-import com.kamesuta.mc.worldpictures.vertex.MinecraftSquareBuilder;
 import com.kamesuta.mc.worldpictures.vertex.OneCut;
+import com.kamesuta.mc.worldpictures.vertex.RectangleSquareBuilder;
 import com.kamesuta.mc.worldpictures.vertex.Vector3f;
 import com.kamesuta.mc.worldpictures.vertex.WorldVertexManager;
 
@@ -26,7 +26,7 @@ public class Renderer {
 	public WorldVertexManager vertexManager = new WorldVertexManager(WorldPictures.proxy.resource);
 	private final Profiler profiler = ClientProxy.MINECRAFT.mcProfiler;
 
-	public ISquareBuilder squarebuilder = new MinecraftSquareBuilder();
+	public ISquareBuilder squarebuilder = new RectangleSquareBuilder();
 	public OneCut cut = new OneCut(5);
 
 	public WorldObjClient picture = new WorldObjClient("abcd");

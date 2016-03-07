@@ -47,6 +47,7 @@ public class ParallelogramSquareBuilder extends VertexSquareBuilder {
 	}
 
 	public Vector3f calculateLastOne(Vector3f vA, Vector3f vB, Vector3f vC) {
-		return new Vector3f(vC).add(vA).scale(0.5f).sub(vB).scale(2).add(vB);
+//		return new Vector3f(vC).add(vA).scale(0.5f).sub(vB).scale(2).add(vB);
+		return new Vector3f(vA).sub(vB).add(vC);
 	}
 }

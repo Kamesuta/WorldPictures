@@ -126,14 +126,18 @@ public class MinecraftSquareBuilder extends BaseSquareBuilder {
 	 * @param vecA 頂点A
 	 * @param vecB 頂点B
 	 * @param vecP 補助点P
-	 * @param vecD 頂点C
-	 * @param vecC 頂点D
+	 * @param vecD 頂点C 書き換え対象
+	 * @param vecC 頂点D 書き換え対象
 	 */
 	private void makeMinecraftSquare(Vector3f vecA, Vector3f vecB, Vector3f vecP, Vector3f vecC, Vector3f vecD) {
-		vecC.set(vecB).sub(vecA);
-		vecD.set(vecA).negate().add(vecP);
-		toLineExcept(vecD, vecC).add(vecA);
-		vecC.add(vecD);
+		// ベクトルAB (vecCのインスタンスを代用)
+		Vector3f vecAB = vecC.set(vecB).sub(vecA);
+		// ベクトルAP (vecDのインスタンスを代用)
+		Vector3f vecAP = vecD.set(vecP).sub(vecA);
+		// vecDのインスタンスにセット
+		toLineExcept(vecAP, vecAB).add(vecA);
+		// vecCのインスタンスにセット
+		vecC.add(vecAP);
 	}
 
 	@Override
@@ -145,32 +149,20 @@ public class MinecraftSquareBuilder extends BaseSquareBuilder {
 		GL11.glEnd();
 	}
 
+	private Vector3f rendererAssistLinePoolAtoB = new Vector3f();
 	private Vector3f rendererAssistLinePoolC = new Vector3f();
 	private Vector3f rendererAssistLinePoolD = new Vector3f();
 	@Override
 	public void renderAssistLine(Vector3f target) {
 		int size = listSize();
 		if (0 < size) {
-			Vector3f vec = get(0);
 			if (size == 1) {
-				float sx = target.x - vec.x;
-				float sy = target.y - vec.y;
-				float sz = target.z - vec.z;
-				float dx = Math.abs(sx);
-				float dy = Math.abs(sy);
-				float dz = Math.abs(sz);
+				Vector3f vecA = get(0);
+				Vector3f vecAtoB = rendererAssistLinePoolAtoB.set(target).sub(vecA);
+				toLine(vecAtoB).add(vecA);
 				GL11.glBegin(GL11.GL_LINES);
-				float assistLength = getAssistLength();
-				if (dx > dy && dx > dz) {
-					GL11.glVertex3f(vec.x-(sx<0?assistLength:0), vec.y, vec.z);
-					GL11.glVertex3f(vec.x+(sx>0?assistLength:0), vec.y, vec.z);
-				} else if (dy > dx && dy > dz) {
-					GL11.glVertex3f(vec.x, vec.y-(sy<0?assistLength:0), vec.z);
-					GL11.glVertex3f(vec.x, vec.y+(sy>0?assistLength:0), vec.z);
-				} else if (dz > dx && dz > dy) {
-					GL11.glVertex3f(vec.x, vec.y, vec.z-(sz<0?assistLength:0));
-					GL11.glVertex3f(vec.x, vec.y, vec.z+(sz>0?assistLength:0));
-				}
+				GL11.glVertex3f(vecA.x, vecA.y, vecA.z);
+				GL11.glVertex3f(vecAtoB.x, vecAtoB.y, vecAtoB.z);
 				GL11.glEnd();
 			} else if (2 <= size) {
 				Vector3f vecA = get(0);

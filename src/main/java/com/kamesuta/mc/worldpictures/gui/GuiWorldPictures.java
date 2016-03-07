@@ -4,8 +4,8 @@ import com.kamesuta.mc.worldpictures.handler.ConfigurationHandler;
 import com.kamesuta.mc.worldpictures.proxy.ClientProxy;
 import com.kamesuta.mc.worldpictures.reference.Names;
 import com.kamesuta.mc.worldpictures.renderer.Renderer;
-import com.kamesuta.mc.worldpictures.vertex.MinecraftSquareBuilder;
 import com.kamesuta.mc.worldpictures.vertex.OneCut;
+import com.kamesuta.mc.worldpictures.vertex.ParallelogramSquareBuilder;
 import com.kamesuta.mc.worldpictures.vertex.Scene;
 import com.kamesuta.mc.worldpictures.vertex.Vector3f;
 
@@ -97,12 +97,12 @@ public class GuiWorldPictures extends GuiScreenBase {
 //								));
 			} else if (guiButton.id == btnNew.id) {
 				Renderer.INSTANCE.cut = new OneCut(5);
-				Renderer.INSTANCE.squarebuilder = new MinecraftSquareBuilder();
+				Renderer.INSTANCE.squarebuilder = new ParallelogramSquareBuilder();
 			} else if (guiButton.id == btnBuild.id) {
 				Renderer.INSTANCE.vertexManager.saveVertex(Renderer.INSTANCE.picture.picture, Renderer.INSTANCE.cut);
 			} else if (guiButton.id == btnAdd.id) {
 				Renderer.INSTANCE.cut.vertexes.add(new Scene(Renderer.INSTANCE.squarebuilder.build()));
-				Renderer.INSTANCE.squarebuilder = new MinecraftSquareBuilder();
+				Renderer.INSTANCE.squarebuilder = new ParallelogramSquareBuilder();
 			} else if (guiButton.id == btnNext.id) {
 				Renderer.INSTANCE.cut.vertexes.add(new Scene(Renderer.INSTANCE.squarebuilder.build()));
 			} else if (guiButton.id == btnPrev.id) {
