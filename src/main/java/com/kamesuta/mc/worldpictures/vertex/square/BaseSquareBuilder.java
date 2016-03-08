@@ -1,6 +1,9 @@
-package com.kamesuta.mc.worldpictures.vertex;
+package com.kamesuta.mc.worldpictures.vertex.square;
 
 import java.util.ArrayList;
+
+import com.google.common.collect.Lists;
+import com.kamesuta.mc.worldpictures.vertex.Vector3f;
 
 /**
  * 編集データの具体的な操作、保持、管理をします。
@@ -15,8 +18,37 @@ public abstract class BaseSquareBuilder extends AbstractSquareBuilder {
 	 * リストから初期化します。
 	 * @param list
 	 */
-	protected BaseSquareBuilder(ArrayList<Vector3f> list) {
-		data = list;
+	protected BaseSquareBuilder() {
+		data = Lists.<Vector3f>newArrayList();
+	}
+
+	/**
+	 * 完成品の修正を開始します
+	 * @param square 完成品
+	 */
+	@Override
+	public void load(Square square) {
+		set(0, square.lt);
+		set(1, square.lb);
+		set(2, square.rb);
+		set(3, square.rt);
+	}
+
+	/**
+	 * 編集方法を切り替えます
+	 * @param builder 別の編集方法
+	 */
+	@Override
+	public void load(ISquareBuilder builder) {
+		Vector3f[] vertex = builder.export();
+		for (int i = 0; i < vertex.length && i < 4; i++) {
+			set(i, vertex[i]);
+		}
+	}
+
+	@Override
+	public void clear() {
+		data.clear();
 	}
 
 	@Override

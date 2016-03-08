@@ -2,6 +2,8 @@ package com.kamesuta.mc.worldpictures.vertex;
 
 import java.io.Serializable;
 
+import com.kamesuta.mc.worldpictures.vertex.square.Square;
+
 public class Scene implements Serializable {
 	public static final int DefaultLength = 1;
 

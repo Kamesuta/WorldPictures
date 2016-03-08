@@ -1,6 +1,8 @@
-package com.kamesuta.mc.worldpictures.vertex;
+package com.kamesuta.mc.worldpictures.vertex.square;
 
 import java.io.Serializable;
+
+import com.kamesuta.mc.worldpictures.vertex.Vector3f;
 
 import net.minecraft.client.renderer.Tessellator;
 

@@ -6,11 +6,11 @@ import com.kamesuta.mc.worldpictures.WorldPictures;
 import com.kamesuta.mc.worldpictures.objects.WorldObjClient;
 import com.kamesuta.mc.worldpictures.proxy.ClientProxy;
 import com.kamesuta.mc.worldpictures.texture.WorldTextureManager;
-import com.kamesuta.mc.worldpictures.vertex.ISquareBuilder;
 import com.kamesuta.mc.worldpictures.vertex.OneCut;
-import com.kamesuta.mc.worldpictures.vertex.RectangleSquareBuilder;
 import com.kamesuta.mc.worldpictures.vertex.Vector3f;
 import com.kamesuta.mc.worldpictures.vertex.WorldVertexManager;
+import com.kamesuta.mc.worldpictures.vertex.square.ISquareBuilder;
+import com.kamesuta.mc.worldpictures.vertex.square.RectangleSquareBuilder;
 
 import cpw.mods.fml.common.eventhandler.SubscribeEvent;
 import cpw.mods.fml.relauncher.Side;

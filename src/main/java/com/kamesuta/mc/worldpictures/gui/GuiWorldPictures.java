@@ -5,9 +5,9 @@ import com.kamesuta.mc.worldpictures.proxy.ClientProxy;
 import com.kamesuta.mc.worldpictures.reference.Names;
 import com.kamesuta.mc.worldpictures.renderer.Renderer;
 import com.kamesuta.mc.worldpictures.vertex.OneCut;
-import com.kamesuta.mc.worldpictures.vertex.ParallelogramSquareBuilder;
 import com.kamesuta.mc.worldpictures.vertex.Scene;
 import com.kamesuta.mc.worldpictures.vertex.Vector3f;
+import com.kamesuta.mc.worldpictures.vertex.square.ParallelogramSquareBuilder;
 
 import net.minecraft.client.entity.EntityPlayerSP;
 import net.minecraft.client.gui.GuiButton;

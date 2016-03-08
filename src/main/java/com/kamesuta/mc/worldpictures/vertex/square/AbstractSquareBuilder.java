@@ -1,4 +1,4 @@
-package com.kamesuta.mc.worldpictures.vertex;
+package com.kamesuta.mc.worldpictures.vertex.square;
 
 /**
  * 編集データの抽象的な操作を定義します

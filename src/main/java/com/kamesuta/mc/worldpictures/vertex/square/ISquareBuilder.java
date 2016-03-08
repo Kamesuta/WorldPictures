@@ -1,10 +1,27 @@
-package com.kamesuta.mc.worldpictures.vertex;
+package com.kamesuta.mc.worldpictures.vertex.square;
+
+import com.kamesuta.mc.worldpictures.vertex.Vector3f;
 
 /**
  * 四角形を作成/編集します
  * @author Kamesuta
  */
 public interface ISquareBuilder {
+
+	/**
+	 * SquareBuilderの種類を変更します
+	 */
+	void load(ISquareBuilder builder);
+
+	/**
+	 * 編集を開始します
+	 */
+	void load(Square square);
+
+	/**
+	 * データを破棄します
+	 */
+	void clear();
 
 	/**
 	 * 四角形作成に必要な要素のサイズ
@@ -155,5 +172,11 @@ public interface ISquareBuilder {
 	 * @return 作りかけのデータ
 	 */
 	Vector3f[] export();
+
+	/**
+	 * 種類
+	 * @return 種類
+	 */
+	String getName();
 
 }

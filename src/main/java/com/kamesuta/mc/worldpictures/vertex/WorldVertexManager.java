@@ -18,6 +18,7 @@ import com.kamesuta.mc.worldpictures.reference.Names;
 import com.kamesuta.mc.worldpictures.reference.Reference;
 import com.kamesuta.mc.worldpictures.resource.WorldResource;
 import com.kamesuta.mc.worldpictures.resource.WorldResourceManager;
+import com.kamesuta.mc.worldpictures.vertex.square.Square;
 
 import net.minecraft.client.renderer.Tessellator;
 

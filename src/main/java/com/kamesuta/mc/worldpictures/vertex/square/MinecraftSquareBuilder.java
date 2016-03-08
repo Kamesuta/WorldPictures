@@ -1,52 +1,15 @@
-package com.kamesuta.mc.worldpictures.vertex;
+package com.kamesuta.mc.worldpictures.vertex.square;
 
 import org.lwjgl.opengl.GL11;
 
-import com.google.common.collect.Lists;
+import com.kamesuta.mc.worldpictures.reference.Names;
+import com.kamesuta.mc.worldpictures.vertex.Vector3f;
 
 /**
  * Minecraft軸に沿った四角形を作成します。
  * @author Kamesuta
  */
 public class MinecraftSquareBuilder extends BaseSquareBuilder {
-
-	/**
-	 * 空の状態から作成を開始します。
-	 */
-	public MinecraftSquareBuilder() {
-		super(Lists.<Vector3f>newArrayList());
-	}
-
-	/**
-	 * 完成品の修正を開始します
-	 * @param square 完成品
-	 */
-	public MinecraftSquareBuilder(Square square) {
-		super(
-			Lists.<Vector3f>newArrayList(
-				square.lt,
-				square.lb,
-				square.rb,
-				square.rt
-			)
-		);
-	}
-
-	/**
-	 * 頂点から編集を開始します
-	 * @param preinit 頂点
-	 */
-	public MinecraftSquareBuilder(Vector3f... preinit) {
-		super(Lists.<Vector3f>newArrayList(preinit));
-	}
-
-	/**
-	 * 編集方法を切り替えます
-	 * @param builder 別の編集方法
-	 */
-	public MinecraftSquareBuilder(ISquareBuilder builder) {
-		this(builder.export());
-	}
 
 	@Override
 	public void set(int pos, Vector3f vec) {
@@ -126,8 +89,8 @@ public class MinecraftSquareBuilder extends BaseSquareBuilder {
 	 * @param vecA 頂点A
 	 * @param vecB 頂点B
 	 * @param vecP 補助点P
-	 * @param vecD 頂点C 書き換え対象
-	 * @param vecC 頂点D 書き換え対象
+	 * @param vecC 頂点C 書き換え対象
+	 * @param vecD 頂点D 書き換え対象
 	 */
 	private void makeMinecraftSquare(Vector3f vecA, Vector3f vecB, Vector3f vecP, Vector3f vecC, Vector3f vecD) {
 		// ベクトルAB (vecCのインスタンスを代用)
@@ -182,6 +145,11 @@ public class MinecraftSquareBuilder extends BaseSquareBuilder {
 				GL11.glEnd();
 			}
 		}
+	}
+
+	@Override
+	public String getName() {
+		return Names.SquareBuilder.Minecraft;
 	}
 
 }

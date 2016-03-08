@@ -46,6 +46,13 @@ public final class Names {
 		public static final String ACTION = "worldpictures.key.action";
 	}
 
+	public static final class SquareBuilder {
+		public static final String Minecraft = "worldpictures.squarebuilder.minecraft";
+		public static final String Rectangle = "worldpictures.squarebuilder.rectangle";
+		public static final String Parallelogram = "worldpictures.squarebuilder.parallelogram";
+		public static final String Vertex = "worldpictures.squarebuilder.vertex";
+	}
+
 	public static final class Formats {
 		public static final String NAME_PICTURE = "picture";
 		public static final String NAME_VERTEX = "vertex";

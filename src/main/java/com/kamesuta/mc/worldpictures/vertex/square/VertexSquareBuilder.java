@@ -1,54 +1,15 @@
-package com.kamesuta.mc.worldpictures.vertex;
-
-import java.util.ListIterator;
+package com.kamesuta.mc.worldpictures.vertex.square;
 
 import org.lwjgl.opengl.GL11;
 
-import com.google.common.collect.Lists;
+import com.kamesuta.mc.worldpictures.reference.Names;
+import com.kamesuta.mc.worldpictures.vertex.Vector3f;
 
 /**
  * 4つの頂点から四角形を作成します
  * @author Kamesuta
  */
 public class VertexSquareBuilder extends BaseSquareBuilder {
-
-	/**
-	 * 空の状態から作成を開始します。
-	 */
-	public VertexSquareBuilder() {
-		super(Lists.<Vector3f>newArrayList());
-	}
-
-	/**
-	 * 完成品の修正を開始します
-	 * @param square 完成品
-	 */
-	public VertexSquareBuilder(Square square) {
-		super(
-			Lists.<Vector3f>newArrayList(
-				square.lt,
-				square.lb,
-				square.rb,
-				square.rt
-			)
-		);
-	}
-
-	/**
-	 * 頂点から編集を開始します
-	 * @param preinit 頂点
-	 */
-	public VertexSquareBuilder(Vector3f... preinit) {
-		super(Lists.<Vector3f>newArrayList(preinit));
-	}
-
-	/**
-	 * 編集方法を切り替えます
-	 * @param builder 別の編集方法
-	 */
-	public VertexSquareBuilder(ISquareBuilder builder) {
-		this(builder.export());
-	}
 
 	@Override
 	public void renderAssist() {
@@ -59,7 +20,7 @@ public class VertexSquareBuilder extends BaseSquareBuilder {
 		GL11.glEnd();
 	}
 
-	@Override
+/*	@Override
 	public void renderAssistLine(Vector3f target) {
 		if (hasSpace() && hasData()) {
 			for (ListIterator<Vector3f> it = data.listIterator(); it.hasNext();) {
@@ -88,6 +49,30 @@ public class VertexSquareBuilder extends BaseSquareBuilder {
 				}
 			}
 		}
+	}
+*/
+	@Override
+	public void renderAssistLine(Vector3f target) {
+		float corner = 0.5f;
+		int size = listSize();
+		if (0 < size) {
+			if (size == 1) {
+				Vector3f vec = get(0);
+				GL11.glBegin(GL11.GL_LINES);
+				GL11.glVertex3f(vec.x-corner, vec.y, vec.z);
+				GL11.glVertex3f(vec.x+corner, vec.y, vec.z);
+				GL11.glVertex3f(vec.x, vec.y-corner, vec.z);
+				GL11.glVertex3f(vec.x, vec.y+corner, vec.z);
+				GL11.glVertex3f(vec.x, vec.y, vec.z-corner);
+				GL11.glVertex3f(vec.x, vec.y, vec.z+corner);
+				GL11.glEnd();
+			}
+		}
+	}
+
+	@Override
+	public String getName() {
+		return Names.SquareBuilder.Vertex;
 	}
 
 }
