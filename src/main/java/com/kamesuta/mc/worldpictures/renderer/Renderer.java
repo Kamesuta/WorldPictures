@@ -27,7 +27,7 @@ public class Renderer {
 	private final Profiler profiler = ClientProxy.MINECRAFT.mcProfiler;
 
 	public ISquareBuilder squarebuilder = new RectangleSquareBuilder();
-	public OneCut cut = new OneCut(5);
+	public OneCut cut = new OneCut();
 
 	public WorldObjClient picture = new WorldObjClient("abcd");
 

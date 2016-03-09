@@ -8,6 +8,7 @@ import com.kamesuta.mc.worldpictures.vertex.OneCut;
 import com.kamesuta.mc.worldpictures.vertex.Scene;
 import com.kamesuta.mc.worldpictures.vertex.Vector3f;
 import com.kamesuta.mc.worldpictures.vertex.square.ParallelogramSquareBuilder;
+import com.kamesuta.mc.worldpictures.vertex.square.Square;
 
 import net.minecraft.client.entity.EntityPlayerSP;
 import net.minecraft.client.gui.GuiButton;
@@ -78,14 +79,14 @@ public class GuiWorldPictures extends GuiScreenBase {
 				float r = 10;
 				Scene[] v = new Scene[split];
 				for (int i = 0; i < split; i++) {
-					v[i] = new Scene(
+					v[i] = new Scene().setSquare(new Square(
 							new Vector3f((float)(Math.sin((i+0*split4)*d45) * r), h, (float)(Math.cos((i+0*split4)*d45) * r)),
 							new Vector3f((float)(Math.sin((i+1*split4)*d45) * r), h, (float)(Math.cos((i+1*split4)*d45) * r)),
 							new Vector3f((float)(Math.sin((i+2*split4)*d45) * r), h, (float)(Math.cos((i+2*split4)*d45) * r)),
-							new Vector3f((float)(Math.sin((i+3*split4)*d45) * r), h, (float)(Math.cos((i+3*split4)*d45) * r)));
+							new Vector3f((float)(Math.sin((i+3*split4)*d45) * r), h, (float)(Math.cos((i+3*split4)*d45) * r))));
 				}
 
-				Renderer.INSTANCE.vertexManager.saveVertex(Renderer.INSTANCE.picture.picture, new OneCut(2, v));
+				Renderer.INSTANCE.vertexManager.saveVertex(Renderer.INSTANCE.picture.picture, new OneCut(v));
 
 //				Renderer.INSTANCE.vertexManager.saveVertex(Renderer.INSTANCE.picture,
 //						new WorldVertexCompound(4,
@@ -96,17 +97,16 @@ public class GuiWorldPictures extends GuiScreenBase {
 //								new WorldVertexObj(4, new Vector3f(10,100,0), new Vector3f(10,100,0), new Vector3f(10,100,0), new Vector3f(0,100,0))
 //								));
 			} else if (guiButton.id == btnNew.id) {
-				Renderer.INSTANCE.cut = new OneCut(5);
+				Renderer.INSTANCE.cut = new OneCut();
 				Renderer.INSTANCE.squarebuilder = new ParallelogramSquareBuilder();
 			} else if (guiButton.id == btnBuild.id) {
 				Renderer.INSTANCE.vertexManager.saveVertex(Renderer.INSTANCE.picture.picture, Renderer.INSTANCE.cut);
 			} else if (guiButton.id == btnAdd.id) {
-				Renderer.INSTANCE.cut.vertexes.add(new Scene(Renderer.INSTANCE.squarebuilder.build()));
+				Renderer.INSTANCE.cut.vertexes.add(new Scene().setSquare(Renderer.INSTANCE.squarebuilder.build()));
 				Renderer.INSTANCE.squarebuilder = new ParallelogramSquareBuilder();
 			} else if (guiButton.id == btnNext.id) {
-				Renderer.INSTANCE.cut.vertexes.add(new Scene(Renderer.INSTANCE.squarebuilder.build()));
+				Renderer.INSTANCE.cut.vertexes.add(new Scene().setSquare(Renderer.INSTANCE.squarebuilder.build()));
 			} else if (guiButton.id == btnPrev.id) {
-				Renderer.INSTANCE.cut.vertexes.removeLast();
 			} else if (guiButton.id == btnPos.id) {
 				EntityPlayerSP player = ClientProxy.MINECRAFT.thePlayer;
 				if (player != null)

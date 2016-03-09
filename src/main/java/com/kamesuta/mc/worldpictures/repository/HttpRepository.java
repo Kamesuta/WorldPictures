@@ -57,20 +57,20 @@ public class HttpRepository implements IRepository {
 			URI downrepository = repository.resolve(FileDir);
 
 			HttpEntity entity = MultipartEntityBuilder.create()
-			.addTextBody("worldpicture", resource.getId())
+			.addTextBody("worldpicture", resource.getDomain())
 			.addTextBody("id", agent.id)
 			.addTextBody("token", agent.token)
 			.build();
 
-			File[] downfiles = manager.getResources(resource);
-			for (File downfile : downfiles) {
-				HttpPost httpPost = new HttpPost(downrepository);
-				httpPost.setEntity(entity);
-				HttpResponse response = httpClient.execute(httpPost);
-				entity = response.getEntity();
-				
-				IOUtils.copy(response.getEntity().getContent(), new FileOutputStream(downfile));
-			}
+			File downfile = manager.getResource(resource);
+//			for (File downfile : downfiles) {
+			HttpPost httpPost = new HttpPost(downrepository);
+			httpPost.setEntity(entity);
+			HttpResponse response = httpClient.execute(httpPost);
+			entity = response.getEntity();
+
+			IOUtils.copy(response.getEntity().getContent(), new FileOutputStream(downfile));
+//			}
 		} catch (ClientProtocolException e) {
 			throw new SynchronizeException(e);
 		} catch (IllegalStateException e) {
@@ -86,14 +86,14 @@ public class HttpRepository implements IRepository {
 			URI uprepository = repository.resolve(Core);
 
 			MultipartEntityBuilder entitybuilder = MultipartEntityBuilder.create()
-			.addTextBody("worldpicture", resource.getId())
+			.addTextBody("worldpicture", resource.getDomain())
 			.addTextBody("id", agent.id)
 			.addTextBody("token", agent.token);
 
-			File[] upfiles = manager.getResources(resource);
-			for (File upfile : upfiles) {
-				entitybuilder.addBinaryBody("upload_file", upfile, ContentType.DEFAULT_BINARY, upfile.getName());
-			}
+			File upfile = manager.getResource(resource);
+//			for (File upfile : upfiles) {
+			entitybuilder.addBinaryBody("upload_file", upfile, ContentType.DEFAULT_BINARY, upfile.getName());
+//			}
 
 			HttpEntity entity = entitybuilder.build();
 

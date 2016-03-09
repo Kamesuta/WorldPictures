@@ -14,7 +14,6 @@ import com.google.gson.JsonIOException;
 import com.google.gson.JsonSyntaxException;
 import com.google.gson.stream.JsonReader;
 import com.google.gson.stream.JsonWriter;
-import com.kamesuta.mc.worldpictures.reference.Names;
 import com.kamesuta.mc.worldpictures.reference.Reference;
 import com.kamesuta.mc.worldpictures.resource.WorldResource;
 import com.kamesuta.mc.worldpictures.resource.WorldResourceManager;
@@ -23,7 +22,6 @@ import com.kamesuta.mc.worldpictures.vertex.square.Square;
 import net.minecraft.client.renderer.Tessellator;
 
 public class WorldVertexManager {
-	public static final int MilliPerTime = 1000;
 
 	private Tessellator tessellator = Tessellator.instance;
 	private final Map<WorldResource, OneCut> mapVertexObjects = Maps.newHashMap();
@@ -34,46 +32,9 @@ public class WorldVertexManager {
 	}
 
 	private Square vectorpool = new Square(new Vector3f(), new Vector3f(), new Vector3f(), new Vector3f());
-	private Vector3f vectorpoollocal = new Vector3f();
 
-	protected void draw(OneCut vertexes) {
-		if (!vertexes.vertexes.isEmpty()) {
-			long timeall = Math.max(
-					(long)(vertexes.time * MilliPerTime),
-					(long)(OneCut.MinTimeLength * MilliPerTime)
-			);
-			long now = System.currentTimeMillis() % timeall;
-
-			Scene
-				prevlast = vertexes.vertexes.getLast(),
-				nextlast = vertexes.vertexes.getLast();
-
-			int maxframe = 0;
-			for (Scene vertex : vertexes.vertexes) {
-				maxframe += vertex.getLength();
-			}
-
-			long oneFrameTime = timeall / maxframe;
-			long nowFrameTime = 0;
-			for (Scene vertex : vertexes.vertexes) {
-				nowFrameTime += oneFrameTime * vertex.getLength();
-				if (now > nowFrameTime) {
-					prevlast = vertex;
-				} else {
-					nextlast = vertex;
-					break;
-				}
-			}
-
-			long betweentime = oneFrameTime * prevlast.getLength();
-			long betweennow = now - (nowFrameTime - oneFrameTime * prevlast.getLength());
-			float progress = (float) betweennow / betweentime;
-
-			vectorpool.lt.set(prevlast.v.lt).add(vectorpoollocal.set(nextlast.v.lt).sub(prevlast.v.lt).scale(progress));
-			vectorpool.lb.set(prevlast.v.lb).add(vectorpoollocal.set(nextlast.v.lb).sub(prevlast.v.lb).scale(progress));
-			vectorpool.rb.set(prevlast.v.rb).add(vectorpoollocal.set(nextlast.v.rb).sub(prevlast.v.rb).scale(progress));
-			vectorpool.rt.set(prevlast.v.rt).add(vectorpoollocal.set(nextlast.v.rt).sub(prevlast.v.rt).scale(progress));
-
+	protected void draw(OneCut onecut) {
+		if (onecut.takeashot(System.currentTimeMillis(), vectorpool)) {
 			vectorpool.draw(tessellator);
 		}
 	}
@@ -135,7 +96,7 @@ public class WorldVertexManager {
 	public OneCut readVertex(WorldResource location) throws IOException {
 		OneCut vertex;
 		try {
-			File resource = theResourceManager.getResource(location, Names.Formats.NAME_VERTEX);
+			File resource = theResourceManager.getResource(location);
 			JsonReader jsr = new JsonReader(new InputStreamReader(new FileInputStream(resource)));
 			vertex = new Gson().fromJson(jsr, OneCut.class);
 			jsr.close();
@@ -149,7 +110,7 @@ public class WorldVertexManager {
 
 	public void writeVertex(WorldResource location, OneCut vertexes) throws IOException {
 		try {
-			File resource = theResourceManager.getResource(location, Names.Formats.NAME_VERTEX);
+			File resource = theResourceManager.getResource(location);
 			JsonWriter jsw = new JsonWriter(new OutputStreamWriter(new FileOutputStream(resource)));
 			new Gson().toJson(vertexes, OneCut.class, jsw);
 			jsw.close();

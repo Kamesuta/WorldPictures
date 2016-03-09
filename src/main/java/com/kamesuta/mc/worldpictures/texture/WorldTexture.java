@@ -7,7 +7,6 @@ import java.io.IOException;
 import javax.imageio.ImageIO;
 
 import com.kamesuta.mc.worldpictures.proxy.ClientProxy;
-import com.kamesuta.mc.worldpictures.reference.Names;
 import com.kamesuta.mc.worldpictures.reference.Reference;
 import com.kamesuta.mc.worldpictures.resource.WorldResource;
 import com.kamesuta.mc.worldpictures.resource.WorldResourceManager;
@@ -40,7 +39,7 @@ public class WorldTexture implements IWorldTexture {
 	}
 
 	public WorldTexture(WorldResourceManager manager, WorldResource location) throws IOException {
-		this(manager.getResource(location, Names.Formats.NAME_PICTURE));
+		this(manager.getResource(location));
 	}
 
 	public WorldTexture(IResourceManager manager, ResourceLocation location) throws IOException {
