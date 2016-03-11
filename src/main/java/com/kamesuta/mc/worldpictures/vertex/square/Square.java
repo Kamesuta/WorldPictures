@@ -2,11 +2,12 @@ package com.kamesuta.mc.worldpictures.vertex.square;
 
 import java.io.Serializable;
 
+import com.kamesuta.mc.worldpictures.vertex.ISpaceOperation;
 import com.kamesuta.mc.worldpictures.vertex.Vector3f;
 
 import net.minecraft.client.renderer.Tessellator;
 
-public class Square implements Serializable {
+public class Square implements Serializable, ISpaceOperation{
 
 	public static final int U_lt = 0;
 	public static final int V_lt = 0;
@@ -84,6 +85,75 @@ public class Square implements Serializable {
 	@Override
 	public String toString() {
 		return "Square [" + lt + ", " + lb + ", " + rb + ", " + rt + "]";
+	}
+
+	@Override
+	public Square set(Vector3f vec) {
+		return set(vec.x, vec.y, vec.z);
+	}
+
+	@Override
+	public Square set(float x, float y, float z) {
+		float sx = x - lt.x;
+		float sy = y - lt.y;
+		float sz = z - lt.z;
+
+		lt.add(sx, sy, sz);
+		lb.add(sx, sy, sz);
+		rb.add(sx, sy, sz);
+		rt.add(sx, sy, sz);
+
+		return this;
+	}
+
+	@Override
+	public Square scale(double scale) {
+		lt.scale(scale);
+		lb.scale(scale);
+		rb.scale(scale);
+		rt.scale(scale);
+
+		return this;
+	}
+
+	@Override
+	public Square add(Vector3f vec) {
+		lt.add(vec);
+		lb.add(vec);
+		rb.add(vec);
+		rt.add(vec);
+
+		return this;
+	}
+
+	@Override
+	public Square add(float x, float y, float z) {
+		lt.add(x, y, z);
+		lb.add(x, y, z);
+		rb.add(x, y, z);
+		rt.add(x, y, z);
+
+		return this;
+	}
+
+	@Override
+	public Square sub(Vector3f vec) {
+		lt.sub(vec);
+		lb.sub(vec);
+		rb.sub(vec);
+		rt.sub(vec);
+
+		return this;
+	}
+
+	@Override
+	public Square sub(float x, float y, float z) {
+		lt.sub(x, y, z);
+		lb.sub(x, y, z);
+		rb.sub(x, y, z);
+		rt.sub(x, y, z);
+
+		return this;
 	}
 
 }

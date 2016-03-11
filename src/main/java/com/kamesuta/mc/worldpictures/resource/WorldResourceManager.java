@@ -11,7 +11,7 @@ public class WorldResourceManager {
 	}
 
 	public File getResource(WorldResource location) {
-		return new File(new File(dir, location.getDomain()), location.getNames());
+		return new File(new File(dir, location.getDomain()), location.getName());
 	}
 
 }

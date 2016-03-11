@@ -1,68 +1,83 @@
 package com.kamesuta.mc.worldpictures.vertex;
 
-import java.io.Serializable;
+import java.util.List;
 
+import com.google.common.collect.Lists;
 import com.kamesuta.mc.worldpictures.vertex.square.Square;
 
-public class Scene implements Serializable {
+public class Scene {
+	public static final Scene NULL = new Scene();
+
+	private List<FilmFrame> vertexes;
+
+	public Scene(List<FilmFrame> vertexes) {
+		this.vertexes = vertexes;
+	}
+
+	public Scene() {
+		this(Lists.<FilmFrame>newArrayList());
+	}
+
+	public Scene(FilmFrame[] frames) {
+		this(Lists.<FilmFrame>newArrayList(frames));
+	}
+
+	public List<FilmFrame> getFrames() {
+		return vertexes;
+	}
+
 	/**
-	 * デフォルトアニメーション時間
-	 * ミリ秒
+	 * 現在の推移をvectorpoolに書き込みます
+	 * @param vectorpool 受け取り
+	 * @return vectorpool
 	 */
-	public static final long DefaultLength = 1000;
+	public boolean takeashot(long now, Square vectorpool) {
+		if (!vertexes.isEmpty()) {
+			FilmFrame first = vertexes.get(0);
+			if (first.getSquare() != null) {
+				FilmFrame last = vertexes.get(vertexes.size()-1);
+				FilmFrame
+					prevlast = last,
+					nextlast = last;
 
-	private long l = DefaultLength;
+				long alltime = 0;
+				for (FilmFrame vertex : vertexes) {
+					if (vertex.getSquare() != null)
+						alltime += vertex.getLength();
+				}
+				alltime = Math.max(alltime, FilmFrame.DefaultLength);
+				long nowtime = now % alltime;
 
-	private Square v;
+				long nowFrameTime = 0;
+				for (FilmFrame vertex : vertexes) {
+					if (vertex.getSquare() != null) {
+						nowFrameTime += vertex.getLength();
+						if (nowtime > nowFrameTime) {
+							prevlast = vertex;
+						} else {
+							nextlast = vertex;
+							break;
+						}
+					}
+				}
 
-	public Scene setLength(long l) {
-		this.l = l;
-		return this;
+				long betweentime = (long) (prevlast.getLength());
+				long betweennowtime = (long) (nowtime - (nowFrameTime - prevlast.getLength()));
+				float progress = (float) betweennowtime / betweentime;
+
+				Square
+					prevlastsquare = prevlast.getSquare(),
+					nextlastsquare = nextlast.getSquare();
+
+				vectorpool.lt.set(nextlastsquare.lt).sub(prevlastsquare.lt).scale(progress).add(prevlastsquare.lt);
+				vectorpool.lb.set(nextlastsquare.lb).sub(prevlastsquare.lb).scale(progress).add(prevlastsquare.lb);
+				vectorpool.rb.set(nextlastsquare.rb).sub(prevlastsquare.rb).scale(progress).add(prevlastsquare.rb);
+				vectorpool.rt.set(nextlastsquare.rt).sub(prevlastsquare.rt).scale(progress).add(prevlastsquare.rt);
+
+				return true;
+			}
+		}
+		return false;
 	}
 
-	public long getLength() {
-		return this.l;
-	}
-
-	public Scene setSquare(Square v) {
-		this.v = v;
-		return this;
-	}
-
-	public Square getSquare() {
-		return this.v;
-	}
-
-	@Override
-	public int hashCode() {
-		final int prime = 31;
-		int result = 1;
-		result = prime * result + (int) (l ^ (l >>> 32));
-		result = prime * result + ((v == null) ? 0 : v.hashCode());
-		return result;
-	}
-
-	@Override
-	public boolean equals(Object obj) {
-		if (this == obj)
-			return true;
-		if (obj == null)
-			return false;
-		if (getClass() != obj.getClass())
-			return false;
-		Scene other = (Scene) obj;
-		if (l != other.l)
-			return false;
-		if (v == null) {
-			if (other.v != null)
-				return false;
-		} else if (!v.equals(other.v))
-			return false;
-		return true;
-	}
-
-	@Override
-	public String toString() {
-		return "Vertex [length=" + l + ", vertex=" + v + "]";
-	}
 }

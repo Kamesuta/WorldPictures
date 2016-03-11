@@ -6,6 +6,7 @@ import com.kamesuta.mc.worldpictures.resource.WorldResourceManager;
 import com.kamesuta.mc.worldpictures.texture.WorldTextureManager;
 import com.kamesuta.mc.worldpictures.vertex.WorldVertexManager;
 
+@Deprecated
 public class WorldObjManager {
 	public final WorldResourceManager manager;
 	public final WorldTextureManager pictureManager;

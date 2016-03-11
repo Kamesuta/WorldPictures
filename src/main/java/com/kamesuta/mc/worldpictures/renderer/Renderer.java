@@ -3,10 +3,10 @@ package com.kamesuta.mc.worldpictures.renderer;
 import org.lwjgl.opengl.GL11;
 
 import com.kamesuta.mc.worldpictures.WorldPictures;
-import com.kamesuta.mc.worldpictures.objects.WorldObjClient;
 import com.kamesuta.mc.worldpictures.proxy.ClientProxy;
+import com.kamesuta.mc.worldpictures.resource.WorldResource;
 import com.kamesuta.mc.worldpictures.texture.WorldTextureManager;
-import com.kamesuta.mc.worldpictures.vertex.OneCut;
+import com.kamesuta.mc.worldpictures.vertex.Scene;
 import com.kamesuta.mc.worldpictures.vertex.Vector3f;
 import com.kamesuta.mc.worldpictures.vertex.WorldVertexManager;
 import com.kamesuta.mc.worldpictures.vertex.square.ISquareBuilder;
@@ -27,9 +27,11 @@ public class Renderer {
 	private final Profiler profiler = ClientProxy.MINECRAFT.mcProfiler;
 
 	public ISquareBuilder squarebuilder = new RectangleSquareBuilder();
-	public OneCut cut = new OneCut();
+	public Scene cut = new Scene();
 
-	public WorldObjClient picture = new WorldObjClient("abcd");
+//	public WorldObjClient picture = new WorldObjClient("abcd");
+	public WorldResource vertex = new WorldResource("abcd", "vertex");
+	public WorldResource texture = new WorldResource("abc", "picture");
 
 	private Renderer() {
 	}
@@ -54,7 +56,8 @@ public class Renderer {
 
 		GL11.glDisable(GL11.GL_CULL_FACE);
 //		GL11.glDisable(GL11.GL_LIGHTING);
-		picture.render(textureManager, vertexManager);
+		textureManager.bindTexture(texture);
+		vertexManager.drawVertex(vertex);
 
 		GL11.glDisable(GL11.GL_TEXTURE_2D);
 		if (squarebuilder != null) {

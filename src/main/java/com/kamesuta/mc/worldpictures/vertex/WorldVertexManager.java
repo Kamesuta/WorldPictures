@@ -24,7 +24,7 @@ import net.minecraft.client.renderer.Tessellator;
 public class WorldVertexManager {
 
 	private Tessellator tessellator = Tessellator.instance;
-	private final Map<WorldResource, OneCut> mapVertexObjects = Maps.newHashMap();
+	private final Map<WorldResource, Scene> mapVertexObjects = Maps.newHashMap();
 	private WorldResourceManager theResourceManager;
 
 	public WorldVertexManager(WorldResourceManager manager) {
@@ -33,7 +33,7 @@ public class WorldVertexManager {
 
 	private Square vectorpool = new Square(new Vector3f(), new Vector3f(), new Vector3f(), new Vector3f());
 
-	protected void draw(OneCut onecut) {
+	protected void draw(Scene onecut) {
 		if (onecut.takeashot(System.currentTimeMillis(), vectorpool)) {
 			vectorpool.draw(tessellator);
 		}
@@ -43,22 +43,22 @@ public class WorldVertexManager {
 		draw(getVertex(location));
 	}
 
-	public OneCut loadVertex(WorldResource location) {
-		OneCut vertex = null;
+	public Scene loadVertex(WorldResource location) {
+		Scene vertex = null;
 		try {
 			vertex = this.readVertex(location);
 		} catch (IOException e) {
 			Reference.logger.warn("Failed to load vertex: " + location + ": " + e.getMessage());
 			Reference.logger.debug(e);
-			vertex = OneCut.NULL;
+			vertex = Scene.NULL;
 		}
 
 		mapVertexObjects.put(location, vertex);
 		return vertex;
 	}
 
-	public OneCut getVertex(WorldResource location) {
-		OneCut vertex = this.mapVertexObjects.get(location);
+	public Scene getVertex(WorldResource location) {
+		Scene vertex = this.mapVertexObjects.get(location);
 
 		if (vertex == null) {
 			vertex = this.loadVertex(location);
@@ -71,7 +71,7 @@ public class WorldVertexManager {
 		this.mapVertexObjects.remove(location);
 	}
 
-	public boolean saveVertex(WorldResource location, OneCut vertex) {
+	public boolean saveVertex(WorldResource location, Scene vertex) {
 		boolean flag = true;
 		try {
 			writeVertex(location, vertex);
@@ -85,7 +85,7 @@ public class WorldVertexManager {
 	}
 
 	public boolean saveVertex(WorldResource location) {
-		OneCut v = this.mapVertexObjects.get(location);
+		Scene v = this.mapVertexObjects.get(location);
 		if (v != null) {
 			return saveVertex(location, v);
 		}
@@ -93,12 +93,12 @@ public class WorldVertexManager {
 		return false;
 	}
 
-	public OneCut readVertex(WorldResource location) throws IOException {
-		OneCut vertex;
+	public Scene readVertex(WorldResource location) throws IOException {
+		Scene vertex;
 		try {
 			File resource = theResourceManager.getResource(location);
 			JsonReader jsr = new JsonReader(new InputStreamReader(new FileInputStream(resource)));
-			vertex = new Gson().fromJson(jsr, OneCut.class);
+			vertex = new Gson().fromJson(jsr, Scene.class);
 			jsr.close();
 		} catch (JsonSyntaxException e) {
 			throw new IOException("Syntax error has occured. Is it right format?", e);
@@ -108,11 +108,11 @@ public class WorldVertexManager {
 		return vertex;
 	}
 
-	public void writeVertex(WorldResource location, OneCut vertexes) throws IOException {
+	public void writeVertex(WorldResource location, Scene vertexes) throws IOException {
 		try {
 			File resource = theResourceManager.getResource(location);
 			JsonWriter jsw = new JsonWriter(new OutputStreamWriter(new FileOutputStream(resource)));
-			new Gson().toJson(vertexes, OneCut.class, jsw);
+			new Gson().toJson(vertexes, Scene.class, jsw);
 			jsw.close();
 		} catch (JsonIOException e) {
 			throw new IOException(e);

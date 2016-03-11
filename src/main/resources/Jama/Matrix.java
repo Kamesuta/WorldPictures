@@ -1,14 +1,12 @@
 package Jama;
 
-import java.text.NumberFormat;
+import java.io.BufferedReader;
+import java.io.PrintWriter;
+import java.io.StreamTokenizer;
 import java.text.DecimalFormat;
 import java.text.DecimalFormatSymbols;
+import java.text.NumberFormat;
 import java.util.Locale;
-import java.text.FieldPosition;
-import java.io.PrintWriter;
-import java.io.BufferedReader;
-import java.io.StreamTokenizer;
-import Jama.util.*;
 
 /**
    Jama = Java Matrix class.
@@ -16,7 +14,7 @@ import Jama.util.*;
    The Java Matrix Class provides the fundamental operations of numerical
    linear algebra.  Various constructors create Matrices from two dimensional
    arrays of double precision floating point numbers.  Various "gets" and
-   "sets" provide access to submatrices and matrix elements.  Several methods 
+   "sets" provide access to submatrices and matrix elements.  Several methods
    implement basic matrix arithmetic, including matrix addition and
    multiplication, matrix norms, and element-by-element array operations.
    Methods for reading and printing matrices are also included.  All the
@@ -74,7 +72,7 @@ public class Matrix implements Cloneable, java.io.Serializable {
    Constructors
  * ------------------------ */
 
-   /** Construct an m-by-n matrix of zeros. 
+   /** Construct an m-by-n matrix of zeros.
    @param m    Number of rows.
    @param n    Number of colums.
    */
@@ -954,7 +952,7 @@ public class Matrix implements Cloneable, java.io.Serializable {
      * Note that is the matrix is to be read back in, you probably will want
      * to use a NumberFormat that is set to US Locale.
    @param output the output stream.
-   @param format A formatting object to format the matrix elements 
+   @param format A formatting object to format the matrix elements
    @param width  Column width.
    @see java.text.DecimalFormat#setDecimalFormatSymbols
    */

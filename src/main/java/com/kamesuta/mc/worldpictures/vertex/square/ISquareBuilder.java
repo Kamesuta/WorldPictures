@@ -1,5 +1,6 @@
 package com.kamesuta.mc.worldpictures.vertex.square;
 
+import com.kamesuta.mc.worldpictures.vertex.ISpaceOperation;
 import com.kamesuta.mc.worldpictures.vertex.Vector3f;
 
 /**
@@ -40,7 +41,7 @@ public interface ISquareBuilder {
 	 * @param pos 位置
 	 * @return 要素
 	 */
-	Vector3f get(int pos);
+	ISpaceOperation get(int pos);
 
 	/**
 	 * 要素の設定
@@ -64,7 +65,7 @@ public interface ISquareBuilder {
 	 * 現在位置の要素の取得
 	 * @return 要素
 	 */
-	Vector3f get();
+	ISpaceOperation get();
 
 	/**
 	 * 現在位置への要素の設定
@@ -87,7 +88,7 @@ public interface ISquareBuilder {
 	 * 終端の要素の取得
 	 * @return 要素
 	 */
-	Vector3f getLast();
+	ISpaceOperation getLast();
 
 	/**
 	 * 終端の要素の設定

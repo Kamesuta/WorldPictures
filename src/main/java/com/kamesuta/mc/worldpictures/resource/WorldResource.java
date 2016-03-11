@@ -13,7 +13,7 @@ public class WorldResource {
 		return this.domain;
 	}
 
-	public String getNames() {
+	public String getName() {
 		return this.name;
 	}
 

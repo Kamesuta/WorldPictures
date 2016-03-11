@@ -1,4 +1,4 @@
-package Jama.util;
+package Jama;
 
 public class Maths {
 

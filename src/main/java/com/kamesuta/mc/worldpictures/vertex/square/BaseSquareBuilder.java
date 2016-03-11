@@ -3,6 +3,7 @@ package com.kamesuta.mc.worldpictures.vertex.square;
 import java.util.ArrayList;
 
 import com.google.common.collect.Lists;
+import com.kamesuta.mc.worldpictures.vertex.ISpaceOperation;
 import com.kamesuta.mc.worldpictures.vertex.Vector3f;
 
 /**
@@ -118,7 +119,7 @@ public abstract class BaseSquareBuilder extends AbstractSquareBuilder {
 	}
 
 	@Override
-	public Vector3f get() {
+	public ISpaceOperation get() {
 		return get(pos);
 	}
 
@@ -138,7 +139,7 @@ public abstract class BaseSquareBuilder extends AbstractSquareBuilder {
 	}
 
 	@Override
-	public Vector3f getLast() {
+	public ISpaceOperation getLast() {
 		return get(lastListPos());
 	}
 

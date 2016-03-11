@@ -3,6 +3,7 @@ package com.kamesuta.mc.worldpictures.vertex.square;
 import org.lwjgl.opengl.GL11;
 
 import com.kamesuta.mc.worldpictures.reference.Names;
+import com.kamesuta.mc.worldpictures.vertex.ISpaceOperation;
 import com.kamesuta.mc.worldpictures.vertex.Vector3f;
 
 /**
@@ -42,7 +43,7 @@ public class ParallelogramSquareBuilder extends BaseSquareBuilder {
 	 * @param vecC 頂点C
 	 * @param vecD 頂点D 書き換え対象
 	 */
-	private void makeParallelogramSquare(Vector3f vecA, Vector3f vecB, Vector3f vecC, Vector3f vecD) {
+	private void makeParallelogramSquare(Vector3f vecA, Vector3f vecB, Vector3f vecC, ISpaceOperation vecD) {
 		vecD.set(vecA).sub(vecB).add(vecC);
 	}
 
