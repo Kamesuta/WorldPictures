@@ -8,7 +8,7 @@ import Jama.Matrix;
  * ベクトルクラス
  * @author Kamesuta
  */
-public class Vector3f implements Serializable, ISpaceOperation {
+public class Vector3f implements Serializable {
 	public static final float FLOAT_EPSILON = 10e-6f;
 
 	/**
@@ -96,12 +96,10 @@ public class Vector3f implements Serializable, ISpaceOperation {
 		this.z = z;
 	}
 
-	@Override
 	public Vector3f set(Vector3f vec) {
 		return set(vec.x, vec.y, vec.z);
 	}
 
-	@Override
 	public Vector3f set(float x, float y, float z) {
 		this.x = x;
 		this.y = y;
@@ -152,7 +150,6 @@ public class Vector3f implements Serializable, ISpaceOperation {
 		return this;
 	}
 
-	@Override
 	public Vector3f scale(double scale) {
 		this.x *= scale;
 		this.y *= scale;
@@ -166,19 +163,19 @@ public class Vector3f implements Serializable, ISpaceOperation {
 			{this.y,			},
 			{this.z,			},
 		}, 3, 1);
-	
+
 		Matrix vec1 = rotationMatrix.solve(vec0);
-	
+
 		this.x = (float) vec1.get(0, 0);
 		this.y = (float) vec1.get(1, 0);
 		this.z = (float) vec1.get(2, 0);
-	
+
 		return this;
 	}
 
 	public Vector3f rotate(double rotX, double rotY, double rotZ) {
 		Matrix m = getRotationMatrix(rotX, rotY, rotZ);
-	
+
 		return rotate(m);
 	}
 
@@ -188,19 +185,19 @@ public class Vector3f implements Serializable, ISpaceOperation {
 			{0,					Math.cos(rotX),		-Math.sin(rotX),	},
 			{0,					Math.sin(rotX), 	Math.cos(rotX),		},
 		}, 3, 3);
-	
+
 		Matrix mY = new Matrix(new double[][] {
 			{Math.cos(rotY),	0,					Math.sin(rotY),		},
 			{0,					1,					0,					},
 			{-Math.sin(rotY),	0,					Math.cos(rotY),		},
 		}, 3, 3);
-	
+
 		Matrix mZ = new Matrix(new double[][] {
 			{Math.cos(rotZ),	-Math.sin(rotZ),	0,					},
 			{Math.sin(rotZ), 	Math.cos(rotZ),		0,					},
 			{0,					0,					1,					},
 		}, 3, 3);
-	
+
 		return (mX).times(mY).times(mZ);
 	}
 
@@ -211,7 +208,6 @@ public class Vector3f implements Serializable, ISpaceOperation {
 		return this.x * vec.x + this.y * vec.y + this.z * vec.z;
 	}
 
-	@Override
 	public Vector3f add(Vector3f vec) {
 		this.x += vec.x;
 		this.y += vec.y;
@@ -219,7 +215,6 @@ public class Vector3f implements Serializable, ISpaceOperation {
 		return this;
 	}
 
-	@Override
 	public Vector3f add(float x, float y, float z) {
 		this.x += x;
 		this.y += y;
@@ -227,7 +222,6 @@ public class Vector3f implements Serializable, ISpaceOperation {
 		return this;
 	}
 
-	@Override
 	public Vector3f sub(Vector3f vec) {
 		this.x -= vec.x;
 		this.y -= vec.y;
@@ -235,7 +229,6 @@ public class Vector3f implements Serializable, ISpaceOperation {
 		return this;
 	}
 
-	@Override
 	public Vector3f sub(float x, float y, float z) {
 		this.x -= x;
 		this.y -= y;
