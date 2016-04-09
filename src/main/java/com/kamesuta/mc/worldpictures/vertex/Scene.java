@@ -13,7 +13,7 @@ public class Scene extends ArrayList<AnimatedSquare> {
 		super();
 	}
 
-	public Scene(Collection<AnimatedSquare> c) {
+	public Scene(Collection<? extends AnimatedSquare> c) {
 		super(c);
 	}
 

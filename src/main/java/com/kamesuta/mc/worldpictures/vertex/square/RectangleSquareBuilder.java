@@ -1,6 +1,6 @@
 package com.kamesuta.mc.worldpictures.vertex.square;
 
-import org.lwjgl.opengl.GL11;
+import java.util.ArrayList;
 
 import com.kamesuta.mc.worldpictures.reference.Names;
 import com.kamesuta.mc.worldpictures.vertex.Vector3f;
@@ -11,31 +11,31 @@ import com.kamesuta.mc.worldpictures.vertex.Vector3f;
  */
 public class RectangleSquareBuilder extends BaseSquareBuilder {
 
-	@Override
-	public void set(int pos, Vector3f vec) {
-		int size = listSize();
-		if (0 < size && 1 <= pos) {
-			Vector3f vecA = get(0);
-			if (2 <= size && 2 <= pos) {
-				Vector3f vecB = get(1);
-				Vector3f vecC = (2 < size) ? get(2) : new Vector3f();
-				Vector3f vecD = (3 < size) ? get(3) : new Vector3f();
-				makeRectangleSquare(vecA, vecB, vec, vecC, vecD);
-				super.set(2, vecC);
-				super.set(3, vecD);
-			} else if (!vecA.equals(vec)) {
-				Vector3f vecB = (1 < size) ? get(1) : new Vector3f();
-				vecB.set(vec);
-				super.set(1, vecB);
+	public static PendingSquareController ctr = new PendingSquareController() {
+		@Override
+		public void set(ArrayList<Vector3f> data, int pos, Vector3f vec) {
+			int size = data.size();
+			super.set(data, PendingSquare.inRangePos(0, 2, pos), vec);
+			if (2 <= size) {
+				Vector3f vecA = data.get(0);
+				Vector3f vecB = data.get(1);
+				Vector3f vecC = data.get(2);
+				Vector3f vecD = (3 < size) ? data.get(3) : new Vector3f();
+				Vector3f vecP = new Vector3f(vecC);
+				makeRectangleSquare(vecA, vecB, vecP, vecC, vecD);
+				super.set(data, 2, vecC);
+				super.set(data, 3, vecD);
 			}
-		} else {
-			super.set(0, vec);
 		}
-	}
 
-	@Override
-	public void add(int pos, Vector3f vec) {
-		set(pos, vec);
+		@Override
+		public void add(ArrayList<Vector3f> data, int pos, Vector3f vec) {
+			set(data, pos, vec);
+		}
+	};
+
+	protected PendingSquareController getCtr() {
+		return ctr;
 	}
 
 	/**
@@ -47,7 +47,7 @@ public class RectangleSquareBuilder extends BaseSquareBuilder {
 	 * @param vecD 頂点C 書き換え対象
 	 * @param vecC 頂点D 書き換え対象
 	 */
-	public void makeRectangleSquare(Vector3f vecA, Vector3f vecB, Vector3f vecP, Vector3f vecC, Vector3f vecD) {
+	public static void makeRectangleSquare(Vector3f vecA, Vector3f vecB, Vector3f vecP, Vector3f vecC, Vector3f vecD) {
 		// ① ベクトルABとベクトルAPの内積を求める (=ABの長さ×APのAB方向の長さ(符号はABと同じ方向か否か))
 		Vector3f vecAB = vecC.set(vecB).sub(vecA);
 		Vector3f vecAP = vecD.set(vecP).sub(vecA);
@@ -60,34 +60,6 @@ public class RectangleSquareBuilder extends BaseSquareBuilder {
 		//    (第2項はAPのAB方向の長さ×AB方向の長さ1のベクトル)
 		vecD.set(vecP).sub(vecAB.scale(divAPAB));
 		vecC.set(vecD).add(vecB).sub(vecA);
-	}
-
-	@Override
-	public void renderAssist() {
-		GL11.glBegin(GL11.GL_LINE_LOOP);
-		for (Vector3f vec : data) {
-			GL11.glVertex3f(vec.x, vec.y, vec.z);
-		}
-		GL11.glEnd();
-	}
-
-	@Override
-	public void renderAssistLine(Vector3f target) {
-		float corner = 0.5f;
-		int size = listSize();
-		if (0 < size) {
-			if (size == 1) {
-				Vector3f vec = get(0);
-				GL11.glBegin(GL11.GL_LINES);
-				GL11.glVertex3f(vec.x-corner, vec.y, vec.z);
-				GL11.glVertex3f(vec.x+corner, vec.y, vec.z);
-				GL11.glVertex3f(vec.x, vec.y-corner, vec.z);
-				GL11.glVertex3f(vec.x, vec.y+corner, vec.z);
-				GL11.glVertex3f(vec.x, vec.y, vec.z-corner);
-				GL11.glVertex3f(vec.x, vec.y, vec.z+corner);
-				GL11.glEnd();
-			}
-		}
 	}
 
 	@Override

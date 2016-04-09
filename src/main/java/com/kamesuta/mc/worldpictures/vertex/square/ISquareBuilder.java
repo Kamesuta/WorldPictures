@@ -11,7 +11,7 @@ public interface ISquareBuilder {
 	/**
 	 * SquareBuilderの種類を変更します
 	 */
-	void load(ISquareBuilder builder);
+	void load(PendingSquare ps);
 
 	/**
 	 * 編集を開始します
@@ -22,12 +22,6 @@ public interface ISquareBuilder {
 	 * データを破棄します
 	 */
 	void clear();
-
-	/**
-	 * 四角形作成に必要な要素のサイズ
-	 * @return 四角形作成に必要な要素のサイズ
-	 */
-	int squareSize();
 
 	/**
 	 * 要素のサイズ
@@ -84,29 +78,6 @@ public interface ISquareBuilder {
 	void remove();
 
 	/**
-	 * 終端の要素の取得
-	 * @return 要素
-	 */
-	Vector3f getLast();
-
-	/**
-	 * 終端の要素の設定
-	 * @param vec 要素
-	 */
-	void setLast(Vector3f vec);
-
-	/**
-	 * 終端への要素の追加
-	 * @param vec 要素
-	 */
-	void addLast(Vector3f vec);
-
-	/**
-	 * 終端の要素の削除
-	 */
-	void removeLast();
-
-	/**
 	 * 現在位置の取得
 	 * @return 位置
 	 */
@@ -119,17 +90,9 @@ public interface ISquareBuilder {
 	 */
 	int setPos(int setpos);
 
-	/**
-	 * 始端位置に移動
-	 * @return 始端位置
-	 */
-	public int setPosFirst();
+	int setPosLast();
 
-	/**
-	 * 終端位置に移動
-	 * @return 終端位置
-	 */
-	public int setPosLast();
+	int setPosFirst();
 
 	/**
 	 * 次へ
@@ -172,7 +135,7 @@ public interface ISquareBuilder {
 	 * 作りかけのデータをエクスポートします。
 	 * @return 作りかけのデータ
 	 */
-	Vector3f[] export();
+	PendingSquare export();
 
 	/**
 	 * 種類

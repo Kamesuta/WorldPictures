@@ -59,7 +59,7 @@ public class SquareBuilderManager {
 		ISquareBuilder before = getImpl(position);
 		currentbuilder = getImpl(pos);
 		if (before != null) {
-			currentbuilder.load(before);
+			currentbuilder.load(before.export());
 			before.clear();
 		}
 		return position = pos;

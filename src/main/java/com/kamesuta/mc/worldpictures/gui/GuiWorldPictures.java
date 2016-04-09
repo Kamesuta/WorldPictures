@@ -9,7 +9,7 @@ import com.kamesuta.mc.worldpictures.renderer.Renderer;
 import com.kamesuta.mc.worldpictures.vertex.AnimatedSquare;
 import com.kamesuta.mc.worldpictures.vertex.Scene;
 import com.kamesuta.mc.worldpictures.vertex.Vector3f;
-import com.kamesuta.mc.worldpictures.vertex.square.ParallelogramSquareBuilder;
+import com.kamesuta.mc.worldpictures.vertex.square.MinecraftSquareBuilder;
 
 import net.minecraft.client.entity.EntityPlayerSP;
 import net.minecraft.client.gui.GuiButton;
@@ -99,14 +99,14 @@ public class GuiWorldPictures extends GuiScreenBase {
 //								));
 			} else if (guiButton.id == btnNew.id) {
 				Renderer.INSTANCE.cut = new Scene();
-				Renderer.INSTANCE.squarebuilder = new ParallelogramSquareBuilder();
+				Renderer.INSTANCE.squarebuilder = new MinecraftSquareBuilder();
 			} else if (guiButton.id == btnBuild.id) {
 				Renderer.INSTANCE.vertexManager.saveVertex(Renderer.INSTANCE.vertex, Renderer.INSTANCE.cut);
 			} else if (guiButton.id == btnAdd.id) {
 				AnimatedSquare as = new AnimatedSquare();
 				if (Renderer.INSTANCE.squarebuilder.build(as))
 					Renderer.INSTANCE.cut.add(as);
-				Renderer.INSTANCE.squarebuilder = new ParallelogramSquareBuilder();
+				Renderer.INSTANCE.squarebuilder.clear();
 			} else if (guiButton.id == btnNext.id) {
 				AnimatedSquare as = new AnimatedSquare();
 				if (Renderer.INSTANCE.squarebuilder.build(as))
@@ -117,7 +117,8 @@ public class GuiWorldPictures extends GuiScreenBase {
 				if (player != null)
 				{
 					Vector3f now = new Vector3f(MathHelper.floor_double(player.posX), MathHelper.floor_double(player.posY), MathHelper.floor_double(player.posZ));
-					Renderer.INSTANCE.squarebuilder.addLast(now);
+					Renderer.INSTANCE.squarebuilder.setPosLast();
+					Renderer.INSTANCE.squarebuilder.add(now);
 				}
 			}
 		}

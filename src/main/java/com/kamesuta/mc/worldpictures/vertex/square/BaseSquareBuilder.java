@@ -1,8 +1,9 @@
 package com.kamesuta.mc.worldpictures.vertex.square;
 
-import java.util.ArrayList;
+import java.util.Iterator;
 
-import com.google.common.collect.Lists;
+import org.lwjgl.opengl.GL11;
+
 import com.kamesuta.mc.worldpictures.vertex.Vector3f;
 
 /**
@@ -11,15 +12,14 @@ import com.kamesuta.mc.worldpictures.vertex.Vector3f;
  */
 public abstract class BaseSquareBuilder extends AbstractSquareBuilder {
 
-	protected ArrayList<Vector3f> data;
-	protected int pos = 0;
+	protected PendingSquare data;
 
 	/**
 	 * リストから初期化します。
 	 * @param list
 	 */
 	protected BaseSquareBuilder() {
-		data = Lists.<Vector3f>newArrayList();
+		data = new PendingSquare();
 	}
 
 	/**
@@ -39,159 +39,98 @@ public abstract class BaseSquareBuilder extends AbstractSquareBuilder {
 	 * @param builder 別の編集方法
 	 */
 	@Override
-	public void load(ISquareBuilder builder) {
-		Vector3f[] vertex = builder.export();
-		for (int i = 0; i < vertex.length && i < 4; i++) {
-			set(i, vertex[i]);
-		}
+	public void load(PendingSquare ps) {
+		data = ps;
 	}
+
+	protected abstract PendingSquareController getCtr();
 
 	@Override
 	public void clear() {
-		data.clear();
-	}
-
-	@Override
-	public final int squareSize() {
-		return 4;
+		data.clear(getCtr());
 	}
 
 	@Override
 	public int listSize() {
-		return Math.min(squareSize(), data.size());
-	}
-
-	/**
-	 * 一つ以上の要素がありますか？
-	 * @return 要素存在
-	 */
-	public boolean hasSpace() {
-		return lastListPos() < lastSquarePos();
-	}
-
-	/**
-	 * 空きがありますか？
-	 * @return 空き存在
-	 */
-	public boolean hasData() {
-		return !data.isEmpty();
+		return data.size();
 	}
 
 	@Override
 	public Vector3f get(int pos) {
-		if (hasData())
-			return data.get(inListRangePos(pos));
-		else
-			return null;
+		return data.get(getCtr(), pos);
 	}
 
 	@Override
 	public void set(int pos, Vector3f vec) {
-		if (hasData() && inListRange(pos)) {
-			int inpos = inSquareRangePos(pos);
-			data.set(inpos, vec);
-			setPos(inpos);
-		} else {
-			data.add(vec);
-			setPosLast();
-		}
+		data.set(getCtr(), pos, vec);
 	}
 
 	@Override
 	public void add(int pos, Vector3f vec) {
-		boolean hasSpace = hasSpace();
-		if (inListRange(pos)) {
-			int inpos = inSquareRangePos(pos);
-			data.add(inpos, vec);
-			setPos(inpos);
-		} else {
-			data.add(vec);
-			setPosLast();
-		}
-		if (!hasSpace) removeLast();
+		data.add(getCtr(), pos, vec);
 	}
 
 	@Override
 	public void remove(int pos) {
-		if (hasData())
-			data.remove(inListRangePos(pos));
+		data.remove(getCtr(), pos);
+	}
+
+	/**
+	 * 完成することが可能か
+	 */
+	@Override
+	public boolean isReady() {
+		return !data.isReady(getCtr());
 	}
 
 	@Override
 	public Vector3f get() {
-		return get(pos);
+		return data.get(getCtr());
 	}
 
 	@Override
 	public void set(Vector3f vec) {
-		set(pos, vec);
+		data.set(getCtr(), vec);
 	}
 
 	@Override
 	public void add(Vector3f vec) {
-		add(pos, vec);
+		data.add(getCtr(), vec);
 	}
 
 	@Override
 	public void remove() {
-		remove(pos);
-	}
-
-	@Override
-	public Vector3f getLast() {
-		return get(lastListPos());
-	}
-
-	@Override
-	public void setLast(Vector3f vec) {
-		set(lastListPos(), vec);
-	}
-
-	@Override
-	public void addLast(Vector3f vec) {
-		add(lastListPos()+1, vec);
-	}
-
-	@Override
-	public void removeLast() {
-		remove(lastListPos());
+		data.remove(getCtr());
 	}
 
 	@Override
 	public int getPos() {
-		return pos;
+		return data.getPos();
 	}
 
 	@Override
 	public int setPos(int setpos) {
-		return pos = inListRangePos(setpos);
+		return data.setPos(setpos);
 	}
 
-	/**
-	 * 始端位置に移動
-	 * @return 始端位置
-	 */
+	@Override
 	public int setPosFirst() {
-		return pos = 0;
+		return data.setPosFirst();
 	}
 
-	/**
-	 * 終端位置に移動
-	 * @return 終端位置
-	 */
+	@Override
 	public int setPosLast() {
-		return pos = lastListPos();
+		return data.setPosLast();
 	}
 
 	@Override
 	public int next() {
-		return setPos((pos + 1) % listSize());
+		return data.next();
 	}
 
 	@Override
 	public int prev() {
-		int size = listSize();
-		return setPos((pos + size - 1) % size);
+		return data.prev();
 	}
 
 	@Override
@@ -204,86 +143,37 @@ public abstract class BaseSquareBuilder extends AbstractSquareBuilder {
 	}
 
 	@Override
-	public Vector3f[] export() {
-		return (Vector3f[]) data.toArray();
+	public PendingSquare export() {
+		return data;
 	}
 
-	/**
-	 * 四角形の終端位置
-	 * @return 四角形の終端位置
-	 */
-	public int lastSquarePos() {
-		return squareSize() - 1;
-	}
-
-	/**
-	 * 要素の終端位置
-	 * @return
-	 */
-	public int lastListPos() {
-		return Math.max(0, listSize() - 1);
-	}
-
-	/**
-	 * 四角形の両端であるか
-	 * @param pos 位置
-	 * @return 両端であるか
-	 */
-	public boolean isSquareEnds(int pos) {
-		return isEnds(0, lastSquarePos(), pos);
-	}
-
-	/**
-	 * 要素の両端であるか
-	 * @param pos 位置
-	 * @return 要素であるか
-	 */
-	public boolean isListEnds(int pos) {
-		return isEnds(0, lastListPos(), pos);
-	}
-
-	/**
-	 * 四角形の範囲内の位置
-	 * @param pos 位置
-	 * @return 範囲内の位置
-	 */
-	public int inSquareRangePos(int pos) {
-		return inRangePos(0, lastSquarePos(), pos);
-	}
-
-	/**
-	 * 要素の範囲内の位置
-	 * @param pos 位置
-	 * @return 要素の位置
-	 */
-	public int inListRangePos(int pos) {
-		return inRangePos(0, lastListPos(), pos);
-	}
-
-	/**
-	 * 四角形の範囲内であるか
-	 * @param pos 位置
-	 * @return 四角形の範囲内であるか
-	 */
-	public boolean inSquareRange(int pos) {
-		return inRange(0, lastSquarePos(), pos);
-	}
-
-	/**
-	 * 要素の範囲内であるか
-	 * @param pos 位置
-	 * @return 要素の範囲内であるか
-	 */
-	public boolean inListRange(int pos) {
-		return inRange(0, lastListPos(), pos);
-	}
-
-	/**
-	 * 完成することが可能か
-	 */
 	@Override
-	public boolean isReady() {
-		return !hasSpace();
+	public void renderAssist() {
+		GL11.glBegin(GL11.GL_LINE_LOOP);
+		for (Iterator<Vector3f> itr = data.iterator(getCtr()); itr.hasNext();) {
+			Vector3f vec = itr.next();
+			GL11.glVertex3f(vec.x, vec.y, vec.z);
+		}
+		GL11.glEnd();
+	}
+
+	@Override
+	public void renderAssistLine(Vector3f target) {
+		float corner = 0.5f;
+		int size = listSize();
+		if (0 < size) {
+			if (size == 1) {
+				Vector3f vec = get(0);
+				GL11.glBegin(GL11.GL_LINES);
+				GL11.glVertex3f(vec.x-corner, vec.y, vec.z);
+				GL11.glVertex3f(vec.x+corner, vec.y, vec.z);
+				GL11.glVertex3f(vec.x, vec.y-corner, vec.z);
+				GL11.glVertex3f(vec.x, vec.y+corner, vec.z);
+				GL11.glVertex3f(vec.x, vec.y, vec.z-corner);
+				GL11.glVertex3f(vec.x, vec.y, vec.z+corner);
+				GL11.glEnd();
+			}
+		}
 	}
 
 }

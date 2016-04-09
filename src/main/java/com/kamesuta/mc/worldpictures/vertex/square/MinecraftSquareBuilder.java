@@ -1,5 +1,7 @@
 package com.kamesuta.mc.worldpictures.vertex.square;
 
+import java.util.ArrayList;
+
 import org.lwjgl.opengl.GL11;
 
 import com.kamesuta.mc.worldpictures.reference.Names;
@@ -11,31 +13,37 @@ import com.kamesuta.mc.worldpictures.vertex.Vector3f;
  */
 public class MinecraftSquareBuilder extends BaseSquareBuilder {
 
-	@Override
-	public void set(int pos, Vector3f vec) {
-		int size = listSize();
-		if (0 < size && 1 <= pos) {
-			Vector3f vecA = get(0);
-			if (2 <= size && 2 <= pos) {
-				Vector3f vecB = get(1);
-				Vector3f vecC = (2 < size) ? get(2) : new Vector3f();
-				Vector3f vecD = (3 < size) ? get(3) : new Vector3f();
-				makeMinecraftSquare(vecA, vecB, vec, vecC, vecD);
-				super.set(2, vecC);
-				super.set(3, vecD);
-			} else if (!vecA.equals(vec)) {
-				Vector3f vecB = (1 < size) ? get(1) : new Vector3f();
-				toLine(vecB.set(vecA).negate().add(vec)).add(vecA);
-				super.set(1, vecB);
+	public static PendingSquareController ctr = new PendingSquareController() {
+		@Override
+		public void set(ArrayList<Vector3f> data, int pos, Vector3f vec) {
+			int size = data.size();
+			if (0 < size && 1 <= pos) {
+				Vector3f vecA = data.get(0);
+				if (2 <= size && 2 <= pos) {
+					Vector3f vecB = data.get(1);
+					Vector3f vecC = (2 < size) ? data.get(2) : new Vector3f();
+					Vector3f vecD = (3 < size) ? data.get(3) : new Vector3f();
+					makeMinecraftSquare(vecA, vecB, vec, vecC, vecD);
+					super.set(data, 2, vecC);
+					super.set(data, 3, vecD);
+				} else if (!vecA.equals(vec)) {
+					Vector3f vecB = (1 < size) ? data.get(1) : new Vector3f();
+					toLine(vecB.set(vecA).negate().add(vec)).add(vecA);
+					super.set(data, 1, vecB);
+				}
+			} else {
+				super.set(data, 0, vec);
 			}
-		} else {
-			super.set(0, vec);
 		}
-	}
 
-	@Override
-	public void add(int pos, Vector3f vec) {
-		set(pos, vec);
+		@Override
+		public void add(ArrayList<Vector3f> data, int pos, Vector3f vec) {
+			set(data, pos, vec);
+		}
+	};
+
+	protected PendingSquareController getCtr() {
+		return ctr;
 	}
 
 	/**
@@ -43,7 +51,7 @@ public class MinecraftSquareBuilder extends BaseSquareBuilder {
 	 * @param target 操作対象
 	 * @return 操作対象
 	 */
-	public Vector3f toLine(Vector3f target) {
+	private static Vector3f toLine(Vector3f target) {
 		float dx = Math.abs(target.x);
 		float dy = Math.abs(target.y);
 		float dz = Math.abs(target.z);
@@ -68,7 +76,7 @@ public class MinecraftSquareBuilder extends BaseSquareBuilder {
 	 * @param except 除外方向
 	 * @return 操作対象
 	 */
-	public Vector3f toLineExcept(Vector3f target, Vector3f except) {
+	private static Vector3f toLineExcept(Vector3f target, Vector3f except) {
 		float edx = Math.abs(except.x);
 		float edy = Math.abs(except.y);
 		float edz = Math.abs(except.z);
@@ -92,7 +100,7 @@ public class MinecraftSquareBuilder extends BaseSquareBuilder {
 	 * @param vecC 頂点C 書き換え対象
 	 * @param vecD 頂点D 書き換え対象
 	 */
-	private void makeMinecraftSquare(Vector3f vecA, Vector3f vecB, Vector3f vecP, Vector3f vecC, Vector3f vecD) {
+	private static void makeMinecraftSquare(Vector3f vecA, Vector3f vecB, Vector3f vecP, Vector3f vecC, Vector3f vecD) {
 		// ベクトルAB (vecCのインスタンスを代用)
 		Vector3f vecAB = vecC.set(vecB).sub(vecA);
 		// ベクトルAP (vecDのインスタンスを代用)
@@ -101,15 +109,6 @@ public class MinecraftSquareBuilder extends BaseSquareBuilder {
 		toLineExcept(vecAP, vecAB).add(vecA);
 		// vecCのインスタンスにセット
 		vecC.add(vecAP);
-	}
-
-	@Override
-	public void renderAssist() {
-		GL11.glBegin(GL11.GL_LINE_LOOP);
-		for (Vector3f vec : data) {
-			GL11.glVertex3f(vec.x, vec.y, vec.z);
-		}
-		GL11.glEnd();
 	}
 
 	private Vector3f rendererAssistLinePoolAtoB = new Vector3f();
