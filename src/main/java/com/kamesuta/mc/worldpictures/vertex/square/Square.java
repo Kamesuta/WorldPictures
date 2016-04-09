@@ -17,16 +17,35 @@ public class Square implements Serializable {
 	public static final int U_rt = 1;
 	public static final int V_rt = 0;
 
-	public final Vector3f lt;
-	public final Vector3f lb;
-	public final Vector3f rb;
-	public final Vector3f rt;
+	public final Vector3f lt = new Vector3f();
+	public final Vector3f lb = new Vector3f();
+	public final Vector3f rb = new Vector3f();
+	public final Vector3f rt = new Vector3f();
+
+	public Square() {
+
+	}
+
+	public Square(Square square) {
+		set(square);
+	}
 
 	public Square(Vector3f lt, Vector3f lb, Vector3f rb, Vector3f rt) {
-		this.lt = lt;
-		this.lb = lb;
-		this.rb = rb;
-		this.rt = rt;
+		set(lt, lb, rb, rt);
+	}
+
+	public void set(Square square) {
+		this.lt.set(square.lt);
+		this.lb.set(square.lb);
+		this.rb.set(square.rb);
+		this.rt.set(square.rt);
+	}
+
+	public void set(Vector3f lt, Vector3f lb, Vector3f rb, Vector3f rt) {
+		this.lt.set(lt);
+		this.lb.set(lb);
+		this.rb.set(rb);
+		this.rt.set(rt);
 	}
 
 	public void draw(Tessellator tessellator) {

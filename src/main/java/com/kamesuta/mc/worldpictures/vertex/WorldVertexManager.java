@@ -31,11 +31,11 @@ public class WorldVertexManager {
 		this.theResourceManager = manager;
 	}
 
-	private Square vectorpool = new Square(new Vector3f(), new Vector3f(), new Vector3f(), new Vector3f());
+	private Square vectorpool = new Square();
 
 	protected void draw(Scene onecut) {
-		if (onecut.takeashot(System.currentTimeMillis(), vectorpool)) {
-			vectorpool.draw(tessellator);
+		if (!onecut.isEmpty()) {
+			onecut.takeashot(System.currentTimeMillis(), vectorpool).draw(tessellator);
 		}
 	}
 

@@ -10,7 +10,7 @@ import com.kamesuta.mc.worldpictures.vertex.Scene;
 import com.kamesuta.mc.worldpictures.vertex.Vector3f;
 import com.kamesuta.mc.worldpictures.vertex.WorldVertexManager;
 import com.kamesuta.mc.worldpictures.vertex.square.ISquareBuilder;
-import com.kamesuta.mc.worldpictures.vertex.square.RectangleSquareBuilder;
+import com.kamesuta.mc.worldpictures.vertex.square.ParallelogramSquareBuilder;
 
 import cpw.mods.fml.common.eventhandler.SubscribeEvent;
 import cpw.mods.fml.relauncher.Side;
@@ -26,7 +26,7 @@ public class Renderer {
 	public WorldVertexManager vertexManager = new WorldVertexManager(WorldPictures.proxy.resource);
 	private final Profiler profiler = ClientProxy.MINECRAFT.mcProfiler;
 
-	public ISquareBuilder squarebuilder = new RectangleSquareBuilder();
+	public ISquareBuilder squarebuilder = new ParallelogramSquareBuilder();
 	public Scene cut = new Scene();
 
 //	public WorldObjClient picture = new WorldObjClient("abcd");

@@ -8,45 +8,44 @@ import com.kamesuta.mc.worldpictures.vertex.square.Square;
  * 1フレームの状態を保持します
  * @author Kamesuta
  */
-public class FilmFrame implements Serializable {
+public class AnimatedSquare extends Square implements Serializable {
 	/**
 	 * デフォルトアニメーション時間
 	 * ミリ秒
 	 */
 	public static final long DefaultLength = 1000;
 
-	private long l = DefaultLength;
+	private long l = -1;
 
-	private Square v;
-
-	public FilmFrame(Square square) {
-		this.v = square;
+	public AnimatedSquare() {
+		super();
 	}
 
-	public FilmFrame setLength(long l) {
-		this.l = l;
+	public AnimatedSquare(Square square) {
+		super(square);
+	}
+
+	public AnimatedSquare(Vector3f lt, Vector3f lb, Vector3f rb, Vector3f rt) {
+		super(lt, lb, rb, rt);
+	}
+
+	public AnimatedSquare setLength(long l) {
+		if (l > 0) this.l = l;
+		else this.l = -1;
+
 		return this;
 	}
 
 	public long getLength() {
-		return this.l;
-	}
-
-	public FilmFrame setSquare(Square v) {
-		this.v = v;
-		return this;
-	}
-
-	public Square getSquare() {
-		return this.v;
+		if (this.l > 0) return l;
+		else return DefaultLength;
 	}
 
 	@Override
 	public int hashCode() {
 		final int prime = 31;
-		int result = 1;
+		int result = super.hashCode();
 		result = prime * result + (int) (l ^ (l >>> 32));
-		result = prime * result + ((v == null) ? 0 : v.hashCode());
 		return result;
 	}
 
@@ -54,23 +53,18 @@ public class FilmFrame implements Serializable {
 	public boolean equals(Object obj) {
 		if (this == obj)
 			return true;
-		if (obj == null)
+		if (!super.equals(obj))
 			return false;
 		if (getClass() != obj.getClass())
 			return false;
-		FilmFrame other = (FilmFrame) obj;
+		AnimatedSquare other = (AnimatedSquare) obj;
 		if (l != other.l)
-			return false;
-		if (v == null) {
-			if (other.v != null)
-				return false;
-		} else if (!v.equals(other.v))
 			return false;
 		return true;
 	}
 
 	@Override
 	public String toString() {
-		return "Vertex [length=" + l + ", vertex=" + v + "]";
+		return "FilmFrame [l=" + l + ", lt=" + lt + ", lb=" + lb + ", rb=" + rb + ", rt=" + rt + "]";
 	}
 }

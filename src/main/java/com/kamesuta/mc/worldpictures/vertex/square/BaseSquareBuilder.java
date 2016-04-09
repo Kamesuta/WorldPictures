@@ -195,12 +195,12 @@ public abstract class BaseSquareBuilder extends AbstractSquareBuilder {
 	}
 
 	@Override
-	public Square build() throws IllegalStateException {
+	public boolean build(Square square) throws IllegalStateException {
 		if (isReady()) {
-			return new Square(get(0), get(1), get(2), get(3));
-		} else {
-			throw new IllegalStateException("Not Ready");
+			square.set(get(0), get(1), get(2), get(3));
+			return true;
 		}
+		return false;
 	}
 
 	@Override

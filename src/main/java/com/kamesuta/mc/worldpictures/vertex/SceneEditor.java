@@ -14,9 +14,9 @@ public class SceneEditor {
 	}
 
 	public int size() {
-		return scene.getFrames().size();
+		return scene.size();
 	}
-	
+
 	public int getPos() {
 		return pos;
 	}
@@ -35,7 +35,7 @@ public class SceneEditor {
 	public int setPosFirst() {
 		return setPos(0);
 	}
-	
+
 	public int next() {
 		return setPos(getPos()+1);
 	}

@@ -162,10 +162,11 @@ public interface ISquareBuilder {
 
 	/**
 	 * build Square
+	 * @param square to write
 	 * @return Square instance
 	 * @throws IllegalStateException Space Found. use hasSpace() before try this;
 	 */
-	Square build() throws IllegalStateException;
+	boolean build(Square squre) throws IllegalStateException;
 
 	/**
 	 * 作りかけのデータをエクスポートします。
