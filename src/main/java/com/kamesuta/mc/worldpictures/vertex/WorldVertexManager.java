@@ -21,6 +21,7 @@ import com.kamesuta.mc.worldpictures.vertex.square.Square;
 
 import net.minecraft.client.renderer.Tessellator;
 
+@Deprecated
 public class WorldVertexManager {
 
 	private Tessellator tessellator = Tessellator.instance;
