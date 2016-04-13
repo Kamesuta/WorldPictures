@@ -208,6 +208,27 @@ public class Vector3f implements Serializable {
 		return this.x * vec.x + this.y * vec.y + this.z * vec.z;
 	}
 
+	/**
+	 * 外積
+	 */
+	public Vector3f cross(Vector3f vec) {
+		// a = ( d, e, f ) , b = ( g, h, i ) の外積は,
+		// a × b = ( ei-fh, fg-di, dh-eg ) です。
+
+		float d = this.x;
+		float e = this.y;
+		float f = this.z;
+		float g = vec.x;
+		float h = vec.y;
+		float i = vec.z;
+
+		this.x = e * i - f * h;
+		this.y = f * g - d * i;
+		this.z = d * h - e * g;
+
+		return this;
+	}
+
 	public Vector3f add(Vector3f vec) {
 		this.x += vec.x;
 		this.y += vec.y;
