@@ -2,6 +2,7 @@ package com.kamesuta.mc.worldpictures.item;
 
 import com.kamesuta.mc.worldpictures.entity.EntitySample;
 import com.kamesuta.mc.worldpictures.reference.Reference;
+import com.kamesuta.mc.worldpictures.renderer.Renderer;
 
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockLiquid;
@@ -107,7 +108,7 @@ public class GenericItem extends Item {
 	 */
 	public static Entity spawnCreature(World world, int p_77840_1_, double p_77840_2_, double p_77840_4_,
 			double p_77840_6_) {
-		Entity entity = new EntitySample(world);
+		Entity entity = new EntitySample(world, Renderer.INSTANCE.cut);
 		world.spawnEntityInWorld(entity);
 
 		return entity;

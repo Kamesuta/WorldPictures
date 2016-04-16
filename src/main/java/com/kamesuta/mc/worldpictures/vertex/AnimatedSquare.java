@@ -4,6 +4,8 @@ import java.io.Serializable;
 
 import com.kamesuta.mc.worldpictures.vertex.square.Square;
 
+import net.minecraft.nbt.NBTTagCompound;
+
 /**
  * 1フレームの状態を保持します
  * @author Kamesuta
@@ -21,10 +23,12 @@ public class AnimatedSquare extends Square implements Serializable {
 		super();
 	}
 
+	@Deprecated
 	public AnimatedSquare(Square square) {
 		super(square);
 	}
 
+	@Deprecated
 	public AnimatedSquare(Vector3f lt, Vector3f lb, Vector3f rb, Vector3f rt) {
 		super(lt, lb, rb, rt);
 	}
@@ -39,6 +43,19 @@ public class AnimatedSquare extends Square implements Serializable {
 	public long getLength() {
 		if (this.l > 0) return l;
 		else return DefaultLength;
+	}
+
+	@Override
+	public NBTTagCompound toNBT() {
+		NBTTagCompound nbt = super.toNBT();
+		nbt.setLong("l", getLength());
+		return nbt;
+	}
+
+	@Override
+	public void fromNBT(NBTTagCompound nbt) {
+		super.fromNBT(nbt);
+		setLength(nbt.getLong("l"));
 	}
 
 	@Override

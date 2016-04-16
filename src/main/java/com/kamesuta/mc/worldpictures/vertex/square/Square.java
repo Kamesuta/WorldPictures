@@ -5,6 +5,8 @@ import java.io.Serializable;
 import com.kamesuta.mc.worldpictures.vertex.Vector3f;
 
 import net.minecraft.client.renderer.Tessellator;
+import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.util.AxisAlignedBB;
 
 public class Square implements Serializable {
 
@@ -26,14 +28,17 @@ public class Square implements Serializable {
 
 	}
 
+	@Deprecated
 	public Square(Square square) {
 		set(square);
 	}
 
+	@Deprecated
 	public Square(Vector3f lt, Vector3f lb, Vector3f rb, Vector3f rt) {
 		set(lt, lb, rb, rt);
 	}
 
+	@Deprecated
 	public void set(Square square) {
 		this.lt.set(square.lt);
 		this.lb.set(square.lb);
@@ -55,6 +60,51 @@ public class Square implements Serializable {
 		tessellator.addVertexWithUV(this.rb.x, this.rb.y, this.rb.z, Square.U_rb, Square.V_rb);
 		tessellator.addVertexWithUV(this.rt.x, this.rt.y, this.rt.z, Square.U_rt, Square.V_rt);
 		tessellator.draw();
+	}
+
+	public boolean collisionWithLine(Vector3f v1, Vector3f v2) {
+		Vector3f ab = new Vector3f(lt).sub(lb);
+		Vector3f ad = new Vector3f(lt).sub(rt);
+		Vector3f n = ab.cross(ad);
+
+		if (new Vector3f(v1).sub(lt).dot(n) * new Vector3f(v2).sub(lt).dot(n) <= 0) {
+			float d1 = Math.abs(new Vector3f(lt).sub(v1).dot(n));
+			float d2 = Math.abs(new Vector3f(lt).sub(v2).dot(n));
+			float d = d1 / (d1 + d2);
+			Vector3f p = (new Vector3f(v1).scale(1-d)).add(new Vector3f(v2).scale(d));
+
+			boolean ua = (new Vector3f(lt).sub(lb)).cross(new Vector3f(lt).sub(p)).dot(n) > 0;
+			boolean ub = (new Vector3f(lb).sub(rb)).cross(new Vector3f(lb).sub(p)).dot(n) > 0;
+			boolean uc = (new Vector3f(rb).sub(rt)).cross(new Vector3f(rb).sub(p)).dot(n) > 0;
+			boolean ud = (new Vector3f(rt).sub(lt)).cross(new Vector3f(rt).sub(p)).dot(n) > 0;
+
+			return ua && ub && uc && ud;
+		}
+		return false;
+	}
+
+	public AxisAlignedBB extendAABB(AxisAlignedBB aabb) {
+		aabb.addCoord(lt.x, lt.y, lt.z);
+		aabb.addCoord(lb.x, lb.y, lb.z);
+		aabb.addCoord(rb.x, rb.y, rb.z);
+		aabb.addCoord(rt.x, rt.y, rt.z);
+		return aabb;
+	}
+
+	public NBTTagCompound toNBT() {
+		NBTTagCompound nbt = new NBTTagCompound();
+		nbt.setTag("lt", lt.toNBT());
+		nbt.setTag("lb", lb.toNBT());
+		nbt.setTag("rb", rb.toNBT());
+		nbt.setTag("rt", rt.toNBT());
+		return nbt;
+	}
+
+	public void fromNBT(NBTTagCompound nbt) {
+		lt.fromNBT(nbt.getCompoundTag("lt"));
+		lb.fromNBT(nbt.getCompoundTag("lb"));
+		rb.fromNBT(nbt.getCompoundTag("rb"));
+		rt.fromNBT(nbt.getCompoundTag("rt"));
 	}
 
 	@Override

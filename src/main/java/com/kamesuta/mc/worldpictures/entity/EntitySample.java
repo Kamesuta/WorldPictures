@@ -1,16 +1,24 @@
 package com.kamesuta.mc.worldpictures.entity;
 
-import net.minecraft.block.Block;
-import net.minecraft.entity.EntityLiving;
-import net.minecraft.entity.EnumCreatureAttribute;
-import net.minecraft.init.Items;
-import net.minecraft.item.Item;
-import net.minecraft.world.World;
+import com.kamesuta.mc.worldpictures.reference.Reference;
+import com.kamesuta.mc.worldpictures.vertex.Scene;
 
-public class EntitySample extends EntityLiving {
-	public EntitySample(World world) {
+import net.minecraft.block.Block;
+import net.minecraft.entity.Entity;
+import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.nbt.NBTTagList;
+import net.minecraft.util.DamageSource;
+import net.minecraft.world.World;
+import net.minecraftforge.common.util.Constants;
+
+public class EntitySample extends Entity {
+	public Scene scene = new Scene();
+
+	public EntitySample(World world, Scene scene) {
 		super(world);
-		super.setSize(5,5);
+		super.setSize(5, 5);
+		this.scene = scene;
 	}
 
 	// @Override
@@ -32,12 +40,52 @@ public class EntitySample extends EntityLiving {
 	}
 
 	@Override
-	public EnumCreatureAttribute getCreatureAttribute() {
-		return EnumCreatureAttribute.UNDEFINED;
+	public void applyEntityCollision(Entity entity) {
+		//this.moveEntity(entity.posX, entity.posY+1, entity.posZ);
+		//Reference.logger.info("hit2");
 	}
 
 	@Override
-	public Item getDropItem() {
-		return Items.ender_pearl;
+	public void onCollideWithPlayer(EntityPlayer p_70100_1_) {
+		//Reference.logger.info("hit");
 	}
+
+	@Override
+    public boolean canBeCollidedWith()
+    {
+        return true;
+    }
+
+	@Override
+    public boolean canBePushed()
+    {
+        return true;
+    }
+
+	@Override
+	protected void entityInit() {
+
+	}
+
+	@Override
+	public boolean attackEntityFrom(DamageSource damage, float strong) {
+		Reference.logger.info("dead");
+		this.setDead();
+		return true;
+	}
+
+	@Override
+	public void writeEntityToNBT(NBTTagCompound nbt) {
+		nbt.setTag("scene", this.scene.toNBT());
+	}
+
+	@Override
+	public void readEntityFromNBT(NBTTagCompound nbt) {
+		NBTTagList nbtscene = nbt.getTagList("scene", Constants.NBT.TAG_COMPOUND);
+		scene.fromNBT(nbtscene);
+		if ((scene == null || scene.isEmpty()) || !(nbtscene.tagCount() > 0)) {
+			this.setDead();
+		}
+	}
+
 }

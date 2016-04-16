@@ -2,7 +2,7 @@ package com.kamesuta.mc.worldpictures.vertex;
 
 import java.io.Serializable;
 
-import Jama.Matrix;
+import net.minecraft.nbt.NBTTagCompound;
 
 /**
  * ベクトルクラス
@@ -157,49 +157,49 @@ public class Vector3f implements Serializable {
 		return this;
 	}
 
-	public Vector3f rotate(Matrix rotationMatrix) {
-		Matrix vec0 = new Matrix(new double[][] {
-			{this.x,			},
-			{this.y,			},
-			{this.z,			},
-		}, 3, 1);
-
-		Matrix vec1 = rotationMatrix.solve(vec0);
-
-		this.x = (float) vec1.get(0, 0);
-		this.y = (float) vec1.get(1, 0);
-		this.z = (float) vec1.get(2, 0);
-
-		return this;
-	}
-
-	public Vector3f rotate(double rotX, double rotY, double rotZ) {
-		Matrix m = getRotationMatrix(rotX, rotY, rotZ);
-
-		return rotate(m);
-	}
-
-	public Matrix getRotationMatrix(double rotX, double rotY, double rotZ) {
-		Matrix mX = new Matrix(new double[][] {
-			{1,					0,					0,					},
-			{0,					Math.cos(rotX),		-Math.sin(rotX),	},
-			{0,					Math.sin(rotX), 	Math.cos(rotX),		},
-		}, 3, 3);
-
-		Matrix mY = new Matrix(new double[][] {
-			{Math.cos(rotY),	0,					Math.sin(rotY),		},
-			{0,					1,					0,					},
-			{-Math.sin(rotY),	0,					Math.cos(rotY),		},
-		}, 3, 3);
-
-		Matrix mZ = new Matrix(new double[][] {
-			{Math.cos(rotZ),	-Math.sin(rotZ),	0,					},
-			{Math.sin(rotZ), 	Math.cos(rotZ),		0,					},
-			{0,					0,					1,					},
-		}, 3, 3);
-
-		return (mX).times(mY).times(mZ);
-	}
+//	public Vector3f rotate(Matrix rotationMatrix) {
+//		Matrix vec0 = new Matrix(new double[][] {
+//			{this.x,			},
+//			{this.y,			},
+//			{this.z,			},
+//		}, 3, 1);
+//
+//		Matrix vec1 = rotationMatrix.solve(vec0);
+//
+//		this.x = (float) vec1.get(0, 0);
+//		this.y = (float) vec1.get(1, 0);
+//		this.z = (float) vec1.get(2, 0);
+//
+//		return this;
+//	}
+//
+//	public Vector3f rotate(double rotX, double rotY, double rotZ) {
+//		Matrix m = getRotationMatrix(rotX, rotY, rotZ);
+//
+//		return rotate(m);
+//	}
+//
+//	public Matrix getRotationMatrix(double rotX, double rotY, double rotZ) {
+//		Matrix mX = new Matrix(new double[][] {
+//			{1,					0,					0,					},
+//			{0,					Math.cos(rotX),		-Math.sin(rotX),	},
+//			{0,					Math.sin(rotX), 	Math.cos(rotX),		},
+//		}, 3, 3);
+//
+//		Matrix mY = new Matrix(new double[][] {
+//			{Math.cos(rotY),	0,					Math.sin(rotY),		},
+//			{0,					1,					0,					},
+//			{-Math.sin(rotY),	0,					Math.cos(rotY),		},
+//		}, 3, 3);
+//
+//		Matrix mZ = new Matrix(new double[][] {
+//			{Math.cos(rotZ),	-Math.sin(rotZ),	0,					},
+//			{Math.sin(rotZ), 	Math.cos(rotZ),		0,					},
+//			{0,					0,					1,					},
+//		}, 3, 3);
+//
+//		return (mX).times(mY).times(mZ);
+//	}
 
 	/**
 	 * 内積
@@ -255,6 +255,20 @@ public class Vector3f implements Serializable {
 		this.y -= y;
 		this.z -= z;
 		return this;
+	}
+
+	public NBTTagCompound toNBT() {
+		NBTTagCompound nbt = new NBTTagCompound();
+		nbt.setFloat("x", this.x);
+		nbt.setFloat("y", this.y);
+		nbt.setFloat("z", this.z);
+		return nbt;
+	}
+
+	public void fromNBT(NBTTagCompound nbt) {
+		this.x = nbt.getFloat("x");
+		this.y = nbt.getFloat("y");
+		this.z = nbt.getFloat("z");
 	}
 
 	@Override

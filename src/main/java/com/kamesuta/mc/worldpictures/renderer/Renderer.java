@@ -23,6 +23,7 @@ import net.minecraftforge.client.event.RenderWorldLastEvent;
 public class Renderer {
 	public static final Renderer INSTANCE = new Renderer();
 	public WorldTextureManager textureManager = new WorldTextureManager(WorldPictures.proxy.resource);
+	@SuppressWarnings("deprecation")
 	public WorldVertexManager vertexManager = new WorldVertexManager(WorldPictures.proxy.resource);
 	private final Profiler profiler = ClientProxy.MINECRAFT.mcProfiler;
 

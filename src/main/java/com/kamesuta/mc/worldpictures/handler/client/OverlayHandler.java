@@ -1,31 +1,42 @@
 package com.kamesuta.mc.worldpictures.handler.client;
 
+import com.kamesuta.mc.worldpictures.renderer.Renderer;
+import com.kamesuta.mc.worldpictures.vertex.Vector3f;
+
 import cpw.mods.fml.common.eventhandler.SubscribeEvent;
-import cpw.mods.fml.common.registry.FMLControlledNamespacedRegistry;
-import cpw.mods.fml.common.registry.GameData;
-import net.minecraft.block.Block;
+import net.minecraft.client.Minecraft;
 import net.minecraftforge.client.event.RenderGameOverlayEvent;
 
 public class OverlayHandler {
-	private static final FMLControlledNamespacedRegistry<Block> BLOCK_REGISTRY = GameData.getBlockRegistry();
+	private final Minecraft minecraft = Minecraft.getMinecraft();
 
 	@SubscribeEvent
 	public void onText(RenderGameOverlayEvent.Text event) {
-/*		if (this.minecraft.gameSettings.showDebugInfo && ConfigurationHandler.showDebugInfo) {
-			final SchematicWorld schematic = ClientProxy.schematic;
-			if (schematic != null && schematic.isRendering) {
-				event.left.add("");
-				event.left.add("[§6Schematica§r] " + schematic.getDebugDimensions());
-
-				final MovingObjectPosition mop = ClientProxy.movingObjectPosition;
-				if (mop != null && mop.typeOfHit == MovingObjectPosition.MovingObjectType.BLOCK) {
-					final Block block = schematic.getBlock(mop.blockX, mop.blockY, mop.blockZ);
-					final int metadata = schematic.getBlockMetadata(mop.blockX, mop.blockY, mop.blockZ);
-
-					event.right.add("");
-					event.right.add(BLOCK_REGISTRY.getNameForObject(block) + " : " + metadata + " [§6S§r]");
-				}
-			}
+		if (this.minecraft.gameSettings.showDebugInfo) {
+			event.left.add("");
+			Vector3f v1 = new Vector3f((float)minecraft.thePlayer.posX, (float)minecraft.thePlayer.posY-1, (float)minecraft.thePlayer.posZ);
+			Vector3f v2 = new Vector3f((float)minecraft.thePlayer.posX, (float)minecraft.thePlayer.posY+1, (float)minecraft.thePlayer.posZ);
+			event.left.add("[§6motionX§r] " + minecraft.thePlayer.motionX);
+			event.left.add("[§6motionY§r] " + minecraft.thePlayer.motionY);
+			event.left.add("[§6motionZ§r] " + minecraft.thePlayer.motionZ);
+			boolean b = Renderer.INSTANCE.cut.takeashot(System.currentTimeMillis()).collisionWithLine(v1, v2);
+			event.left.add("[§6cross square§r] " + b);
+//			if (b) {
+//				minecraft.thePlayer.motionY = 0;
+//			}
+			// final MovingObjectPosition mop =
+			// ClientProxy.movingObjectPosition;
+			// if (mop != null && mop.typeOfHit ==
+			// MovingObjectPosition.MovingObjectType.BLOCK) {
+			// final Block block = schematic.getBlock(mop.blockX,
+			// mop.blockY, mop.blockZ);
+			// final int metadata = schematic.getBlockMetadata(mop.blockX,
+			// mop.blockY, mop.blockZ);
+			//
+			// event.right.add("");
+			// event.right.add(BLOCK_REGISTRY.getNameForObject(block) + " :
+			// " + metadata + " [§6S§r]");
+			// }
 		}
-*/	}
+	}
 }

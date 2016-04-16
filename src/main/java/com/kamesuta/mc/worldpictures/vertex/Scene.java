@@ -5,6 +5,8 @@ import java.util.Collection;
 
 import com.kamesuta.mc.worldpictures.vertex.square.Square;
 
+import net.minecraft.nbt.NBTTagList;
+
 public class Scene extends ArrayList<AnimatedSquare> {
 
 	public static final Scene NULL = new Scene();
@@ -69,5 +71,22 @@ public class Scene extends ArrayList<AnimatedSquare> {
 	 */
 	public Square takeashot(long now) {
 		return takeashot(now, new Square());
+	}
+
+	public NBTTagList toNBT() {
+		NBTTagList nbtlist = new NBTTagList();
+		for (AnimatedSquare v : this) {
+			nbtlist.appendTag(v.toNBT());
+		}
+		return nbtlist;
+	}
+
+	public void fromNBT(NBTTagList nbtlist) {
+		int count = nbtlist.tagCount();
+		for (int i=0; i<count; i++) {
+			AnimatedSquare square = new AnimatedSquare();
+			square.fromNBT(nbtlist.getCompoundTagAt(i));
+			this.add(square);
+		}
 	}
 }
