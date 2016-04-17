@@ -1,24 +1,21 @@
 package com.kamesuta.mc.worldpictures.entity;
 
 import com.kamesuta.mc.worldpictures.reference.Reference;
-import com.kamesuta.mc.worldpictures.vertex.Scene;
 
 import net.minecraft.block.Block;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.nbt.NBTTagCompound;
-import net.minecraft.nbt.NBTTagList;
 import net.minecraft.util.DamageSource;
 import net.minecraft.world.World;
-import net.minecraftforge.common.util.Constants;
 
 public class EntitySample extends Entity {
-	public Scene scene = new Scene();
+	public static final int SyncSceneId = 20;
+	public static final int SyncTextureId = 21;
 
-	public EntitySample(World world, Scene scene) {
+	public EntitySample(World world) {
 		super(world);
 		super.setSize(5, 5);
-		this.scene = scene;
 	}
 
 	// @Override
@@ -64,28 +61,52 @@ public class EntitySample extends Entity {
 
 	@Override
 	protected void entityInit() {
-
+		this.dataWatcher.addObject(SyncSceneId, null);
 	}
+
+//	public void setScene(Scene scene) {
+//		this.dataWatcher.updateObject(SyncSceneId, scene);
+//	}
+//
+//	public Scene getScene() {
+//		this.dataWatcher.getWatchableObjectByte(SyncSceneId);
+//	}
+
+	@Override
+    public boolean hitByEntity(Entity entity)
+    {
+        return false;
+    }
+
+	@Override
+    public boolean interactFirst(EntityPlayer player)
+    {
+		Reference.logger.info("clicked");
+
+        return false;
+    }
 
 	@Override
 	public boolean attackEntityFrom(DamageSource damage, float strong) {
-		Reference.logger.info("dead");
-		this.setDead();
+		if(!this.worldObj.isRemote) {
+			Reference.logger.info("dead");
+			this.setDead();
+		}
 		return true;
 	}
 
 	@Override
 	public void writeEntityToNBT(NBTTagCompound nbt) {
-		nbt.setTag("scene", this.scene.toNBT());
+//		nbt.setTag("scene", this.scene.toNBT());
 	}
 
 	@Override
 	public void readEntityFromNBT(NBTTagCompound nbt) {
-		NBTTagList nbtscene = nbt.getTagList("scene", Constants.NBT.TAG_COMPOUND);
-		scene.fromNBT(nbtscene);
-		if ((scene == null || scene.isEmpty()) || !(nbtscene.tagCount() > 0)) {
-			this.setDead();
-		}
+//		NBTTagList nbtscene = nbt.getTagList("scene", Constants.NBT.TAG_COMPOUND);
+//		scene.fromNBT(nbtscene);
+//		if ((scene == null || scene.isEmpty()) || !(nbtscene.tagCount() > 0)) {
+//			this.setDead();
+//		}
 	}
 
 }

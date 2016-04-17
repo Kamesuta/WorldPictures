@@ -6,6 +6,7 @@ import com.kamesuta.mc.worldpictures.WorldPictures;
 import com.kamesuta.mc.worldpictures.entity.EntitySample;
 import com.kamesuta.mc.worldpictures.entity.RenderSample;
 import com.kamesuta.mc.worldpictures.handler.ConfigurationHandler;
+import com.kamesuta.mc.worldpictures.handler.PacketHandler;
 import com.kamesuta.mc.worldpictures.item.WildAnimalsMonsterPlacer;
 import com.kamesuta.mc.worldpictures.reference.Reference;
 import com.kamesuta.mc.worldpictures.resource.WorldResourceManager;
@@ -42,6 +43,8 @@ public abstract class CommonProxy {
 		if (FMLCommonHandler.instance().getSide() == Side.CLIENT) {
 			RenderingRegistry.registerEntityRenderingHandler(EntitySample.class, new RenderSample(new ModelBiped(), 0));
 		}
+
+		PacketHandler.initPackets();
 
 		String parSpawnName = "SampleEgg";
 		Item itemSpawnEgg = new WildAnimalsMonsterPlacer("SampleEntity", 0xE18519, 0x000000)

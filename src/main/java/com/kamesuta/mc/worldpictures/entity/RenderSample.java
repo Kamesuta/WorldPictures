@@ -5,6 +5,8 @@ import org.lwjgl.opengl.GL11;
 import com.kamesuta.mc.worldpictures.reference.Reference;
 
 import net.minecraft.client.model.ModelBase;
+import net.minecraft.client.renderer.OpenGlHelper;
+import net.minecraft.client.renderer.RenderGlobal;
 import net.minecraft.client.renderer.entity.Render;
 import net.minecraft.entity.Entity;
 import net.minecraft.util.ResourceLocation;
@@ -17,30 +19,25 @@ public class RenderSample extends Render {
 	}
 
 	@Override
-	public void doRender(Entity p_76986_1_, double x, double y, double z, float p_76986_8_, float p_76986_9_) {
-		final double corner = 3;
+	public void doRender(Entity entity, double x, double y, double z, float p_76986_8_, float p_76986_9_) {
+		final long ticks = entity.ticksExisted * 1000 / 20;
+//		if (entity instanceof EntitySample) {
+//			((EntitySample)entity).scene.takeashot(ticks);
+//		}
 
-//		GL11.glDisable(GL11.GL_TEXTUREE);a
-		GL11.glDisable(GL11.GL_LIGHTING);
-		GL11.glDisable(GL11.GL_TEXTURE_2D);
-
-		GL11.glPushMatrix();
 		GL11.glTranslated(x, y, z);
+        GL11.glEnable(GL11.GL_BLEND);
+        OpenGlHelper.glBlendFunc(770, 771, 1, 0);
+        GL11.glColor4f(0.0F, 0.0F, 0.0F, 0.4F);
+        GL11.glLineWidth(2.0F);
+        GL11.glDisable(GL11.GL_TEXTURE_2D);
+        GL11.glDepthMask(false);
 
-		GL11.glColor4f(1f, 1f, 0f, 1f);
-		GL11.glBegin(GL11.GL_LINES);
-		GL11.glVertex3d(0-corner, 0, 0);
-		GL11.glVertex3d(0+corner, 0, 0);
-		GL11.glVertex3d(0, 0-corner, 0);
-		GL11.glVertex3d(0, 0+corner, 0);
-		GL11.glVertex3d(0, 0, 0-corner);
-		GL11.glVertex3d(0, 0, 0+corner);
-		GL11.glEnd();
+        RenderGlobal.drawOutlinedBoundingBox(entity.boundingBox.getOffsetBoundingBox(-entity.posX, -entity.posY, -entity.posZ), -1);
 
-		GL11.glPopMatrix();
-
-		GL11.glEnable(GL11.GL_LIGHTING);
-		GL11.glEnable(GL11.GL_TEXTURE_2D);
+        GL11.glDepthMask(true);
+        GL11.glEnable(GL11.GL_TEXTURE_2D);
+        GL11.glDisable(GL11.GL_BLEND);
 	}
 
 	@Override
