@@ -1,10 +1,11 @@
-package com.kamesuta.mc.worldpictures.vertex.square;
+package com.kamesuta.mc.worldpictures.component.builder;
 
 import java.util.Iterator;
 
 import org.lwjgl.opengl.GL11;
 
-import com.kamesuta.mc.worldpictures.vertex.Vector3f;
+import com.kamesuta.mc.worldpictures.component.Position;
+import com.kamesuta.mc.worldpictures.component.Square;
 
 /**
  * 編集データの具体的な操作、保持、管理をします。
@@ -28,10 +29,10 @@ public abstract class BaseSquareBuilder extends AbstractSquareBuilder {
 	 */
 	@Override
 	public void load(Square square) {
-		set(0, square.lt);
-		set(1, square.lb);
-		set(2, square.rb);
-		set(3, square.rt);
+		set(0, square.lt.toVec());
+		set(1, square.lb.toVec());
+		set(2, square.rb.toVec());
+		set(3, square.rt.toVec());
 	}
 
 	/**
@@ -134,12 +135,11 @@ public abstract class BaseSquareBuilder extends AbstractSquareBuilder {
 	}
 
 	@Override
-	public boolean build(Square square) throws IllegalStateException {
+	public Square build() throws IllegalStateException {
 		if (isReady()) {
-			square.set(get(0), get(1), get(2), get(3));
-			return true;
+			return new Square(new Position(get(0)), new Position(get(1)), new Position(get(2)), new Position(get(3)));
 		}
-		return false;
+		return null;
 	}
 
 	@Override

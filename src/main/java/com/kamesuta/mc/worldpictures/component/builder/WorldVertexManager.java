@@ -1,4 +1,4 @@
-package com.kamesuta.mc.worldpictures.vertex;
+package com.kamesuta.mc.worldpictures.component.builder;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -14,10 +14,11 @@ import com.google.gson.JsonIOException;
 import com.google.gson.JsonSyntaxException;
 import com.google.gson.stream.JsonReader;
 import com.google.gson.stream.JsonWriter;
+import com.kamesuta.mc.worldpictures.component.Scene;
+import com.kamesuta.mc.worldpictures.component.Square;
 import com.kamesuta.mc.worldpictures.reference.Reference;
 import com.kamesuta.mc.worldpictures.resource.WorldResource;
 import com.kamesuta.mc.worldpictures.resource.WorldResourceManager;
-import com.kamesuta.mc.worldpictures.vertex.square.Square;
 
 import net.minecraft.client.renderer.Tessellator;
 
@@ -32,11 +33,11 @@ public class WorldVertexManager {
 		this.theResourceManager = manager;
 	}
 
-	private Square vectorpool = new Square();
-
 	protected void draw(Scene onecut) {
 		if (!onecut.isEmpty()) {
-			onecut.takeashot(System.currentTimeMillis(), vectorpool).draw(tessellator);
+			Square square = onecut.takeashot(System.currentTimeMillis());
+			if (square != null)
+				square.draw(tessellator);
 		}
 	}
 

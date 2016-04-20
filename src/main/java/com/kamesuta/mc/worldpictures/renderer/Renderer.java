@@ -3,14 +3,14 @@ package com.kamesuta.mc.worldpictures.renderer;
 import org.lwjgl.opengl.GL11;
 
 import com.kamesuta.mc.worldpictures.WorldPictures;
+import com.kamesuta.mc.worldpictures.component.Scene;
+import com.kamesuta.mc.worldpictures.component.builder.ISquareBuilder;
+import com.kamesuta.mc.worldpictures.component.builder.ParallelogramSquareBuilder;
+import com.kamesuta.mc.worldpictures.component.builder.Vector3f;
+import com.kamesuta.mc.worldpictures.component.builder.WorldVertexManager;
 import com.kamesuta.mc.worldpictures.proxy.ClientProxy;
 import com.kamesuta.mc.worldpictures.resource.WorldResource;
 import com.kamesuta.mc.worldpictures.texture.WorldTextureManager;
-import com.kamesuta.mc.worldpictures.vertex.Scene;
-import com.kamesuta.mc.worldpictures.vertex.Vector3f;
-import com.kamesuta.mc.worldpictures.vertex.WorldVertexManager;
-import com.kamesuta.mc.worldpictures.vertex.square.ISquareBuilder;
-import com.kamesuta.mc.worldpictures.vertex.square.ParallelogramSquareBuilder;
 
 import cpw.mods.fml.common.eventhandler.SubscribeEvent;
 import cpw.mods.fml.relauncher.Side;

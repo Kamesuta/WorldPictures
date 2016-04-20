@@ -1,9 +1,8 @@
-package com.kamesuta.mc.worldpictures.vertex.square;
+package com.kamesuta.mc.worldpictures.component.builder;
 
 import java.util.ArrayList;
 
 import com.kamesuta.mc.worldpictures.reference.Names;
-import com.kamesuta.mc.worldpictures.vertex.Vector3f;
 
 /**
  * 2つの頂点と一つの向きから長方形を作成します。

@@ -1,9 +1,8 @@
-package com.kamesuta.mc.worldpictures.vertex.square;
+package com.kamesuta.mc.worldpictures.component.builder;
 
 import java.util.ArrayList;
 
 import com.kamesuta.mc.worldpictures.reference.Names;
-import com.kamesuta.mc.worldpictures.vertex.Vector3f;
 
 /**
  * 3つの頂点から平行四辺形を作成します

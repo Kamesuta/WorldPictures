@@ -1,10 +1,10 @@
 package com.kamesuta.mc.worldpictures.objects;
 
 import com.kamesuta.mc.worldpictures.WorldPictures;
+import com.kamesuta.mc.worldpictures.component.builder.WorldVertexManager;
 import com.kamesuta.mc.worldpictures.repository.RepositoryManager;
 import com.kamesuta.mc.worldpictures.resource.WorldResourceManager;
 import com.kamesuta.mc.worldpictures.texture.WorldTextureManager;
-import com.kamesuta.mc.worldpictures.vertex.WorldVertexManager;
 
 @Deprecated
 public class WorldObjManager {

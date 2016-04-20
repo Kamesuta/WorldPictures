@@ -2,14 +2,16 @@ package com.kamesuta.mc.worldpictures.gui;
 
 import java.util.Arrays;
 
+import com.kamesuta.mc.worldpictures.component.Keyframe;
+import com.kamesuta.mc.worldpictures.component.Position;
+import com.kamesuta.mc.worldpictures.component.Scene;
+import com.kamesuta.mc.worldpictures.component.Square;
+import com.kamesuta.mc.worldpictures.component.builder.MinecraftSquareBuilder;
+import com.kamesuta.mc.worldpictures.component.builder.Vector3f;
 import com.kamesuta.mc.worldpictures.handler.ConfigurationHandler;
 import com.kamesuta.mc.worldpictures.proxy.ClientProxy;
 import com.kamesuta.mc.worldpictures.reference.Names;
 import com.kamesuta.mc.worldpictures.renderer.Renderer;
-import com.kamesuta.mc.worldpictures.vertex.AnimatedSquare;
-import com.kamesuta.mc.worldpictures.vertex.Scene;
-import com.kamesuta.mc.worldpictures.vertex.Vector3f;
-import com.kamesuta.mc.worldpictures.vertex.square.MinecraftSquareBuilder;
 
 import net.minecraft.client.entity.EntityPlayerSP;
 import net.minecraft.client.gui.GuiButton;
@@ -78,13 +80,13 @@ public class GuiWorldPictures extends GuiScreenBase {
 				int split4 = split/4;
 				double d45 = (360/split) * Math.PI / 180;
 				float r = 10;
-				AnimatedSquare[] v = new AnimatedSquare[split];
+				Keyframe[] v = new Keyframe[split];
 				for (int i = 0; i < split; i++) {
-					v[i] = new AnimatedSquare(
-							new Vector3f((float)(Math.sin((i+0*split4)*d45) * r), h, (float)(Math.cos((i+0*split4)*d45) * r)),
-							new Vector3f((float)(Math.sin((i+1*split4)*d45) * r), h, (float)(Math.cos((i+1*split4)*d45) * r)),
-							new Vector3f((float)(Math.sin((i+2*split4)*d45) * r), h, (float)(Math.cos((i+2*split4)*d45) * r)),
-							new Vector3f((float)(Math.sin((i+3*split4)*d45) * r), h, (float)(Math.cos((i+3*split4)*d45) * r)));
+					v[i] = new Keyframe().setSquare(new Square(
+							new Position((float)(Math.sin((i+0*split4)*d45) * r), h, (float)(Math.cos((i+0*split4)*d45) * r)),
+							new Position((float)(Math.sin((i+1*split4)*d45) * r), h, (float)(Math.cos((i+1*split4)*d45) * r)),
+							new Position((float)(Math.sin((i+2*split4)*d45) * r), h, (float)(Math.cos((i+2*split4)*d45) * r)),
+							new Position((float)(Math.sin((i+3*split4)*d45) * r), h, (float)(Math.cos((i+3*split4)*d45) * r))));
 				}
 
 				Renderer.INSTANCE.vertexManager.saveVertex(Renderer.INSTANCE.vertex, new Scene(Arrays.asList(v)));
@@ -103,14 +105,18 @@ public class GuiWorldPictures extends GuiScreenBase {
 			} else if (guiButton.id == btnBuild.id) {
 				Renderer.INSTANCE.vertexManager.saveVertex(Renderer.INSTANCE.vertex, Renderer.INSTANCE.cut);
 			} else if (guiButton.id == btnAdd.id) {
-				AnimatedSquare as = new AnimatedSquare();
-				if (Renderer.INSTANCE.squarebuilder.build(as))
+				Square square = Renderer.INSTANCE.squarebuilder.build();
+				if (square != null) {
+					Keyframe as = new Keyframe().setSquare(square);
 					Renderer.INSTANCE.cut.add(as);
+				}
 				Renderer.INSTANCE.squarebuilder.clear();
 			} else if (guiButton.id == btnNext.id) {
-				AnimatedSquare as = new AnimatedSquare();
-				if (Renderer.INSTANCE.squarebuilder.build(as))
+				Square square = Renderer.INSTANCE.squarebuilder.build();
+				if (square != null) {
+					Keyframe as = new Keyframe().setSquare(square);
 					Renderer.INSTANCE.cut.add(as);
+				}
 			} else if (guiButton.id == btnPrev.id) {
 			} else if (guiButton.id == btnPos.id) {
 				EntityPlayerSP player = ClientProxy.MINECRAFT.thePlayer;

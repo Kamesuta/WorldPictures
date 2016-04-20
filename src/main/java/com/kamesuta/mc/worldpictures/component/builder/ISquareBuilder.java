@@ -1,6 +1,6 @@
-package com.kamesuta.mc.worldpictures.vertex.square;
+package com.kamesuta.mc.worldpictures.component.builder;
 
-import com.kamesuta.mc.worldpictures.vertex.Vector3f;
+import com.kamesuta.mc.worldpictures.component.Square;
 
 /**
  * 四角形を作成/編集します
@@ -129,7 +129,7 @@ public interface ISquareBuilder {
 	 * @return Square instance
 	 * @throws IllegalStateException Space Found. use hasSpace() before try this;
 	 */
-	boolean build(Square squre) throws IllegalStateException;
+	Square build() throws IllegalStateException;
 
 	/**
 	 * 作りかけのデータをエクスポートします。

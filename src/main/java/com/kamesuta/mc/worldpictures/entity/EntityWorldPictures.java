@@ -1,32 +1,50 @@
 package com.kamesuta.mc.worldpictures.entity;
 
+import com.kamesuta.mc.worldpictures.WorldPictures;
+import com.kamesuta.mc.worldpictures.component.Scene;
+import com.kamesuta.mc.worldpictures.gui.GuiEntityWorldPictures;
+import com.kamesuta.mc.worldpictures.handler.PacketHandler;
 import com.kamesuta.mc.worldpictures.reference.Reference;
 
 import net.minecraft.block.Block;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.nbt.NBTTagList;
 import net.minecraft.util.DamageSource;
 import net.minecraft.world.World;
+import net.minecraftforge.common.util.Constants;
 
-public class EntitySample extends Entity {
+public class EntityWorldPictures extends Entity {
 	public static final int SyncSceneId = 20;
 	public static final int SyncTextureId = 21;
 
-	public EntitySample(World world) {
+	public final Scene scene = new Scene();
+
+	public EntityWorldPictures(World world) {
 		super(world);
 		super.setSize(5, 5);
 	}
 
-	// @Override
-	// public String getLivingSound() { return /* MOBが生きている時の音のファイルパスを返す。 */ ; }
-	//
-	// @Override
-	// public String getHurtSound() { return /* MOBがダメージを受けた時の音のファイルパスを返す。 */ ;
-	// }
-	//
-	// @Override
-	// public String getDeathSound() { return /* MOBが死亡した時の音のファイルパスを返す。*/ ; }
+	public void setSyncDataCompound(NBTTagCompound nbt) {
+		Reference.logger.info("set side sync");
+		Reference.logger.info(scene);
+		this.fromNBT(nbt);
+	}
+
+	public NBTTagCompound getSyncDataCompound() {
+		Reference.logger.info("get side sync");
+		return this.toNBT(new NBTTagCompound());
+	}
+
+	public void upload(NBTTagCompound sync) {
+		Reference.logger.info("upload");
+		if (worldObj.isRemote) {
+			PacketHandler.net.sendToServer(new SyncMessageEntityWorldPictures(this.getEntityId(), sync));
+		} else {
+			this.fromNBT(sync);
+		}
+	}
 
 	/*
 	 * このMobが動いているときの音のファイルパスを返す. 引数のblockはMobの下にあるBlock.
@@ -61,7 +79,7 @@ public class EntitySample extends Entity {
 
 	@Override
 	protected void entityInit() {
-		this.dataWatcher.addObject(SyncSceneId, null);
+//		this.dataWatcher.addObject(SyncSceneId, null);
 	}
 
 //	public void setScene(Scene scene) {
@@ -81,8 +99,9 @@ public class EntitySample extends Entity {
 	@Override
     public boolean interactFirst(EntityPlayer player)
     {
-		Reference.logger.info("clicked");
-
+		if (worldObj.isRemote)
+			PacketHandler.net.sendToServer(new RequestMessageEntityWorldPictures(this.getEntityId()));
+		player.openGui(WorldPictures.instance, GuiEntityWorldPictures.GUI_ID, this.worldObj, this.getEntityId(), 0, 0);
         return false;
     }
 
@@ -95,18 +114,27 @@ public class EntitySample extends Entity {
 		return true;
 	}
 
+	public NBTTagCompound toNBT(NBTTagCompound nbt) {
+		nbt.setTag("scene", this.scene.toNBT());
+		return nbt;
+	}
+
+	public void fromNBT(NBTTagCompound nbt) {
+		NBTTagList nbtscene = nbt.getTagList("scene", Constants.NBT.TAG_COMPOUND);
+		this.scene.fromNBT(nbtscene);
+	}
+
 	@Override
 	public void writeEntityToNBT(NBTTagCompound nbt) {
-//		nbt.setTag("scene", this.scene.toNBT());
+		Reference.logger.info("saveNBT");
+		if (this.scene != null)
+			nbt.setTag("scene", this.scene.toNBT());
 	}
 
 	@Override
 	public void readEntityFromNBT(NBTTagCompound nbt) {
-//		NBTTagList nbtscene = nbt.getTagList("scene", Constants.NBT.TAG_COMPOUND);
-//		scene.fromNBT(nbtscene);
-//		if ((scene == null || scene.isEmpty()) || !(nbtscene.tagCount() > 0)) {
-//			this.setDead();
-//		}
+		Reference.logger.info("loadNBT");
+		this.fromNBT(nbt);
 	}
 
 }

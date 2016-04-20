@@ -1,4 +1,6 @@
-package com.kamesuta.mc.worldpictures.vertex;
+package com.kamesuta.mc.worldpictures.component.builder;
+
+import com.kamesuta.mc.worldpictures.component.Scene;
 
 public class SceneEditor {
 	private int pos;

@@ -1,6 +1,8 @@
-package com.kamesuta.mc.worldpictures.vertex;
+package com.kamesuta.mc.worldpictures.component.builder;
 
 import java.io.Serializable;
+
+import com.kamesuta.mc.worldpictures.component.Position;
 
 import net.minecraft.nbt.NBTTagCompound;
 
@@ -29,6 +31,13 @@ public class Vector3f implements Serializable {
 	 */
 	public Vector3f() {
 		this(0, 0, 0);
+	}
+
+	/**
+	 * 位置ベクトルの作成
+	 */
+	public Vector3f(Position pos) {
+		this(pos.x, pos.y, pos.z);
 	}
 
 	/**
@@ -257,6 +266,7 @@ public class Vector3f implements Serializable {
 		return this;
 	}
 
+	@Deprecated
 	public NBTTagCompound toNBT() {
 		NBTTagCompound nbt = new NBTTagCompound();
 		nbt.setFloat("x", this.x);
@@ -265,6 +275,7 @@ public class Vector3f implements Serializable {
 		return nbt;
 	}
 
+	@Deprecated
 	public void fromNBT(NBTTagCompound nbt) {
 		this.x = nbt.getFloat("x");
 		this.y = nbt.getFloat("y");

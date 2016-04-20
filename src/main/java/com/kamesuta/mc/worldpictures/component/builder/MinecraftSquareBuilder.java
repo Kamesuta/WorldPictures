@@ -1,11 +1,10 @@
-package com.kamesuta.mc.worldpictures.vertex.square;
+package com.kamesuta.mc.worldpictures.component.builder;
 
 import java.util.ArrayList;
 
 import org.lwjgl.opengl.GL11;
 
 import com.kamesuta.mc.worldpictures.reference.Names;
-import com.kamesuta.mc.worldpictures.vertex.Vector3f;
 
 /**
  * Minecraft軸に沿った四角形を作成します。

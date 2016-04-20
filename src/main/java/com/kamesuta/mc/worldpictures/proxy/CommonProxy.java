@@ -3,9 +3,10 @@ package com.kamesuta.mc.worldpictures.proxy;
 import java.io.File;
 
 import com.kamesuta.mc.worldpictures.WorldPictures;
-import com.kamesuta.mc.worldpictures.entity.EntitySample;
-import com.kamesuta.mc.worldpictures.entity.RenderSample;
+import com.kamesuta.mc.worldpictures.entity.EntityWorldPictures;
+import com.kamesuta.mc.worldpictures.entity.RenderEntityWorldPictures;
 import com.kamesuta.mc.worldpictures.handler.ConfigurationHandler;
+import com.kamesuta.mc.worldpictures.handler.GuiHandler;
 import com.kamesuta.mc.worldpictures.handler.PacketHandler;
 import com.kamesuta.mc.worldpictures.item.WildAnimalsMonsterPlacer;
 import com.kamesuta.mc.worldpictures.reference.Reference;
@@ -17,6 +18,7 @@ import cpw.mods.fml.common.event.FMLInitializationEvent;
 import cpw.mods.fml.common.event.FMLPostInitializationEvent;
 import cpw.mods.fml.common.event.FMLPreInitializationEvent;
 import cpw.mods.fml.common.event.FMLServerStartingEvent;
+import cpw.mods.fml.common.network.NetworkRegistry;
 import cpw.mods.fml.common.registry.EntityRegistry;
 import cpw.mods.fml.common.registry.GameRegistry;
 import cpw.mods.fml.relauncher.Side;
@@ -37,14 +39,15 @@ public abstract class CommonProxy {
 		// GenericItem genericItem = new GenericItem();
 		// GameRegistry.registerItem(genericItem, "genericItem");
 
-		EntityRegistry.registerModEntity(EntitySample.class, "SampleEntity", 0, WorldPictures.instance, 250, 1, false);
+		EntityRegistry.registerModEntity(EntityWorldPictures.class, "SampleEntity", 0, WorldPictures.instance, 250, 1, false);
 		// EntityRegistry.addSpawn(EntitySample.class, 20, 1, 4,
 		// EnumCreatureType.creature, BiomeGenBase.plains);
 		if (FMLCommonHandler.instance().getSide() == Side.CLIENT) {
-			RenderingRegistry.registerEntityRenderingHandler(EntitySample.class, new RenderSample(new ModelBiped(), 0));
+			RenderingRegistry.registerEntityRenderingHandler(EntityWorldPictures.class, new RenderEntityWorldPictures(new ModelBiped(), 0));
 		}
 
 		PacketHandler.initPackets();
+		NetworkRegistry.INSTANCE.registerGuiHandler(WorldPictures.instance, new GuiHandler());
 
 		String parSpawnName = "SampleEgg";
 		Item itemSpawnEgg = new WildAnimalsMonsterPlacer("SampleEntity", 0xE18519, 0x000000)

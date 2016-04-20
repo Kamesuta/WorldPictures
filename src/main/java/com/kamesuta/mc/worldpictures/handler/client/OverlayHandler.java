@@ -1,7 +1,7 @@
 package com.kamesuta.mc.worldpictures.handler.client;
 
+import com.kamesuta.mc.worldpictures.component.Position;
 import com.kamesuta.mc.worldpictures.renderer.Renderer;
-import com.kamesuta.mc.worldpictures.vertex.Vector3f;
 
 import cpw.mods.fml.common.eventhandler.SubscribeEvent;
 import net.minecraft.client.Minecraft;
@@ -14,8 +14,8 @@ public class OverlayHandler {
 	public void onText(RenderGameOverlayEvent.Text event) {
 		if (this.minecraft.gameSettings.showDebugInfo) {
 			event.left.add("");
-			Vector3f v1 = new Vector3f((float)minecraft.thePlayer.posX, (float)minecraft.thePlayer.posY-1, (float)minecraft.thePlayer.posZ);
-			Vector3f v2 = new Vector3f((float)minecraft.thePlayer.posX, (float)minecraft.thePlayer.posY+1, (float)minecraft.thePlayer.posZ);
+			Position v1 = new Position((float)minecraft.thePlayer.posX, (float)minecraft.thePlayer.posY-1, (float)minecraft.thePlayer.posZ);
+			Position v2 = new Position((float)minecraft.thePlayer.posX, (float)minecraft.thePlayer.posY+1, (float)minecraft.thePlayer.posZ);
 			event.left.add("[§6motionX§r] " + minecraft.thePlayer.motionX);
 			event.left.add("[§6motionY§r] " + minecraft.thePlayer.motionY);
 			event.left.add("[§6motionZ§r] " + minecraft.thePlayer.motionZ);

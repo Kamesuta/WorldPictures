@@ -1,9 +1,9 @@
-package com.kamesuta.mc.worldpictures.vertex;
+package com.kamesuta.mc.worldpictures.component;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-import com.kamesuta.mc.worldpictures.vertex.square.Square;
+import com.kamesuta.mc.worldpictures.component.builder.Vector3f;
 
 public class Experimental {
 //	public static void rotationTest(Logger logger) {
@@ -42,9 +42,9 @@ public class Experimental {
 //	}
 
 	public static void collisionTest(Logger logger) {
-		Square s = new Square(new Vector3f(-80.0f, 99.0f, 48.0f), new Vector3f(-71.0f, 99.0f, 45.0f), new Vector3f(-68.0f, 100.0f, 58.0f), new Vector3f(-77.0f, 100.0f, 61.0f));
+		Square s = new Square(new Position(-80.0f, 99.0f, 48.0f), new Position(-71.0f, 99.0f, 45.0f), new Position(-68.0f, 100.0f, 58.0f), new Position(-77.0f, 100.0f, 61.0f));
 		logger.info(s);
-		logger.info(s.collisionWithLine(new Vector3f(-171, 109, 53), new Vector3f(-176, 92, 54)));
+		logger.info(s.collisionWithLine(new Position(-171, 109, 53), new Position(-176, 92, 54)));
 	}
 
 	public static void newspeed(Logger logger) {
