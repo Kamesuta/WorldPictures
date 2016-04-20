@@ -19,7 +19,7 @@ public class EntityWorldPictures extends Entity {
 	public static final int SyncSceneId = 20;
 	public static final int SyncTextureId = 21;
 
-	public final Scene scene = new Scene();
+	public Scene scene = new Scene();
 
 	public EntityWorldPictures(World world) {
 		super(world);
@@ -37,12 +37,11 @@ public class EntityWorldPictures extends Entity {
 		return this.toNBT(new NBTTagCompound());
 	}
 
-	public void upload(NBTTagCompound sync) {
+	public void upload() {
+		NBTTagCompound nbt = this.toNBT(new NBTTagCompound());
 		Reference.logger.info("upload");
 		if (worldObj.isRemote) {
-			PacketHandler.net.sendToServer(new SyncMessageEntityWorldPictures(this.getEntityId(), sync));
-		} else {
-			this.fromNBT(sync);
+			PacketHandler.net.sendToServer(new SyncMessageEntityWorldPictures(this.getEntityId(), nbt));
 		}
 	}
 

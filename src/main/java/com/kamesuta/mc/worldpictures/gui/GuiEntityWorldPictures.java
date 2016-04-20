@@ -80,7 +80,8 @@ public class GuiEntityWorldPictures extends GuiScreen {
 	protected void actionPerformed(GuiButton guiButton) {
 		if (guiButton.enabled) {
 			if (guiButton.id == btnAction.id) {
-				//this.entity.upload(Renderer.INSTANCE.cut);
+				this.entity.scene = new Scene(Renderer.INSTANCE.cut);
+				this.entity.upload();
 			} else if (guiButton.id == btnNew.id) {
 				Renderer.INSTANCE.cut = new Scene();
 				Renderer.INSTANCE.squarebuilder = new MinecraftSquareBuilder();
