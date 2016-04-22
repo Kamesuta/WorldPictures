@@ -3,6 +3,7 @@ package com.kamesuta.mc.worldpictures.gui;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.kamesuta.mc.worldpictures.component.Component;
 import com.kamesuta.mc.worldpictures.component.Keyframe;
 import com.kamesuta.mc.worldpictures.component.Scene;
 import com.kamesuta.mc.worldpictures.component.Square;
@@ -81,7 +82,7 @@ public class GuiEntityWorldPictures extends GuiScreen {
 	protected void actionPerformed(final GuiButton guiButton) {
 		if (guiButton.enabled) {
 			if (guiButton.id == this.btnAction.id) {
-				this.entity.scene = new Scene(Renderer.INSTANCE.cut);
+				this.entity.setComponent(new Component(new Scene(Renderer.INSTANCE.cut)));
 				this.entity.upload();
 			} else if (guiButton.id == this.btnNew.id) {
 				Renderer.INSTANCE.cut = new ArrayList<Keyframe>();

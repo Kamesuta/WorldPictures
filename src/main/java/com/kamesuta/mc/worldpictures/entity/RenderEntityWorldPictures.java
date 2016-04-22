@@ -2,6 +2,7 @@ package com.kamesuta.mc.worldpictures.entity;
 
 import org.lwjgl.opengl.GL11;
 
+import com.kamesuta.mc.worldpictures.component.Component;
 import com.kamesuta.mc.worldpictures.component.Scene;
 import com.kamesuta.mc.worldpictures.component.Square;
 import com.kamesuta.mc.worldpictures.reference.Reference;
@@ -41,10 +42,10 @@ public class RenderEntityWorldPictures extends Render {
 				entitywp.currentTimeOffset = offset;
 			final long nowtime = ticktime + diffoffset;
 
-			final Scene scene = entitywp.scene;
-			if (scene != null) {
+			final Component component = entitywp.getComponent();
+			if (component != null) {
 				Renderer.INSTANCE.textureManager.bindTexture(scenetexture);
-				final Square square = Scene.takeashot(scene, nowtime);
+				final Square square = Scene.takeashot(component.scene, nowtime);
 				if (square != null)
 					Square.draw(square, Tessellator.instance);
 			}

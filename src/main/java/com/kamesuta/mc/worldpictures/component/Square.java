@@ -61,7 +61,7 @@ public final class Square implements Serializable {
 		return false;
 	}
 
-	public AxisAlignedBB extendAABB(final AxisAlignedBB aabb) {
+	public AxisAlignedBB expandAABB(final AxisAlignedBB aabb) {
 		aabb.addCoord(this.lt.x, this.lt.y, this.lt.z);
 		aabb.addCoord(this.lb.x, this.lb.y, this.lb.z);
 		aabb.addCoord(this.rb.x, this.rb.y, this.rb.z);

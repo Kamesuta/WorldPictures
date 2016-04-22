@@ -1,7 +1,7 @@
 package com.kamesuta.mc.worldpictures.entity;
 
 import com.kamesuta.mc.worldpictures.WorldPictures;
-import com.kamesuta.mc.worldpictures.component.Scene;
+import com.kamesuta.mc.worldpictures.component.Component;
 import com.kamesuta.mc.worldpictures.gui.GuiEntityWorldPictures;
 import com.kamesuta.mc.worldpictures.handler.PacketHandler;
 import com.kamesuta.mc.worldpictures.reference.Reference;
@@ -10,16 +10,15 @@ import net.minecraft.block.Block;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.nbt.NBTTagCompound;
-import net.minecraft.nbt.NBTTagList;
+import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.util.DamageSource;
 import net.minecraft.world.World;
-import net.minecraftforge.common.util.Constants;
 
 public class EntityWorldPictures extends Entity {
 	public static final int SyncSceneId = 20;
 	public static final int SyncTextureId = 21;
 
-	public Scene scene;
+	private Component component;
 	public transient long currentTimeOffset;
 
 	public EntityWorldPictures(final World world) {
@@ -27,9 +26,23 @@ public class EntityWorldPictures extends Entity {
 		super.setSize(5, 5);
 	}
 
+	public Component getComponent() {
+		return this.component;
+	}
+
+	public void setComponent(final Component component) {
+		this.component = component;
+		if (!this.worldObj.isRemote) {
+			final AxisAlignedBB b = component.bounds;
+			setSize((float) Math.max(b.maxX - b.minX, b.maxZ - b.minZ), (float) (b.maxY - b.minY));
+			this.boundingBox.setBB(b);
+			moveEntity((b.maxX + b.minX) / 2, b.minY, (b.maxZ + b.minZ) / 2);
+		}
+	}
+
 	public void setSyncDataCompound(final NBTTagCompound nbt) {
 		Reference.logger.info("set side sync");
-		Reference.logger.info(this.scene);
+		Reference.logger.info(this.component);
 		fromNBT(nbt);
 	}
 
@@ -115,19 +128,19 @@ public class EntityWorldPictures extends Entity {
 	}
 
 	public NBTTagCompound toNBT(final NBTTagCompound nbt) {
-		nbt.setTag("scene", Scene.toNBT(this.scene));
+		nbt.setTag("component", Component.toNBT(this.component));
 		return nbt;
 	}
 
 	public void fromNBT(final NBTTagCompound nbt) {
-		final NBTTagList nbtscene = nbt.getTagList("scene", Constants.NBT.TAG_COMPOUND);
-		this.scene = Scene.fromNBT(nbtscene);
+		final NBTTagCompound nbtscene = nbt.getCompoundTag("component");
+		setComponent(Component.fromNBT(nbtscene));
 	}
 
 	@Override
 	public void writeEntityToNBT(final NBTTagCompound nbt) {
-		Reference.logger.info("saveNBT" + this.scene);
-		if (this.scene != null)
+		Reference.logger.info("saveNBT" + this.component);
+		if (this.component != null)
 			toNBT(nbt);
 	}
 
@@ -135,7 +148,7 @@ public class EntityWorldPictures extends Entity {
 	public void readEntityFromNBT(final NBTTagCompound nbt) {
 		Reference.logger.info("loadNBT");
 		fromNBT(nbt);
-		Reference.logger.info(this.scene);
+		Reference.logger.info(this.component);
 	}
 
 }

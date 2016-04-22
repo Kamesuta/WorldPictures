@@ -6,8 +6,6 @@ import java.util.List;
 
 import javax.annotation.concurrent.Immutable;
 
-import org.apache.commons.lang3.Validate;
-
 import net.minecraft.nbt.NBTTagList;
 
 @Immutable
@@ -15,7 +13,7 @@ public class Scene {
 	public final List<Keyframe> keyframes;
 
 	public Scene(final List<Keyframe> c) {
-		this.keyframes = Collections.unmodifiableList(Validate.notNull(c));
+		this.keyframes = Collections.unmodifiableList(c);
 	}
 
 	public Scene(final Scene c) {
@@ -105,6 +103,7 @@ public class Scene {
 		if (c != null) return takeashot(c.keyframes, now);
 		return null;
 	}
+
 	/**
 	 * NBTから作成
 	 */
