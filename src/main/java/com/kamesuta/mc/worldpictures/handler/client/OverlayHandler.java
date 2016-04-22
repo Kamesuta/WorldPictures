@@ -1,6 +1,8 @@
 package com.kamesuta.mc.worldpictures.handler.client;
 
 import com.kamesuta.mc.worldpictures.component.Position;
+import com.kamesuta.mc.worldpictures.component.Scene;
+import com.kamesuta.mc.worldpictures.component.Square;
 import com.kamesuta.mc.worldpictures.renderer.Renderer;
 
 import cpw.mods.fml.common.eventhandler.SubscribeEvent;
@@ -11,19 +13,22 @@ public class OverlayHandler {
 	private final Minecraft minecraft = Minecraft.getMinecraft();
 
 	@SubscribeEvent
-	public void onText(RenderGameOverlayEvent.Text event) {
+	public void onText(final RenderGameOverlayEvent.Text event) {
 		if (this.minecraft.gameSettings.showDebugInfo) {
 			event.left.add("");
-			Position v1 = new Position((float)minecraft.thePlayer.posX, (float)minecraft.thePlayer.posY-1, (float)minecraft.thePlayer.posZ);
-			Position v2 = new Position((float)minecraft.thePlayer.posX, (float)minecraft.thePlayer.posY+1, (float)minecraft.thePlayer.posZ);
-			event.left.add("[§6motionX§r] " + minecraft.thePlayer.motionX);
-			event.left.add("[§6motionY§r] " + minecraft.thePlayer.motionY);
-			event.left.add("[§6motionZ§r] " + minecraft.thePlayer.motionZ);
-			boolean b = Renderer.INSTANCE.cut.takeashot(System.currentTimeMillis()).collisionWithLine(v1, v2);
-			event.left.add("[§6cross square§r] " + b);
-//			if (b) {
-//				minecraft.thePlayer.motionY = 0;
-//			}
+			final Position v1 = new Position((float)this.minecraft.thePlayer.posX, (float)this.minecraft.thePlayer.posY-1, (float)this.minecraft.thePlayer.posZ);
+			final Position v2 = new Position((float)this.minecraft.thePlayer.posX, (float)this.minecraft.thePlayer.posY+1, (float)this.minecraft.thePlayer.posZ);
+			event.left.add("[§6motionX§r] " + this.minecraft.thePlayer.motionX);
+			event.left.add("[§6motionY§r] " + this.minecraft.thePlayer.motionY);
+			event.left.add("[§6motionZ§r] " + this.minecraft.thePlayer.motionZ);
+			final Square square = Scene.takeashot(Renderer.INSTANCE.cut, (System.currentTimeMillis()));
+			if (square != null) {
+				final boolean b = square.collisionWithLine(v1, v2);
+				event.left.add("[§6cross square§r] " + b);
+			}
+			//			if (b) {
+			//				minecraft.thePlayer.motionY = 0;
+			//			}
 			// final MovingObjectPosition mop =
 			// ClientProxy.movingObjectPosition;
 			// if (mop != null && mop.typeOfHit ==

@@ -1,6 +1,7 @@
 package com.kamesuta.mc.worldpictures.entity;
 
 import com.kamesuta.mc.worldpictures.handler.PacketHandler;
+import com.kamesuta.mc.worldpictures.reference.Reference;
 
 import cpw.mods.fml.common.network.ByteBufUtils;
 import cpw.mods.fml.common.network.simpleimpl.IMessage;
@@ -37,6 +38,7 @@ public class RequestMessageEntityWorldPictures implements IMessage {
 	public static class Handler implements IMessageHandler<RequestMessageEntityWorldPictures, IMessage> {
 		@Override
 		public IMessage onMessage(RequestMessageEntityWorldPictures message, MessageContext ctx) {
+			Reference.logger.info("recieve req");
 			if (ctx.side.isServer()) {
 				EntityPlayerMP thePlayer = ctx.getServerHandler().playerEntity;
 				Entity theEntity = thePlayer.worldObj.getEntityByID(message.entityId);

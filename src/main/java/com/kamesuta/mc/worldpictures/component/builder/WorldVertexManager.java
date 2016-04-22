@@ -25,69 +25,69 @@ import net.minecraft.client.renderer.Tessellator;
 @Deprecated
 public class WorldVertexManager {
 
-	private Tessellator tessellator = Tessellator.instance;
+	private final Tessellator tessellator = Tessellator.instance;
 	private final Map<WorldResource, Scene> mapVertexObjects = Maps.newHashMap();
-	private WorldResourceManager theResourceManager;
+	private final WorldResourceManager theResourceManager;
 
-	public WorldVertexManager(WorldResourceManager manager) {
+	public WorldVertexManager(final WorldResourceManager manager) {
 		this.theResourceManager = manager;
 	}
 
-	protected void draw(Scene onecut) {
-		if (!onecut.isEmpty()) {
-			Square square = onecut.takeashot(System.currentTimeMillis());
-			if (square != null)
-				square.draw(tessellator);
-		}
+	protected void draw(final Scene onecut) {
+		if (onecut != null)
+			if (!onecut.keyframes.isEmpty()) {
+				final Square square = Scene.takeashot(onecut, System.currentTimeMillis());
+				if (square != null)
+					Square.draw(square, this.tessellator);
+			}
 	}
 
-	public void drawVertex(WorldResource location) {
+	public void drawVertex(final WorldResource location) {
 		draw(getVertex(location));
 	}
 
-	public Scene loadVertex(WorldResource location) {
+	public Scene loadVertex(final WorldResource location) {
 		Scene vertex = null;
 		try {
-			vertex = this.readVertex(location);
-		} catch (IOException e) {
+			vertex = readVertex(location);
+		} catch (final IOException e) {
 			Reference.logger.warn("Failed to load vertex: " + location + ": " + e.getMessage());
 			Reference.logger.debug(e);
-			vertex = Scene.NULL;
 		}
 
-		mapVertexObjects.put(location, vertex);
+		this.mapVertexObjects.put(location, vertex);
 		return vertex;
 	}
 
-	public Scene getVertex(WorldResource location) {
+	public Scene getVertex(final WorldResource location) {
 		Scene vertex = this.mapVertexObjects.get(location);
 
 		if (vertex == null) {
-			vertex = this.loadVertex(location);
+			vertex = loadVertex(location);
 		}
 
 		return vertex;
 	}
 
-	public void deleteVertex(WorldResource location) {
+	public void deleteVertex(final WorldResource location) {
 		this.mapVertexObjects.remove(location);
 	}
 
-	public boolean saveVertex(WorldResource location, Scene vertex) {
+	public boolean saveVertex(final WorldResource location, final Scene v) {
 		boolean flag = true;
 		try {
-			writeVertex(location, vertex);
-		} catch (IOException e) {
+			writeVertex(location, v);
+		} catch (final IOException e) {
 			Reference.logger.warn("Failed to load vertex: " + location, e);
 			flag = false;
 		}
 
-		this.mapVertexObjects.put(location, vertex);
+		this.mapVertexObjects.put(location, v);
 		return flag;
 	}
 
-	public boolean saveVertex(WorldResource location) {
-		Scene v = this.mapVertexObjects.get(location);
+	public boolean saveVertex(final WorldResource location) {
+		final Scene v = this.mapVertexObjects.get(location);
 		if (v != null) {
 			return saveVertex(location, v);
 		}
@@ -95,28 +95,28 @@ public class WorldVertexManager {
 		return false;
 	}
 
-	public Scene readVertex(WorldResource location) throws IOException {
+	public Scene readVertex(final WorldResource location) throws IOException {
 		Scene vertex;
 		try {
-			File resource = theResourceManager.getResource(location);
-			JsonReader jsr = new JsonReader(new InputStreamReader(new FileInputStream(resource)));
+			final File resource = this.theResourceManager.getResource(location);
+			final JsonReader jsr = new JsonReader(new InputStreamReader(new FileInputStream(resource)));
 			vertex = new Gson().fromJson(jsr, Scene.class);
 			jsr.close();
-		} catch (JsonSyntaxException e) {
+		} catch (final JsonSyntaxException e) {
 			throw new IOException("Syntax error has occured. Is it right format?", e);
-		} catch (JsonIOException e) {
+		} catch (final JsonIOException e) {
 			throw new IOException(e);
 		}
 		return vertex;
 	}
 
-	public void writeVertex(WorldResource location, Scene vertexes) throws IOException {
+	public void writeVertex(final WorldResource location, final Scene vertexes) throws IOException {
 		try {
-			File resource = theResourceManager.getResource(location);
-			JsonWriter jsw = new JsonWriter(new OutputStreamWriter(new FileOutputStream(resource)));
+			final File resource = this.theResourceManager.getResource(location);
+			final JsonWriter jsw = new JsonWriter(new OutputStreamWriter(new FileOutputStream(resource)));
 			new Gson().toJson(vertexes, Scene.class, jsw);
 			jsw.close();
-		} catch (JsonIOException e) {
+		} catch (final JsonIOException e) {
 			throw new IOException(e);
 		}
 	}

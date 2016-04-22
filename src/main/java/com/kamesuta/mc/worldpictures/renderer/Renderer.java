@@ -1,9 +1,13 @@
 package com.kamesuta.mc.worldpictures.renderer;
 
+import java.util.ArrayList;
+
 import org.lwjgl.opengl.GL11;
 
 import com.kamesuta.mc.worldpictures.WorldPictures;
+import com.kamesuta.mc.worldpictures.component.Keyframe;
 import com.kamesuta.mc.worldpictures.component.Scene;
+import com.kamesuta.mc.worldpictures.component.Square;
 import com.kamesuta.mc.worldpictures.component.builder.ISquareBuilder;
 import com.kamesuta.mc.worldpictures.component.builder.ParallelogramSquareBuilder;
 import com.kamesuta.mc.worldpictures.component.builder.Vector3f;
@@ -16,6 +20,7 @@ import cpw.mods.fml.common.eventhandler.SubscribeEvent;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.client.entity.EntityPlayerSP;
+import net.minecraft.client.renderer.Tessellator;
 import net.minecraft.profiler.Profiler;
 import net.minecraftforge.client.event.RenderWorldLastEvent;
 
@@ -28,9 +33,9 @@ public class Renderer {
 	private final Profiler profiler = ClientProxy.MINECRAFT.mcProfiler;
 
 	public ISquareBuilder squarebuilder = new ParallelogramSquareBuilder();
-	public Scene cut = new Scene();
+	public ArrayList<Keyframe> cut = new ArrayList<Keyframe>();
 
-//	public WorldObjClient picture = new WorldObjClient("abcd");
+	//	public WorldObjClient picture = new WorldObjClient("abcd");
 	public WorldResource vertex = new WorldResource("abcd", "vertex");
 	public WorldResource texture = new WorldResource("abc", "picture");
 
@@ -38,8 +43,8 @@ public class Renderer {
 	}
 
 	@SubscribeEvent
-	public void onRender(RenderWorldLastEvent event) {
-		EntityPlayerSP player = ClientProxy.MINECRAFT.thePlayer;
+	public void onRender(final RenderWorldLastEvent event) {
+		final EntityPlayerSP player = ClientProxy.MINECRAFT.thePlayer;
 		if (player != null) {
 			this.profiler.startSection("worldpictures");
 			render(event.partialTicks, player);
@@ -47,48 +52,49 @@ public class Renderer {
 		}
 	}
 
-	public void render(float partialTicks, EntityPlayerSP player) {
-		double x = player.lastTickPosX + (player.posX - player.lastTickPosX) * partialTicks;
-		double y = player.lastTickPosY + (player.posY - player.lastTickPosY) * partialTicks;
-		double z = player.lastTickPosZ + (player.posZ - player.lastTickPosZ) * partialTicks;
+	public void render(final float partialTicks, final EntityPlayerSP player) {
+		final double x = player.lastTickPosX + (player.posX - player.lastTickPosX) * partialTicks;
+		final double y = player.lastTickPosY + (player.posY - player.lastTickPosY) * partialTicks;
+		final double z = player.lastTickPosZ + (player.posZ - player.lastTickPosZ) * partialTicks;
 
 		GL11.glPushMatrix();
 		GL11.glTranslated(-x, -y, -z);
 
 		GL11.glDisable(GL11.GL_CULL_FACE);
-//		GL11.glDisable(GL11.GL_LIGHTING);
-		textureManager.bindTexture(texture);
-		vertexManager.drawVertex(vertex);
+		//		GL11.glDisable(GL11.GL_LIGHTING);
+		this.textureManager.bindTexture(this.texture);
+		//this.vertexManager.drawVertex(this.vertex);
+		Square.draw(Scene.takeashot(this.cut, System.currentTimeMillis()), Tessellator.instance);
 
 		GL11.glDisable(GL11.GL_TEXTURE_2D);
-		if (squarebuilder != null) {
+		if (this.squarebuilder != null) {
 			GL11.glColor4f(1f, 1f, 0.5f, 1f);
-			squarebuilder.renderAssist();
+			this.squarebuilder.renderAssist();
 			GL11.glColor4f(0.5f, 0.5f, 1f, 0.5f);
-			squarebuilder.renderAssistLine(new Vector3f((float)x, (float)y, (float)z));
+			this.squarebuilder.renderAssistLine(new Vector3f((float)x, (float)y, (float)z));
 		}
 
-/*		Tessellator tessellator = Tessellator.instance;
+		/*		Tessellator tessellator = Tessellator.instance;
 		tessellator.startDrawingQuads();
 		tessellator.addVertexWithUV(10, 90, 10, 0, 1);
 		tessellator.addVertexWithUV(10, 90, 0, 1, 1);
 		tessellator.addVertexWithUV(0, 100, 0, 1, 0);
 		tessellator.addVertexWithUV(0, 100, 10, 0, 0);
 		tessellator.draw();
-*/
+		 */
 
 
-//		 GL11.glBegin(GL11.GL_LINE_LOOP);
-//
-//		 GL11.glVertex3f(10f, 90f, 10f);
-//
-//		 GL11.glVertex3f(10f, 90f, 0f);
-//
-//		 GL11.glVertex3f(0f, 100f, 0f);
-//
-//		 GL11.glVertex3f(0f, 100f, 10f);
-//
-//		 GL11.glEnd();
+		//		 GL11.glBegin(GL11.GL_LINE_LOOP);
+		//
+		//		 GL11.glVertex3f(10f, 90f, 10f);
+		//
+		//		 GL11.glVertex3f(10f, 90f, 0f);
+		//
+		//		 GL11.glVertex3f(0f, 100f, 0f);
+		//
+		//		 GL11.glVertex3f(0f, 100f, 10f);
+		//
+		//		 GL11.glEnd();
 
 		// glEnableClientState(GL_VERTEX_ARRAY);
 		//

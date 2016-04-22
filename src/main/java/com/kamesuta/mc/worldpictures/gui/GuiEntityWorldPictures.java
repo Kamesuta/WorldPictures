@@ -1,5 +1,6 @@
 package com.kamesuta.mc.worldpictures.gui;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import com.kamesuta.mc.worldpictures.component.Keyframe;
@@ -22,8 +23,8 @@ import net.minecraft.util.MathHelper;
 
 public class GuiEntityWorldPictures extends GuiScreen {
 	public static final int GUI_ID = 20;
-//	private int centerX = 0;
-//	private int centerY = 0;
+	//	private int centerX = 0;
+	//	private int centerY = 0;
 	protected List<GuiButton> buttonList = super.buttonList;
 
 	private GuiButton btnAction = null;
@@ -38,14 +39,14 @@ public class GuiEntityWorldPictures extends GuiScreen {
 
 	private final EntityWorldPictures entity;
 
-	public GuiEntityWorldPictures(EntityPlayer player, EntityWorldPictures entity) {
+	public GuiEntityWorldPictures(final EntityPlayer player, final EntityWorldPictures entity) {
 		this.entity = entity;
 	}
 
 	@Override
 	public void initGui() {
-//		this.centerX = this.width / 2;
-//		this.centerY = this.height / 2;
+		//		this.centerX = this.width / 2;
+		//		this.centerY = this.height / 2;
 
 		this.buttonList.clear();
 
@@ -77,35 +78,35 @@ public class GuiEntityWorldPictures extends GuiScreen {
 	}
 
 	@Override
-	protected void actionPerformed(GuiButton guiButton) {
+	protected void actionPerformed(final GuiButton guiButton) {
 		if (guiButton.enabled) {
-			if (guiButton.id == btnAction.id) {
+			if (guiButton.id == this.btnAction.id) {
 				this.entity.scene = new Scene(Renderer.INSTANCE.cut);
 				this.entity.upload();
-			} else if (guiButton.id == btnNew.id) {
-				Renderer.INSTANCE.cut = new Scene();
+			} else if (guiButton.id == this.btnNew.id) {
+				Renderer.INSTANCE.cut = new ArrayList<Keyframe>();
 				Renderer.INSTANCE.squarebuilder = new MinecraftSquareBuilder();
-			} else if (guiButton.id == btnBuild.id) {
-				Renderer.INSTANCE.vertexManager.saveVertex(Renderer.INSTANCE.vertex, Renderer.INSTANCE.cut);
-			} else if (guiButton.id == btnAdd.id) {
-				Square square = Renderer.INSTANCE.squarebuilder.build();
+			} else if (guiButton.id == this.btnBuild.id) {
+				Renderer.INSTANCE.vertexManager.saveVertex(Renderer.INSTANCE.vertex, new Scene(Renderer.INSTANCE.cut));
+			} else if (guiButton.id == this.btnAdd.id) {
+				final Square square = Renderer.INSTANCE.squarebuilder.build();
 				if (square != null) {
-					Keyframe as = new Keyframe().setSquare(square);
+					final Keyframe as = new Keyframe(square);
 					Renderer.INSTANCE.cut.add(as);
 				}
 				Renderer.INSTANCE.squarebuilder.clear();
-			} else if (guiButton.id == btnNext.id) {
-				Square square = Renderer.INSTANCE.squarebuilder.build();
+			} else if (guiButton.id == this.btnNext.id) {
+				final Square square = Renderer.INSTANCE.squarebuilder.build();
 				if (square != null) {
-					Keyframe as = new Keyframe().setSquare(square);
+					final Keyframe as = new Keyframe(square);
 					Renderer.INSTANCE.cut.add(as);
 				}
-			} else if (guiButton.id == btnPrev.id) {
-			} else if (guiButton.id == btnPos.id) {
-				EntityPlayerSP player = ClientProxy.MINECRAFT.thePlayer;
+			} else if (guiButton.id == this.btnPrev.id) {
+			} else if (guiButton.id == this.btnPos.id) {
+				final EntityPlayerSP player = ClientProxy.MINECRAFT.thePlayer;
 				if (player != null)
 				{
-					Vector3f now = new Vector3f(MathHelper.floor_double(player.posX), MathHelper.floor_double(player.posY), MathHelper.floor_double(player.posZ));
+					final Vector3f now = new Vector3f(MathHelper.floor_double(player.posX), MathHelper.floor_double(player.posY), MathHelper.floor_double(player.posZ));
 					Renderer.INSTANCE.squarebuilder.setPosLast();
 					Renderer.INSTANCE.squarebuilder.add(now);
 				}
@@ -114,12 +115,12 @@ public class GuiEntityWorldPictures extends GuiScreen {
 	}
 
 	@Override
-	protected void keyTyped(char character, int code) {
+	protected void keyTyped(final char character, final int code) {
 		super.keyTyped(character, code);
 	}
 
 	@Override
-	public void drawScreen(int par1, int par2, float par3) {
+	public void drawScreen(final int par1, final int par2, final float par3) {
 		// drawDefaultBackground();
 
 		drawString(this.fontRendererObj, this.strTitle, this.width - 205, this.height - 45, 0xFFFFFF);

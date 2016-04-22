@@ -19,29 +19,30 @@ public class EntityWorldPictures extends Entity {
 	public static final int SyncSceneId = 20;
 	public static final int SyncTextureId = 21;
 
-	public Scene scene = new Scene();
+	public Scene scene;
+	public transient long currentTimeOffset;
 
-	public EntityWorldPictures(World world) {
+	public EntityWorldPictures(final World world) {
 		super(world);
 		super.setSize(5, 5);
 	}
 
-	public void setSyncDataCompound(NBTTagCompound nbt) {
+	public void setSyncDataCompound(final NBTTagCompound nbt) {
 		Reference.logger.info("set side sync");
-		Reference.logger.info(scene);
-		this.fromNBT(nbt);
+		Reference.logger.info(this.scene);
+		fromNBT(nbt);
 	}
 
 	public NBTTagCompound getSyncDataCompound() {
 		Reference.logger.info("get side sync");
-		return this.toNBT(new NBTTagCompound());
+		return toNBT(new NBTTagCompound());
 	}
 
 	public void upload() {
-		NBTTagCompound nbt = this.toNBT(new NBTTagCompound());
+		final NBTTagCompound nbt = toNBT(new NBTTagCompound());
 		Reference.logger.info("upload");
-		if (worldObj.isRemote) {
-			PacketHandler.net.sendToServer(new SyncMessageEntityWorldPictures(this.getEntityId(), nbt));
+		if (this.worldObj.isRemote) {
+			PacketHandler.net.sendToServer(new SyncMessageEntityWorldPictures(getEntityId(), nbt));
 		}
 	}
 
@@ -49,91 +50,92 @@ public class EntityWorldPictures extends Entity {
 	 * このMobが動いているときの音のファイルパスを返す. 引数のblockはMobの下にあるBlock.
 	 */
 	@Override
-	protected void func_145780_a(int x, int y, int z, Block block) {
-		this.playSound("mob.skeleton.step", 0.15F, 1.0F);
+	protected void func_145780_a(final int x, final int y, final int z, final Block block) {
+		playSound("mob.skeleton.step", 0.15F, 1.0F);
 	}
 
 	@Override
-	public void applyEntityCollision(Entity entity) {
+	public void applyEntityCollision(final Entity entity) {
 		//this.moveEntity(entity.posX, entity.posY+1, entity.posZ);
 		//Reference.logger.info("hit2");
 	}
 
 	@Override
-	public void onCollideWithPlayer(EntityPlayer p_70100_1_) {
+	public void onCollideWithPlayer(final EntityPlayer p_70100_1_) {
 		//Reference.logger.info("hit");
 	}
 
 	@Override
-    public boolean canBeCollidedWith()
-    {
-        return true;
-    }
+	public boolean canBeCollidedWith()
+	{
+		return true;
+	}
 
 	@Override
-    public boolean canBePushed()
-    {
-        return true;
-    }
+	public boolean canBePushed()
+	{
+		return true;
+	}
 
 	@Override
 	protected void entityInit() {
-//		this.dataWatcher.addObject(SyncSceneId, null);
+		//		this.dataWatcher.addObject(SyncSceneId, null);
 	}
 
-//	public void setScene(Scene scene) {
-//		this.dataWatcher.updateObject(SyncSceneId, scene);
-//	}
-//
-//	public Scene getScene() {
-//		this.dataWatcher.getWatchableObjectByte(SyncSceneId);
-//	}
+	//	public void setScene(Scene scene) {
+	//		this.dataWatcher.updateObject(SyncSceneId, scene);
+	//	}
+	//
+	//	public Scene getScene() {
+	//		this.dataWatcher.getWatchableObjectByte(SyncSceneId);
+	//	}
 
 	@Override
-    public boolean hitByEntity(Entity entity)
-    {
-        return false;
-    }
+	public boolean hitByEntity(final Entity entity)
+	{
+		return false;
+	}
 
 	@Override
-    public boolean interactFirst(EntityPlayer player)
-    {
-		if (worldObj.isRemote)
-			PacketHandler.net.sendToServer(new RequestMessageEntityWorldPictures(this.getEntityId()));
-		player.openGui(WorldPictures.instance, GuiEntityWorldPictures.GUI_ID, this.worldObj, this.getEntityId(), 0, 0);
-        return false;
-    }
+	public boolean interactFirst(final EntityPlayer player)
+	{
+		if (this.worldObj.isRemote)
+			PacketHandler.net.sendToServer(new RequestMessageEntityWorldPictures(getEntityId()));
+		player.openGui(WorldPictures.instance, GuiEntityWorldPictures.GUI_ID, this.worldObj, getEntityId(), 0, 0);
+		return false;
+	}
 
 	@Override
-	public boolean attackEntityFrom(DamageSource damage, float strong) {
+	public boolean attackEntityFrom(final DamageSource damage, final float strong) {
 		if(!this.worldObj.isRemote) {
 			Reference.logger.info("dead");
-			this.setDead();
+			setDead();
 		}
 		return true;
 	}
 
-	public NBTTagCompound toNBT(NBTTagCompound nbt) {
-		nbt.setTag("scene", this.scene.toNBT());
+	public NBTTagCompound toNBT(final NBTTagCompound nbt) {
+		nbt.setTag("scene", Scene.toNBT(this.scene));
 		return nbt;
 	}
 
-	public void fromNBT(NBTTagCompound nbt) {
-		NBTTagList nbtscene = nbt.getTagList("scene", Constants.NBT.TAG_COMPOUND);
-		this.scene.fromNBT(nbtscene);
+	public void fromNBT(final NBTTagCompound nbt) {
+		final NBTTagList nbtscene = nbt.getTagList("scene", Constants.NBT.TAG_COMPOUND);
+		this.scene = Scene.fromNBT(nbtscene);
 	}
 
 	@Override
-	public void writeEntityToNBT(NBTTagCompound nbt) {
-		Reference.logger.info("saveNBT");
+	public void writeEntityToNBT(final NBTTagCompound nbt) {
+		Reference.logger.info("saveNBT" + this.scene);
 		if (this.scene != null)
-			nbt.setTag("scene", this.scene.toNBT());
+			toNBT(nbt);
 	}
 
 	@Override
-	public void readEntityFromNBT(NBTTagCompound nbt) {
+	public void readEntityFromNBT(final NBTTagCompound nbt) {
 		Reference.logger.info("loadNBT");
-		this.fromNBT(nbt);
+		fromNBT(nbt);
+		Reference.logger.info(this.scene);
 	}
 
 }

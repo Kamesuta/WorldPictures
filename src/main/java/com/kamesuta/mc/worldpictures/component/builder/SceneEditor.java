@@ -16,7 +16,7 @@ public class SceneEditor {
 	}
 
 	public int size() {
-		return scene.size();
+		return scene.keyframes.size();
 	}
 
 	public int getPos() {

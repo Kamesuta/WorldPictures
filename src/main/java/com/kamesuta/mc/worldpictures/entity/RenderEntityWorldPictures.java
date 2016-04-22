@@ -20,41 +20,61 @@ public class RenderEntityWorldPictures extends Render {
 	public static final ResourceLocation texture = new ResourceLocation(Reference.MODID.toLowerCase(), "textures/items/missing.png");
 	public static WorldResource scenetexture = new WorldResource("abc", "picture");
 
-	public RenderEntityWorldPictures(ModelBase b, float f) {
+	public RenderEntityWorldPictures(final ModelBase b, final float f) {
 		//super(b, f);
 	}
 
 	@Override
-	public void doRender(Entity entity, double x, double y, double z, float p_76986_8_, float p_76986_9_) {
-		final long ticks = entity.ticksExisted * 1000 / 20;
+	public void doRender(final Entity entity, final double x, final double y, final double z, final float p_76986_8_, final float p_76986_9_) {
+		GL11.glPushMatrix();
+		GL11.glTranslated(x-entity.posX, y-entity.posY, z-entity.posZ);
+		GL11.glDisable(GL11.GL_CULL_FACE);
+
 		if (entity instanceof EntityWorldPictures) {
-			Scene scene = ((EntityWorldPictures)entity).scene;
+			final int millisPerTick = 1000 / 20;
+			final EntityWorldPictures entitywp = (EntityWorldPictures)entity;
+			final long systime = System.currentTimeMillis();
+			final long ticktime = entitywp.ticksExisted * millisPerTick;
+			final long offset = systime - ticktime;
+			final long diffoffset = offset - entitywp.currentTimeOffset;
+			if (!(0 < diffoffset && diffoffset < millisPerTick))
+				entitywp.currentTimeOffset = offset;
+			final long nowtime = ticktime + diffoffset;
+
+			final Scene scene = entitywp.scene;
 			if (scene != null) {
 				Renderer.INSTANCE.textureManager.bindTexture(scenetexture);
-				Square square = scene.takeashot(ticks);
+				final Square square = Scene.takeashot(scene, nowtime);
 				if (square != null)
-					square.draw(Tessellator.instance);
+					Square.draw(square, Tessellator.instance);
 			}
 		}
 
-		GL11.glTranslated(x, y, z);
-        GL11.glEnable(GL11.GL_BLEND);
-        OpenGlHelper.glBlendFunc(770, 771, 1, 0);
-        GL11.glColor4f(0.0F, 0.0F, 0.0F, 0.4F);
-        GL11.glLineWidth(2.0F);
-        GL11.glDisable(GL11.GL_TEXTURE_2D);
-        GL11.glDepthMask(false);
+		GL11.glEnable(GL11.GL_CULL_FACE);
+		GL11.glPopMatrix();
 
-        RenderGlobal.drawOutlinedBoundingBox(entity.boundingBox.getOffsetBoundingBox(-entity.posX, -entity.posY, -entity.posZ), -1);
 
-        GL11.glDepthMask(true);
-        GL11.glEnable(GL11.GL_TEXTURE_2D);
-        GL11.glDisable(GL11.GL_BLEND);
-		GL11.glTranslated(-x, -y, -z);
+		GL11.glPushMatrix();
+		GL11.glTranslated(x-entity.posX, y-entity.posY, z-entity.posZ);
+
+		GL11.glEnable(GL11.GL_BLEND);
+		OpenGlHelper.glBlendFunc(770, 771, 1, 0);
+		GL11.glColor4f(0.0F, 0.0F, 0.0F, 0.4F);
+		GL11.glLineWidth(2.0F);
+		GL11.glDisable(GL11.GL_TEXTURE_2D);
+		GL11.glDepthMask(false);
+
+		RenderGlobal.drawOutlinedBoundingBox(entity.boundingBox, -1);
+
+		GL11.glDepthMask(true);
+		GL11.glEnable(GL11.GL_TEXTURE_2D);
+		GL11.glDisable(GL11.GL_BLEND);
+
+		GL11.glPopMatrix();
 	}
 
 	@Override
-	protected ResourceLocation getEntityTexture(Entity p_110775_1_) {
+	protected ResourceLocation getEntityTexture(final Entity p_110775_1_) {
 		return texture;
 	}
 }

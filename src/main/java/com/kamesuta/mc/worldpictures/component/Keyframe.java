@@ -2,88 +2,95 @@ package com.kamesuta.mc.worldpictures.component;
 
 import java.io.Serializable;
 
+import javax.annotation.concurrent.Immutable;
+
 import net.minecraft.nbt.NBTTagCompound;
 
 /**
  * 1フレームの状態を保持します
  * @author Kamesuta
  */
-public class Keyframe implements Serializable {
+@Immutable
+public final class Keyframe implements Serializable {
 	/**
 	 * デフォルトアニメーション時間
 	 * ミリ秒
 	 */
 	public static final long DefaultLength = 1000;
 
-	private long length = DefaultLength;
+	public final long length;
+	public final Square square;
 
-	private Square square;
-
-	public long getLength() {
-		return length;
+	public Keyframe(final long length, final Square square) {
+		if (length > 0)
+			this.length = length;
+		else
+			this.length = DefaultLength;
+		this.square = square;
 	}
 
-	public Keyframe setLength(long l) {
-		if (l > 0) this.length = l;
-		return this;
+	public Keyframe(final Square square) {
+		this(DefaultLength, square);
 	}
 
-	public Square getSquare() {
-		return square;
+	public Keyframe length(final long length) {
+		return new Keyframe(length, this.square);
 	}
 
-	public Keyframe setSquare(Square s) {
-		this.square = s;
-		return this;
-	}
-
-	public NBTTagCompound toNBT() {
-		NBTTagCompound nbt = new NBTTagCompound();
-		nbt.setLong("length", this.getLength());
-		Square square = this.getSquare();
-		if (square != null) nbt.setTag("square", Square.toNBT(square));
-		return nbt;
-	}
-
-	public Keyframe fromNBT(NBTTagCompound nbt) {
-		long length = nbt.getLong("length");
-		this.setLength(length);
-		Square square = Square.fromNBT(nbt.getCompoundTag("square"));
-		if (square != null) this.setSquare(square);
-		return this;
+	public Keyframe square(final Square square) {
+		return new Keyframe(this.length, square);
 	}
 
 	@Override
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
-		result = prime * result + (int) (length ^ (length >>> 32));
-		result = prime * result + ((square == null) ? 0 : square.hashCode());
+		result = prime * result + (int) (this.length ^ (this.length >>> 32));
+		result = prime * result + ((this.square == null) ? 0 : this.square.hashCode());
 		return result;
 	}
 
 	@Override
-	public boolean equals(Object obj) {
+	public boolean equals(final Object obj) {
 		if (this == obj)
 			return true;
 		if (obj == null)
 			return false;
 		if (!(obj instanceof Keyframe))
 			return false;
-		Keyframe other = (Keyframe) obj;
-		if (length != other.length)
+		final Keyframe other = (Keyframe) obj;
+		if (this.length != other.length)
 			return false;
-		if (square == null) {
+		if (this.square == null) {
 			if (other.square != null)
 				return false;
-		} else if (!square.equals(other.square))
+		} else if (!this.square.equals(other.square))
 			return false;
 		return true;
 	}
 
 	@Override
 	public String toString() {
-		return String.format("Keyframe [length:%s, square:%s]", length, square);
+		return String.format("Keyframe[length:%s, square:%s]", this.length, this.square);
+	}
+
+	/**
+	 * NBTから作成
+	 */
+	public static Keyframe fromNBT(final NBTTagCompound nbt) {
+		final long length = nbt.getLong("length");
+		final Square square = Square.fromNBT(nbt.getCompoundTag("square"));
+		return new Keyframe(length, square);
+	}
+
+	/**
+	 * NBTを作成
+	 */
+	public static NBTTagCompound toNBT(final Keyframe kf) {
+		final NBTTagCompound nbt = new NBTTagCompound();
+		nbt.setLong("length", kf.length);
+		nbt.setTag("square", Square.toNBT(kf.square));
+		return nbt;
 	}
 
 }

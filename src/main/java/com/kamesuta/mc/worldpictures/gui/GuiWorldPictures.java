@@ -1,9 +1,8 @@
 package com.kamesuta.mc.worldpictures.gui;
 
-import java.util.Arrays;
+import java.util.ArrayList;
 
 import com.kamesuta.mc.worldpictures.component.Keyframe;
-import com.kamesuta.mc.worldpictures.component.Position;
 import com.kamesuta.mc.worldpictures.component.Scene;
 import com.kamesuta.mc.worldpictures.component.Square;
 import com.kamesuta.mc.worldpictures.component.builder.MinecraftSquareBuilder;
@@ -20,8 +19,8 @@ import net.minecraft.client.resources.I18n;
 import net.minecraft.util.MathHelper;
 
 public class GuiWorldPictures extends GuiScreenBase {
-//	private int centerX = 0;
-//	private int centerY = 0;
+	//	private int centerX = 0;
+	//	private int centerY = 0;
 
 	private GuiButton btnAction = null;
 	private GuiButton btnNew = null;
@@ -33,14 +32,14 @@ public class GuiWorldPictures extends GuiScreenBase {
 
 	private final String strTitle = I18n.format(Names.Gui.TITLE);
 
-	public GuiWorldPictures(GuiScreen guiScreen) {
+	public GuiWorldPictures(final GuiScreen guiScreen) {
 		super(guiScreen);
 	}
 
 	@Override
 	public void initGui() {
-//		this.centerX = this.width / 2;
-//		this.centerY = this.height / 2;
+		//		this.centerX = this.width / 2;
+		//		this.centerY = this.height / 2;
 
 		this.buttonList.clear();
 
@@ -72,57 +71,33 @@ public class GuiWorldPictures extends GuiScreenBase {
 	}
 
 	@Override
-	protected void actionPerformed(GuiButton guiButton) {
+	protected void actionPerformed(final GuiButton guiButton) {
 		if (guiButton.enabled) {
-			if (guiButton.id == btnAction.id) {
-				float h = 90;
-				int split = 16;
-				int split4 = split/4;
-				double d45 = (360/split) * Math.PI / 180;
-				float r = 10;
-				Keyframe[] v = new Keyframe[split];
-				for (int i = 0; i < split; i++) {
-					v[i] = new Keyframe().setSquare(new Square(
-							new Position((float)(Math.sin((i+0*split4)*d45) * r), h, (float)(Math.cos((i+0*split4)*d45) * r)),
-							new Position((float)(Math.sin((i+1*split4)*d45) * r), h, (float)(Math.cos((i+1*split4)*d45) * r)),
-							new Position((float)(Math.sin((i+2*split4)*d45) * r), h, (float)(Math.cos((i+2*split4)*d45) * r)),
-							new Position((float)(Math.sin((i+3*split4)*d45) * r), h, (float)(Math.cos((i+3*split4)*d45) * r))));
-				}
-
-				Renderer.INSTANCE.vertexManager.saveVertex(Renderer.INSTANCE.vertex, new Scene(Arrays.asList(v)));
-
-//				Renderer.INSTANCE.vertexManager.saveVertex(Renderer.INSTANCE.picture,
-//						new WorldVertexCompound(4,
-//								new WorldVertexObj(0, new Vector3f(10,100,0), new Vector3f(10,100,0), new Vector3f(0,100,0), new Vector3f(0,100,0)),
-//								new WorldVertexObj(1, new Vector3f(10,100,0), new Vector3f(10,100,0), new Vector3f(0,100,0), new Vector3f(0,100,0)),
-//								new WorldVertexObj(2, new Vector3f(0,100,0), new Vector3f(0,100,0), new Vector3f(0,100,10), new Vector3f(0,100,10)),
-//								new WorldVertexObj(3, new Vector3f(0,100,0), new Vector3f(0,100,0), new Vector3f(0,100,10), new Vector3f(0,100,10)),
-//								new WorldVertexObj(4, new Vector3f(10,100,0), new Vector3f(10,100,0), new Vector3f(10,100,0), new Vector3f(0,100,0))
-//								));
-			} else if (guiButton.id == btnNew.id) {
-				Renderer.INSTANCE.cut = new Scene();
+			if (guiButton.id == this.btnAction.id) {
+			} else if (guiButton.id == this.btnNew.id) {
+				Renderer.INSTANCE.cut = new ArrayList<Keyframe>();
 				Renderer.INSTANCE.squarebuilder = new MinecraftSquareBuilder();
-			} else if (guiButton.id == btnBuild.id) {
-				Renderer.INSTANCE.vertexManager.saveVertex(Renderer.INSTANCE.vertex, Renderer.INSTANCE.cut);
-			} else if (guiButton.id == btnAdd.id) {
-				Square square = Renderer.INSTANCE.squarebuilder.build();
+			} else if (guiButton.id == this.btnBuild.id) {
+				Renderer.INSTANCE.vertexManager.saveVertex(Renderer.INSTANCE.vertex, new Scene(Renderer.INSTANCE.cut));
+			} else if (guiButton.id == this.btnAdd.id) {
+				final Square square = Renderer.INSTANCE.squarebuilder.build();
 				if (square != null) {
-					Keyframe as = new Keyframe().setSquare(square);
+					final Keyframe as = new Keyframe(square);
 					Renderer.INSTANCE.cut.add(as);
 				}
 				Renderer.INSTANCE.squarebuilder.clear();
-			} else if (guiButton.id == btnNext.id) {
-				Square square = Renderer.INSTANCE.squarebuilder.build();
+			} else if (guiButton.id == this.btnNext.id) {
+				final Square square = Renderer.INSTANCE.squarebuilder.build();
 				if (square != null) {
-					Keyframe as = new Keyframe().setSquare(square);
+					final Keyframe as = new Keyframe(square);
 					Renderer.INSTANCE.cut.add(as);
 				}
-			} else if (guiButton.id == btnPrev.id) {
-			} else if (guiButton.id == btnPos.id) {
-				EntityPlayerSP player = ClientProxy.MINECRAFT.thePlayer;
+			} else if (guiButton.id == this.btnPrev.id) {
+			} else if (guiButton.id == this.btnPos.id) {
+				final EntityPlayerSP player = ClientProxy.MINECRAFT.thePlayer;
 				if (player != null)
 				{
-					Vector3f now = new Vector3f(MathHelper.floor_double(player.posX), MathHelper.floor_double(player.posY), MathHelper.floor_double(player.posZ));
+					final Vector3f now = new Vector3f(MathHelper.floor_double(player.posX), MathHelper.floor_double(player.posY), MathHelper.floor_double(player.posZ));
 					Renderer.INSTANCE.squarebuilder.setPosLast();
 					Renderer.INSTANCE.squarebuilder.add(now);
 				}
@@ -131,12 +106,12 @@ public class GuiWorldPictures extends GuiScreenBase {
 	}
 
 	@Override
-	protected void keyTyped(char character, int code) {
+	protected void keyTyped(final char character, final int code) {
 		super.keyTyped(character, code);
 	}
 
 	@Override
-	public void drawScreen(int par1, int par2, float par3) {
+	public void drawScreen(final int par1, final int par2, final float par3) {
 		// drawDefaultBackground();
 
 		drawString(this.fontRendererObj, this.strTitle, this.width - 205, this.height - 45, 0xFFFFFF);
