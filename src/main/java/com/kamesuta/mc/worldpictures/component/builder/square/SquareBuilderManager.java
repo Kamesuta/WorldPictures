@@ -1,4 +1,4 @@
-package com.kamesuta.mc.worldpictures.component.builder;
+package com.kamesuta.mc.worldpictures.component.builder.square;
 
 import java.util.List;
 

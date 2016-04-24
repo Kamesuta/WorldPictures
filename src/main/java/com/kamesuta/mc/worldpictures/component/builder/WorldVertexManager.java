@@ -15,7 +15,7 @@ import com.google.gson.JsonSyntaxException;
 import com.google.gson.stream.JsonReader;
 import com.google.gson.stream.JsonWriter;
 import com.kamesuta.mc.worldpictures.component.Scene;
-import com.kamesuta.mc.worldpictures.component.Square;
+import com.kamesuta.mc.worldpictures.component.util.ComponentRender;
 import com.kamesuta.mc.worldpictures.reference.Reference;
 import com.kamesuta.mc.worldpictures.resource.WorldResource;
 import com.kamesuta.mc.worldpictures.resource.WorldResourceManager;
@@ -34,12 +34,7 @@ public class WorldVertexManager {
 	}
 
 	protected void draw(final Scene onecut) {
-		if (onecut != null)
-			if (!onecut.keyframes.isEmpty()) {
-				final Square square = Scene.takeashot(onecut, System.currentTimeMillis());
-				if (square != null)
-					Square.draw(square, this.tessellator);
-			}
+		ComponentRender.drawSceneOutline(onecut, System.currentTimeMillis());
 	}
 
 	public void drawVertex(final WorldResource location) {

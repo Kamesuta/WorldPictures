@@ -1,4 +1,4 @@
-package com.kamesuta.mc.worldpictures.component.builder;
+package com.kamesuta.mc.worldpictures.component.builder.square;
 
 /**
  * 編集データの抽象的な操作を定義します

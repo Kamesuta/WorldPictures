@@ -4,8 +4,6 @@ import java.io.Serializable;
 
 import com.kamesuta.mc.worldpictures.component.Position;
 
-import net.minecraft.nbt.NBTTagCompound;
-
 /**
  * ベクトルクラス
  * @author Kamesuta
@@ -36,28 +34,28 @@ public class Vector3f implements Serializable {
 	/**
 	 * 位置ベクトルの作成
 	 */
-	public Vector3f(Position pos) {
+	public Vector3f(final Position pos) {
 		this(pos.x, pos.y, pos.z);
 	}
 
 	/**
 	 * ベクトルインスタンスのコピー
 	 */
-	public Vector3f(Vector3f vec) {
+	public Vector3f(final Vector3f vec) {
 		this(vec.x, vec.y, vec.z);
 	}
 
 	/**
 	 * 各成分に同じ力を持ったベクトル
 	 */
-	public Vector3f(float num) {
+	public Vector3f(final float num) {
 		this(num, num, num);
 	}
 
 	/**
 	 * 成分から作成
 	 */
-	public Vector3f(float x, float y, float z) {
+	public Vector3f(final float x, final float y, final float z) {
 		this.x = x;
 		this.y = y;
 		this.z = z;
@@ -87,29 +85,29 @@ public class Vector3f implements Serializable {
 	/**
 	 * X成分設定
 	 */
-	public final void setX(float x) {
+	public final void setX(final float x) {
 		this.x = x;
 	}
 
 	/**
 	 * Y成分設定
 	 */
-	public final void setY(float y) {
+	public final void setY(final float y) {
 		this.y = y;
 	}
 
 	/**
 	 * Z成分設定
 	 */
-	public final void setZ(float z) {
+	public final void setZ(final float z) {
 		this.z = z;
 	}
 
-	public Vector3f set(Vector3f vec) {
+	public Vector3f set(final Vector3f vec) {
 		return set(vec.x, vec.y, vec.z);
 	}
 
-	public Vector3f set(float x, float y, float z) {
+	public Vector3f set(final float x, final float y, final float z) {
 		this.x = x;
 		this.y = y;
 		this.z = z;
@@ -128,7 +126,7 @@ public class Vector3f implements Serializable {
 	 * 2点の距離
 	 * @return 2点の距離
 	 */
-	public final double lengthTo(Vector3f vec) {
+	public final double lengthTo(final Vector3f vec) {
 		return Math.sqrt(lengthSquaredTo(vec));
 	}
 
@@ -136,7 +134,7 @@ public class Vector3f implements Serializable {
 	 * 2点の距離の2乗
 	 * @return 2点の距離の2乗
 	 */
-	public float lengthSquaredTo(Vector3f vec) {
+	public float lengthSquaredTo(final Vector3f vec) {
 		return pow2(this.x - vec.x) + pow2(this.y - vec.y) + pow2(this.z - vec.z);
 	}
 
@@ -145,7 +143,7 @@ public class Vector3f implements Serializable {
 	 * @param num 元
 	 * @return 2乗
 	 */
-	protected final float pow2(float num) {
+	protected final float pow2(final float num) {
 		return num * num;
 	}
 
@@ -159,77 +157,77 @@ public class Vector3f implements Serializable {
 		return this;
 	}
 
-	public Vector3f scale(double scale) {
+	public Vector3f scale(final double scale) {
 		this.x *= scale;
 		this.y *= scale;
 		this.z *= scale;
 		return this;
 	}
 
-//	public Vector3f rotate(Matrix rotationMatrix) {
-//		Matrix vec0 = new Matrix(new double[][] {
-//			{this.x,			},
-//			{this.y,			},
-//			{this.z,			},
-//		}, 3, 1);
-//
-//		Matrix vec1 = rotationMatrix.solve(vec0);
-//
-//		this.x = (float) vec1.get(0, 0);
-//		this.y = (float) vec1.get(1, 0);
-//		this.z = (float) vec1.get(2, 0);
-//
-//		return this;
-//	}
-//
-//	public Vector3f rotate(double rotX, double rotY, double rotZ) {
-//		Matrix m = getRotationMatrix(rotX, rotY, rotZ);
-//
-//		return rotate(m);
-//	}
-//
-//	public Matrix getRotationMatrix(double rotX, double rotY, double rotZ) {
-//		Matrix mX = new Matrix(new double[][] {
-//			{1,					0,					0,					},
-//			{0,					Math.cos(rotX),		-Math.sin(rotX),	},
-//			{0,					Math.sin(rotX), 	Math.cos(rotX),		},
-//		}, 3, 3);
-//
-//		Matrix mY = new Matrix(new double[][] {
-//			{Math.cos(rotY),	0,					Math.sin(rotY),		},
-//			{0,					1,					0,					},
-//			{-Math.sin(rotY),	0,					Math.cos(rotY),		},
-//		}, 3, 3);
-//
-//		Matrix mZ = new Matrix(new double[][] {
-//			{Math.cos(rotZ),	-Math.sin(rotZ),	0,					},
-//			{Math.sin(rotZ), 	Math.cos(rotZ),		0,					},
-//			{0,					0,					1,					},
-//		}, 3, 3);
-//
-//		return (mX).times(mY).times(mZ);
-//	}
+	//	public Vector3f rotate(Matrix rotationMatrix) {
+	//		Matrix vec0 = new Matrix(new double[][] {
+	//			{this.x,			},
+	//			{this.y,			},
+	//			{this.z,			},
+	//		}, 3, 1);
+	//
+	//		Matrix vec1 = rotationMatrix.solve(vec0);
+	//
+	//		this.x = (float) vec1.get(0, 0);
+	//		this.y = (float) vec1.get(1, 0);
+	//		this.z = (float) vec1.get(2, 0);
+	//
+	//		return this;
+	//	}
+	//
+	//	public Vector3f rotate(double rotX, double rotY, double rotZ) {
+	//		Matrix m = getRotationMatrix(rotX, rotY, rotZ);
+	//
+	//		return rotate(m);
+	//	}
+	//
+	//	public Matrix getRotationMatrix(double rotX, double rotY, double rotZ) {
+	//		Matrix mX = new Matrix(new double[][] {
+	//			{1,					0,					0,					},
+	//			{0,					Math.cos(rotX),		-Math.sin(rotX),	},
+	//			{0,					Math.sin(rotX), 	Math.cos(rotX),		},
+	//		}, 3, 3);
+	//
+	//		Matrix mY = new Matrix(new double[][] {
+	//			{Math.cos(rotY),	0,					Math.sin(rotY),		},
+	//			{0,					1,					0,					},
+	//			{-Math.sin(rotY),	0,					Math.cos(rotY),		},
+	//		}, 3, 3);
+	//
+	//		Matrix mZ = new Matrix(new double[][] {
+	//			{Math.cos(rotZ),	-Math.sin(rotZ),	0,					},
+	//			{Math.sin(rotZ), 	Math.cos(rotZ),		0,					},
+	//			{0,					0,					1,					},
+	//		}, 3, 3);
+	//
+	//		return (mX).times(mY).times(mZ);
+	//	}
 
 	/**
 	 * 内積
 	 */
-	public float dot(Vector3f vec) {
+	public float dot(final Vector3f vec) {
 		return this.x * vec.x + this.y * vec.y + this.z * vec.z;
 	}
 
 	/**
 	 * 外積
 	 */
-	public Vector3f cross(Vector3f vec) {
+	public Vector3f cross(final Vector3f vec) {
 		// a = ( d, e, f ) , b = ( g, h, i ) の外積は,
 		// a × b = ( ei-fh, fg-di, dh-eg ) です。
 
-		float d = this.x;
-		float e = this.y;
-		float f = this.z;
-		float g = vec.x;
-		float h = vec.y;
-		float i = vec.z;
+		final float d = this.x;
+		final float e = this.y;
+		final float f = this.z;
+		final float g = vec.x;
+		final float h = vec.y;
+		final float i = vec.z;
 
 		this.x = e * i - f * h;
 		this.y = f * g - d * i;
@@ -238,48 +236,32 @@ public class Vector3f implements Serializable {
 		return this;
 	}
 
-	public Vector3f add(Vector3f vec) {
+	public Vector3f add(final Vector3f vec) {
 		this.x += vec.x;
 		this.y += vec.y;
 		this.z += vec.z;
 		return this;
 	}
 
-	public Vector3f add(float x, float y, float z) {
+	public Vector3f add(final float x, final float y, final float z) {
 		this.x += x;
 		this.y += y;
 		this.z += z;
 		return this;
 	}
 
-	public Vector3f sub(Vector3f vec) {
+	public Vector3f sub(final Vector3f vec) {
 		this.x -= vec.x;
 		this.y -= vec.y;
 		this.z -= vec.z;
 		return this;
 	}
 
-	public Vector3f sub(float x, float y, float z) {
+	public Vector3f sub(final float x, final float y, final float z) {
 		this.x -= x;
 		this.y -= y;
 		this.z -= z;
 		return this;
-	}
-
-	@Deprecated
-	public NBTTagCompound toNBT() {
-		NBTTagCompound nbt = new NBTTagCompound();
-		nbt.setFloat("x", this.x);
-		nbt.setFloat("y", this.y);
-		nbt.setFloat("z", this.z);
-		return nbt;
-	}
-
-	@Deprecated
-	public void fromNBT(NBTTagCompound nbt) {
-		this.x = nbt.getFloat("x");
-		this.y = nbt.getFloat("y");
-		this.z = nbt.getFloat("z");
 	}
 
 	@Override
@@ -288,15 +270,15 @@ public class Vector3f implements Serializable {
 	}
 
 	@Override
-	public boolean equals(Object obj) {
+	public boolean equals(final Object obj) {
 		return obj instanceof Vector3f && equals((Vector3f) obj);
 	}
 
-	public boolean equals(Vector3f vec) {
+	public boolean equals(final Vector3f vec) {
 		return equals(vec, FLOAT_EPSILON);
 	}
 
-	public boolean equals(Vector3f vec, float epsilon) {
+	public boolean equals(final Vector3f vec, final float epsilon) {
 		return Math.abs(this.x - vec.x) < epsilon && Math.abs(this.y - vec.y) < epsilon
 				&& Math.abs(this.z - vec.z) < epsilon;
 	}
@@ -305,9 +287,9 @@ public class Vector3f implements Serializable {
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
-		result = prime * result + Float.floatToIntBits(x);
-		result = prime * result + Float.floatToIntBits(y);
-		result = prime * result + Float.floatToIntBits(z);
+		result = prime * result + Float.floatToIntBits(this.x);
+		result = prime * result + Float.floatToIntBits(this.y);
+		result = prime * result + Float.floatToIntBits(this.z);
 		return result;
 	}
 

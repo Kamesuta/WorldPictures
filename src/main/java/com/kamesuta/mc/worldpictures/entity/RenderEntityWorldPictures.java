@@ -3,8 +3,7 @@ package com.kamesuta.mc.worldpictures.entity;
 import org.lwjgl.opengl.GL11;
 
 import com.kamesuta.mc.worldpictures.component.Component;
-import com.kamesuta.mc.worldpictures.component.Scene;
-import com.kamesuta.mc.worldpictures.component.Square;
+import com.kamesuta.mc.worldpictures.component.util.ComponentRender;
 import com.kamesuta.mc.worldpictures.reference.Reference;
 import com.kamesuta.mc.worldpictures.renderer.Renderer;
 import com.kamesuta.mc.worldpictures.resource.WorldResource;
@@ -12,7 +11,6 @@ import com.kamesuta.mc.worldpictures.resource.WorldResource;
 import net.minecraft.client.model.ModelBase;
 import net.minecraft.client.renderer.OpenGlHelper;
 import net.minecraft.client.renderer.RenderGlobal;
-import net.minecraft.client.renderer.Tessellator;
 import net.minecraft.client.renderer.entity.Render;
 import net.minecraft.entity.Entity;
 import net.minecraft.util.ResourceLocation;
@@ -43,12 +41,8 @@ public class RenderEntityWorldPictures extends Render {
 			final long nowtime = ticktime + diffoffset;
 
 			final Component component = entitywp.getComponent();
-			if (component != null) {
-				Renderer.INSTANCE.textureManager.bindTexture(scenetexture);
-				final Square square = Scene.takeashot(component.scene, nowtime);
-				if (square != null)
-					Square.draw(square, Tessellator.instance);
-			}
+			Renderer.INSTANCE.textureManager.bindTexture(scenetexture);
+			ComponentRender.drawComponent(component, nowtime);
 		}
 
 		GL11.glEnable(GL11.GL_CULL_FACE);

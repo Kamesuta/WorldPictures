@@ -1,6 +1,7 @@
-package com.kamesuta.mc.worldpictures.component.builder;
+package com.kamesuta.mc.worldpictures.component.builder.square;
 
 import com.kamesuta.mc.worldpictures.component.Square;
+import com.kamesuta.mc.worldpictures.component.builder.Vector3f;
 
 /**
  * 四角形を作成/編集します

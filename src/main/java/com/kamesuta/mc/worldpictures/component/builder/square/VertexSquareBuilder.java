@@ -1,4 +1,4 @@
-package com.kamesuta.mc.worldpictures.component.builder;
+package com.kamesuta.mc.worldpictures.component.builder.square;
 
 import com.kamesuta.mc.worldpictures.reference.Names;
 

@@ -1,9 +1,10 @@
-package com.kamesuta.mc.worldpictures.component.builder;
+package com.kamesuta.mc.worldpictures.component.builder.square;
 
 import java.util.ArrayList;
 
 import org.lwjgl.opengl.GL11;
 
+import com.kamesuta.mc.worldpictures.component.builder.Vector3f;
 import com.kamesuta.mc.worldpictures.reference.Names;
 
 /**

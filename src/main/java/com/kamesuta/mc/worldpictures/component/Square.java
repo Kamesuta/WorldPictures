@@ -8,7 +8,6 @@ import org.apache.commons.lang3.Validate;
 
 import com.kamesuta.mc.worldpictures.component.builder.Vector3f;
 
-import net.minecraft.client.renderer.Tessellator;
 import net.minecraft.util.AxisAlignedBB;
 
 @Immutable
@@ -121,16 +120,4 @@ public final class Square implements Serializable {
 	public String toString() {
 		return String.format("Square[lt:%s, lb:%s, rb:%s, rt:%s]", this.lt, this.lb, this.rb, this.rt);
 	}
-
-	public static void draw(final Square square, final Tessellator tessellator) {
-		if (square != null) {
-			tessellator.startDrawingQuads();
-			tessellator.addVertexWithUV(square.lt.x, square.lt.y, square.lt.z, Square.U_lt, Square.V_lt);
-			tessellator.addVertexWithUV(square.lb.x, square.lb.y, square.lb.z, Square.U_lb, Square.V_lb);
-			tessellator.addVertexWithUV(square.rb.x, square.rb.y, square.rb.z, Square.U_rb, Square.V_rb);
-			tessellator.addVertexWithUV(square.rt.x, square.rt.y, square.rt.z, Square.U_rt, Square.V_rt);
-			tessellator.draw();
-		}
-	}
-
 }

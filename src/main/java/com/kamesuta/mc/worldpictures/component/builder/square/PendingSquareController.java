@@ -1,6 +1,8 @@
-package com.kamesuta.mc.worldpictures.component.builder;
+package com.kamesuta.mc.worldpictures.component.builder.square;
 
 import java.util.ArrayList;
+
+import com.kamesuta.mc.worldpictures.component.builder.Vector3f;
 
 public class PendingSquareController {
 

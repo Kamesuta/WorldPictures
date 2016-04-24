@@ -1,4 +1,4 @@
-package com.kamesuta.mc.worldpictures.component.builder;
+package com.kamesuta.mc.worldpictures.component.builder.square;
 
 import java.util.Iterator;
 
@@ -6,6 +6,7 @@ import org.lwjgl.opengl.GL11;
 
 import com.kamesuta.mc.worldpictures.component.Position;
 import com.kamesuta.mc.worldpictures.component.Square;
+import com.kamesuta.mc.worldpictures.component.builder.Vector3f;
 
 /**
  * 編集データの具体的な操作、保持、管理をします。

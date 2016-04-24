@@ -6,12 +6,11 @@ import org.lwjgl.opengl.GL11;
 
 import com.kamesuta.mc.worldpictures.WorldPictures;
 import com.kamesuta.mc.worldpictures.component.Keyframe;
-import com.kamesuta.mc.worldpictures.component.Scene;
-import com.kamesuta.mc.worldpictures.component.Square;
-import com.kamesuta.mc.worldpictures.component.builder.ISquareBuilder;
-import com.kamesuta.mc.worldpictures.component.builder.ParallelogramSquareBuilder;
 import com.kamesuta.mc.worldpictures.component.builder.Vector3f;
 import com.kamesuta.mc.worldpictures.component.builder.WorldVertexManager;
+import com.kamesuta.mc.worldpictures.component.builder.square.ISquareBuilder;
+import com.kamesuta.mc.worldpictures.component.builder.square.ParallelogramSquareBuilder;
+import com.kamesuta.mc.worldpictures.component.util.ComponentRender;
 import com.kamesuta.mc.worldpictures.proxy.ClientProxy;
 import com.kamesuta.mc.worldpictures.resource.WorldResource;
 import com.kamesuta.mc.worldpictures.texture.WorldTextureManager;
@@ -20,7 +19,6 @@ import cpw.mods.fml.common.eventhandler.SubscribeEvent;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.client.entity.EntityPlayerSP;
-import net.minecraft.client.renderer.Tessellator;
 import net.minecraft.profiler.Profiler;
 import net.minecraftforge.client.event.RenderWorldLastEvent;
 
@@ -64,7 +62,7 @@ public class Renderer {
 		//		GL11.glDisable(GL11.GL_LIGHTING);
 		this.textureManager.bindTexture(this.texture);
 		//this.vertexManager.drawVertex(this.vertex);
-		Square.draw(Scene.takeashot(this.cut, System.currentTimeMillis()), Tessellator.instance);
+		ComponentRender.drawKeyframesOutline(this.cut, System.currentTimeMillis());
 
 		GL11.glDisable(GL11.GL_TEXTURE_2D);
 		if (this.squarebuilder != null) {
