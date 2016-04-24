@@ -4,10 +4,7 @@ import org.apache.commons.lang3.Validate;
 
 import com.kamesuta.mc.worldpictures.component.util.ComponentBounds;
 
-import net.minecraft.nbt.NBTTagCompound;
-import net.minecraft.nbt.NBTTagList;
 import net.minecraft.util.AxisAlignedBB;
-import net.minecraftforge.common.util.Constants;
 
 public class Component {
 	public final Scene scene;
@@ -53,27 +50,5 @@ public class Component {
 	@Override
 	public String toString() {
 		return String.format("Component[scene:%s, bounds:%s]", this.scene, this.bounds);
-	}
-
-	/**
-	 * NBTから作成
-	 */
-	public static Component fromNBT(final NBTTagCompound nbt) {
-		if (nbt != null) {
-			final NBTTagList nbtlist = nbt.getTagList("scene", Constants.NBT.TAG_COMPOUND);
-			final Scene scene = Scene.fromNBT(nbtlist);
-			if (scene != null)
-				return new Component(scene);
-		}
-		return null;
-	}
-
-	/**
-	 * NBTを作成
-	 */
-	public static NBTTagCompound toNBT(final Component component) {
-		final NBTTagCompound nbt = new NBTTagCompound();
-		nbt.setTag("scene", Scene.toNBT(component.scene));
-		return nbt;
 	}
 }

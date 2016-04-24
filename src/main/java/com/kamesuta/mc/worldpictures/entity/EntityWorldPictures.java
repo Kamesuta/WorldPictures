@@ -4,6 +4,7 @@ import java.util.List;
 
 import com.kamesuta.mc.worldpictures.WorldPictures;
 import com.kamesuta.mc.worldpictures.component.Component;
+import com.kamesuta.mc.worldpictures.component.util.ComponentNBT;
 import com.kamesuta.mc.worldpictures.gui.GuiEntityWorldPictures;
 import com.kamesuta.mc.worldpictures.handler.PacketHandler;
 import com.kamesuta.mc.worldpictures.reference.Reference;
@@ -164,12 +165,12 @@ public class EntityWorldPictures extends Entity {
 
 	public NBTTagCompound toNBT(final NBTTagCompound nbt) {
 		if (this.component != null)
-			nbt.setTag("component", Component.toNBT(this.component));
+			nbt.setTag("component", ComponentNBT.ComponentToNBT(this.component));
 		return nbt;
 	}
 
 	public void fromNBT(final NBTTagCompound nbt) {
-		final Component component = Component.fromNBT(nbt.getCompoundTag("component"));
+		final Component component = ComponentNBT.ComponentFromNBT(nbt.getCompoundTag("component"));
 		if (component != null)
 			setComponent(component);
 	}

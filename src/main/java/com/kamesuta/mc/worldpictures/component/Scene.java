@@ -1,14 +1,11 @@
 package com.kamesuta.mc.worldpictures.component;
 
-import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
 import javax.annotation.concurrent.Immutable;
 
 import org.apache.commons.lang3.Validate;
-
-import net.minecraft.nbt.NBTTagList;
 
 @Immutable
 public class Scene {
@@ -106,34 +103,5 @@ public class Scene {
 	public static Square takeashot(final Scene c, final long now) {
 		if (c != null) return takeashot(c.keyframes, now);
 		return null;
-	}
-
-	/**
-	 * NBTから作成
-	 */
-	public static Scene fromNBT(final NBTTagList nbtlist) {
-		if (nbtlist != null) {
-			final ArrayList<Keyframe> kfs = new ArrayList<Keyframe>();
-			final int count = nbtlist.tagCount();
-			for (int i = 0; i < count; i++) {
-				final Keyframe kf = Keyframe.fromNBT(nbtlist.getCompoundTagAt(i));
-				if (kf != null)
-					kfs.add(kf);
-			}
-			if (!kfs.isEmpty())
-				return new Scene(kfs);
-		}
-		return null;
-	}
-
-	/**
-	 * NBTを作成
-	 */
-	public static NBTTagList toNBT(final Scene scene) {
-		final NBTTagList nbtlist = new NBTTagList();
-		for (final Keyframe v : scene.keyframes) {
-			nbtlist.appendTag(Keyframe.toNBT(v));
-		}
-		return nbtlist;
 	}
 }

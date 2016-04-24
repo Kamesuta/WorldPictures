@@ -6,8 +6,6 @@ import javax.annotation.concurrent.Immutable;
 
 import org.apache.commons.lang3.Validate;
 
-import net.minecraft.nbt.NBTTagCompound;
-
 /**
  * 1フレームの状態を保持します
  * @author Kamesuta
@@ -76,28 +74,4 @@ public final class Keyframe implements Serializable {
 	public String toString() {
 		return String.format("Keyframe[length:%s, square:%s]", this.length, this.square);
 	}
-
-	/**
-	 * NBTから作成
-	 */
-	public static Keyframe fromNBT(final NBTTagCompound nbt) {
-		if (nbt != null) {
-			final long length = nbt.getLong("length");
-			final Square square = Square.fromNBT(nbt.getCompoundTag("square"));
-			if (square != null && nbt.hasKey("length"))
-				return new Keyframe(length, square);
-		}
-		return null;
-	}
-
-	/**
-	 * NBTを作成
-	 */
-	public static NBTTagCompound toNBT(final Keyframe kf) {
-		final NBTTagCompound nbt = new NBTTagCompound();
-		nbt.setLong("length", kf.length);
-		nbt.setTag("square", Square.toNBT(kf.square));
-		return nbt;
-	}
-
 }

@@ -9,7 +9,6 @@ import org.apache.commons.lang3.Validate;
 import com.kamesuta.mc.worldpictures.component.builder.Vector3f;
 
 import net.minecraft.client.renderer.Tessellator;
-import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.AxisAlignedBB;
 
 @Immutable
@@ -121,33 +120,6 @@ public final class Square implements Serializable {
 	@Override
 	public String toString() {
 		return String.format("Square[lt:%s, lb:%s, rb:%s, rt:%s]", this.lt, this.lb, this.rb, this.rt);
-	}
-
-	/**
-	 * NBTから作成
-	 */
-	public static Square fromNBT(final NBTTagCompound nbt) {
-		if (nbt != null) {
-			final Position lt = Position.fromNBT(nbt.getCompoundTag("lt"));
-			final Position lb = Position.fromNBT(nbt.getCompoundTag("lb"));
-			final Position rb = Position.fromNBT(nbt.getCompoundTag("rb"));
-			final Position rt = Position.fromNBT(nbt.getCompoundTag("rt"));
-			if (lt != null && lb != null && rb != null && rt != null)
-				return new Square(lt, lb, rb, rt);
-		}
-		return null;
-	}
-
-	/**
-	 * NBTを作成
-	 */
-	public static NBTTagCompound toNBT(final Square square) {
-		final NBTTagCompound nbt = new NBTTagCompound();
-		nbt.setTag("lt", Position.toNBT(square.lt));
-		nbt.setTag("lb", Position.toNBT(square.lb));
-		nbt.setTag("rb", Position.toNBT(square.rb));
-		nbt.setTag("rt", Position.toNBT(square.rt));
-		return nbt;
 	}
 
 	public static void draw(final Square square, final Tessellator tessellator) {

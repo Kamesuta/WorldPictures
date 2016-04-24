@@ -6,8 +6,6 @@ import javax.annotation.concurrent.Immutable;
 
 import com.kamesuta.mc.worldpictures.component.builder.Vector3f;
 
-import net.minecraft.nbt.NBTTagCompound;
-
 @Immutable
 public final class Position implements Serializable {
 
@@ -109,26 +107,4 @@ public final class Position implements Serializable {
 	public final String toString() {
 		return String.format("[%s, %s, %s]", this.x, this.y, this.z);
 	}
-
-	/**
-	 * NBTから作成
-	 */
-	public static Position fromNBT(final NBTTagCompound nbt) {
-		if (nbt != null)
-			if (nbt.hasKey("x") && nbt.hasKey("y") && nbt.hasKey("z"))
-				return new Position(nbt.getFloat("x"), nbt.getFloat("y"), nbt.getFloat("z"));
-		return null;
-	}
-
-	/**
-	 * NBTを作成
-	 */
-	public static NBTTagCompound toNBT(final Position pos) {
-		final NBTTagCompound nbt = new NBTTagCompound();
-		nbt.setFloat("x", pos.x);
-		nbt.setFloat("y", pos.y);
-		nbt.setFloat("z", pos.z);
-		return nbt;
-	}
-
 }
