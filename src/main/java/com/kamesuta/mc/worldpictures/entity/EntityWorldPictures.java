@@ -1,5 +1,7 @@
 package com.kamesuta.mc.worldpictures.entity;
 
+import java.util.List;
+
 import com.kamesuta.mc.worldpictures.WorldPictures;
 import com.kamesuta.mc.worldpictures.component.Component;
 import com.kamesuta.mc.worldpictures.gui.GuiEntityWorldPictures;
@@ -23,7 +25,8 @@ public class EntityWorldPictures extends Entity {
 
 	public EntityWorldPictures(final World world) {
 		super(world);
-		super.setSize(5, 5);
+		super.setSize(15, 15);
+
 	}
 
 	public Component getComponent() {
@@ -32,12 +35,14 @@ public class EntityWorldPictures extends Entity {
 
 	public void setComponent(final Component component) {
 		this.component = component;
-		if (!this.worldObj.isRemote) {
-			final AxisAlignedBB b = component.bounds;
-			setSize((float) Math.max(b.maxX - b.minX, b.maxZ - b.minZ), (float) (b.maxY - b.minY));
-			this.boundingBox.setBB(b);
-			moveEntity((b.maxX + b.minX) / 2, b.minY, (b.maxZ + b.minZ) / 2);
-		}
+		//if (!this.worldObj.isRemote) {
+		final AxisAlignedBB b = component.bounds;
+		setSize((float) Math.max(b.maxX - b.minX, b.maxZ - b.minZ), (float) (b.maxY - b.minY));
+		setPosition((b.maxX + b.minX) / 2, b.minY, (b.maxZ + b.minZ) / 2);
+		Reference.logger.info(String.format("x:%s y:%s z:%s w:%s h:%s b:%s", this.posX, this.posY, this.posZ, this.width, this.height, b));
+
+		//moveEntity((b.maxX + b.minX) / 2, b.minY, (b.maxZ + b.minZ) / 2);
+		//}
 	}
 
 	public void setSyncDataCompound(final NBTTagCompound nbt) {
@@ -59,6 +64,32 @@ public class EntityWorldPictures extends Entity {
 		}
 	}
 
+	@Override
+	public float getCollisionBorderSize() {
+		return 0.1f;
+	}
+
+	@Override
+	public AxisAlignedBB getBoundingBox()
+	{
+		//		if (this.component != null)
+		//			return this.component.bounds;
+		return null;
+	}
+
+	@Override
+	public void onEntityUpdate() {
+		super.onEntityUpdate();
+		//if (!this.worldObj.isRemote)
+		{
+			final List<?> entities = this.worldObj.getEntitiesWithinAABBExcludingEntity(this, this.boundingBox);
+			for (final Object o : entities) {
+				final Entity entity = (Entity)o;
+				entity.setPosition(entity.posX, this.boundingBox.maxY+entity.yOffset, entity.posZ);
+			}
+		}
+	}
+
 	/*
 	 * このMobが動いているときの音のファイルパスを返す. 引数のblockはMobの下にあるBlock.
 	 */
@@ -71,6 +102,9 @@ public class EntityWorldPictures extends Entity {
 	public void applyEntityCollision(final Entity entity) {
 		//this.moveEntity(entity.posX, entity.posY+1, entity.posZ);
 		//Reference.logger.info("hit2");
+		//entity.addVelocity(0, 1, 0);
+		entity.applyEntityCollision(this);
+		//super.applyEntityCollision(entity);
 	}
 
 	@Override
@@ -106,6 +140,7 @@ public class EntityWorldPictures extends Entity {
 	@Override
 	public boolean hitByEntity(final Entity entity)
 	{
+		Reference.logger.info("hit");
 		return false;
 	}
 
@@ -128,18 +163,20 @@ public class EntityWorldPictures extends Entity {
 	}
 
 	public NBTTagCompound toNBT(final NBTTagCompound nbt) {
-		nbt.setTag("component", Component.toNBT(this.component));
+		if (this.component != null)
+			nbt.setTag("component", Component.toNBT(this.component));
 		return nbt;
 	}
 
 	public void fromNBT(final NBTTagCompound nbt) {
-		final NBTTagCompound nbtscene = nbt.getCompoundTag("component");
-		setComponent(Component.fromNBT(nbtscene));
+		final Component component = Component.fromNBT(nbt.getCompoundTag("component"));
+		if (component != null)
+			setComponent(component);
 	}
 
 	@Override
 	public void writeEntityToNBT(final NBTTagCompound nbt) {
-		Reference.logger.info("saveNBT" + this.component);
+		Reference.logger.info("saveNBT: " + getEntityId() + " this:" + this);
 		if (this.component != null)
 			toNBT(nbt);
 	}

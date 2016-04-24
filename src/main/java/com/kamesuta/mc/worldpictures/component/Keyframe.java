@@ -4,6 +4,8 @@ import java.io.Serializable;
 
 import javax.annotation.concurrent.Immutable;
 
+import org.apache.commons.lang3.Validate;
+
 import net.minecraft.nbt.NBTTagCompound;
 
 /**
@@ -22,6 +24,7 @@ public final class Keyframe implements Serializable {
 	public final Square square;
 
 	public Keyframe(final long length, final Square square) {
+		Validate.notNull(square);
 		if (length > 0)
 			this.length = length;
 		else
@@ -78,9 +81,13 @@ public final class Keyframe implements Serializable {
 	 * NBTから作成
 	 */
 	public static Keyframe fromNBT(final NBTTagCompound nbt) {
-		final long length = nbt.getLong("length");
-		final Square square = Square.fromNBT(nbt.getCompoundTag("square"));
-		return new Keyframe(length, square);
+		if (nbt != null) {
+			final long length = nbt.getLong("length");
+			final Square square = Square.fromNBT(nbt.getCompoundTag("square"));
+			if (square != null && nbt.hasKey("length"))
+				return new Keyframe(length, square);
+		}
+		return null;
 	}
 
 	/**

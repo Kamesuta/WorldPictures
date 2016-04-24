@@ -1,8 +1,11 @@
 package com.kamesuta.mc.worldpictures.component;
 
+import org.apache.commons.lang3.Validate;
+
 import com.kamesuta.mc.worldpictures.component.util.ComponentBounds;
 
 import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.nbt.NBTTagList;
 import net.minecraft.util.AxisAlignedBB;
 import net.minecraftforge.common.util.Constants;
 
@@ -11,6 +14,7 @@ public class Component {
 	public final AxisAlignedBB bounds;
 
 	public Component(final Scene scene) {
+		Validate.notNull(scene);
 		this.scene = scene;
 		this.bounds = ComponentBounds.boundsScene(scene);
 	}
@@ -19,6 +23,7 @@ public class Component {
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
+		result = prime * result + ((this.bounds == null) ? 0 : this.bounds.hashCode());
 		result = prime * result + ((this.scene == null) ? 0 : this.scene.hashCode());
 		return result;
 	}
@@ -32,6 +37,11 @@ public class Component {
 		if (!(obj instanceof Component))
 			return false;
 		final Component other = (Component) obj;
+		if (this.bounds == null) {
+			if (other.bounds != null)
+				return false;
+		} else if (!this.bounds.equals(other.bounds))
+			return false;
 		if (this.scene == null) {
 			if (other.scene != null)
 				return false;
@@ -42,15 +52,20 @@ public class Component {
 
 	@Override
 	public String toString() {
-		return String.format("Component[scene:%s]", this.scene);
+		return String.format("Component[scene:%s, bounds:%s]", this.scene, this.bounds);
 	}
 
 	/**
 	 * NBTから作成
 	 */
 	public static Component fromNBT(final NBTTagCompound nbt) {
-		final Scene scene = Scene.fromNBT(nbt.getTagList("scene", Constants.NBT.TAG_COMPOUND));
-		return new Component(scene);
+		if (nbt != null) {
+			final NBTTagList nbtlist = nbt.getTagList("scene", Constants.NBT.TAG_COMPOUND);
+			final Scene scene = Scene.fromNBT(nbtlist);
+			if (scene != null)
+				return new Component(scene);
+		}
+		return null;
 	}
 
 	/**

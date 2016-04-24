@@ -4,6 +4,8 @@ import java.io.Serializable;
 
 import javax.annotation.concurrent.Immutable;
 
+import org.apache.commons.lang3.Validate;
+
 import com.kamesuta.mc.worldpictures.component.builder.Vector3f;
 
 import net.minecraft.client.renderer.Tessellator;
@@ -28,6 +30,10 @@ public final class Square implements Serializable {
 	public final Position rt;
 
 	public Square(final Position lt, final Position lb, final Position rb, final Position rt) {
+		Validate.notNull(lt);
+		Validate.notNull(lb);
+		Validate.notNull(rb);
+		Validate.notNull(rt);
 		this.lt = lt;
 		this.lb = lb;
 		this.rb = rb;
@@ -121,8 +127,15 @@ public final class Square implements Serializable {
 	 * NBTから作成
 	 */
 	public static Square fromNBT(final NBTTagCompound nbt) {
-		return new Square(Position.fromNBT(nbt.getCompoundTag("lt")), Position.fromNBT(nbt.getCompoundTag("lb")),
-				Position.fromNBT(nbt.getCompoundTag("rb")), Position.fromNBT(nbt.getCompoundTag("rt")));
+		if (nbt != null) {
+			final Position lt = Position.fromNBT(nbt.getCompoundTag("lt"));
+			final Position lb = Position.fromNBT(nbt.getCompoundTag("lb"));
+			final Position rb = Position.fromNBT(nbt.getCompoundTag("rb"));
+			final Position rt = Position.fromNBT(nbt.getCompoundTag("rt"));
+			if (lt != null && lb != null && rb != null && rt != null)
+				return new Square(lt, lb, rb, rt);
+		}
+		return null;
 	}
 
 	/**

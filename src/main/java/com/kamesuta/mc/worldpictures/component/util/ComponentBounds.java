@@ -34,7 +34,7 @@ public class ComponentBounds {
 		this.minY = Math.min(this.minY, y);
 		this.minZ = Math.min(this.minZ, z);
 		this.maxX = Math.max(this.maxX, x);
-		this.maxY = Math.max(this.maxY, z);
+		this.maxY = Math.max(this.maxY, y);
 		this.maxZ = Math.max(this.maxZ, z);
 	}
 

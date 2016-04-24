@@ -27,14 +27,14 @@ public final class Position implements Serializable {
 	/**
 	 * ベクトルから作成
 	 */
-	public Position(Vector3f vec) {
+	public Position(final Vector3f vec) {
 		this(vec.x, vec.y, vec.z);
 	}
 
 	/**
 	 * 座標から作成
 	 */
-	public Position(float x, float y, float z) {
+	public Position(final float x, final float y, final float z) {
 		this.x = x;
 		this.y = y;
 		this.z = z;
@@ -73,7 +73,7 @@ public final class Position implements Serializable {
 	 * 位置ベクトル作成 →OA
 	 * @return
 	 */
-	public final Vector3f toVec(Position o) {
+	public final Vector3f toVec(final Position o) {
 		return this.toVec().sub(new Vector3f(o));
 	}
 
@@ -81,14 +81,14 @@ public final class Position implements Serializable {
 	public final int hashCode() {
 		final int prime = 31;
 		int result = 1;
-		result = prime * result + Float.floatToIntBits(x);
-		result = prime * result + Float.floatToIntBits(y);
-		result = prime * result + Float.floatToIntBits(z);
+		result = prime * result + Float.floatToIntBits(this.x);
+		result = prime * result + Float.floatToIntBits(this.y);
+		result = prime * result + Float.floatToIntBits(this.z);
 		return result;
 	}
 
 	@Override
-	public final boolean equals(Object obj) {
+	public final boolean equals(final Object obj) {
 		if (this == obj)
 			return true;
 		if (obj == null)
@@ -96,11 +96,11 @@ public final class Position implements Serializable {
 		if (!(obj instanceof Position))
 			return false;
 		final Position other = (Position) obj;
-		if (Float.floatToIntBits(x) != Float.floatToIntBits(other.x))
+		if (Float.floatToIntBits(this.x) != Float.floatToIntBits(other.x))
 			return false;
-		if (Float.floatToIntBits(y) != Float.floatToIntBits(other.y))
+		if (Float.floatToIntBits(this.y) != Float.floatToIntBits(other.y))
 			return false;
-		if (Float.floatToIntBits(z) != Float.floatToIntBits(other.z))
+		if (Float.floatToIntBits(this.z) != Float.floatToIntBits(other.z))
 			return false;
 		return true;
 	}
@@ -113,14 +113,17 @@ public final class Position implements Serializable {
 	/**
 	 * NBTから作成
 	 */
-	public static Position fromNBT(NBTTagCompound nbt) {
-		return new Position(nbt.getFloat("x"), nbt.getFloat("y"), nbt.getFloat("z"));
+	public static Position fromNBT(final NBTTagCompound nbt) {
+		if (nbt != null)
+			if (nbt.hasKey("x") && nbt.hasKey("y") && nbt.hasKey("z"))
+				return new Position(nbt.getFloat("x"), nbt.getFloat("y"), nbt.getFloat("z"));
+		return null;
 	}
 
 	/**
 	 * NBTを作成
 	 */
-	public static NBTTagCompound toNBT(Position pos) {
+	public static NBTTagCompound toNBT(final Position pos) {
 		final NBTTagCompound nbt = new NBTTagCompound();
 		nbt.setFloat("x", pos.x);
 		nbt.setFloat("y", pos.y);

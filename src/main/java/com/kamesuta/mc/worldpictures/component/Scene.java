@@ -6,14 +6,18 @@ import java.util.List;
 
 import javax.annotation.concurrent.Immutable;
 
+import org.apache.commons.lang3.Validate;
+
 import net.minecraft.nbt.NBTTagList;
 
 @Immutable
 public class Scene {
 	public final List<Keyframe> keyframes;
 
-	public Scene(final List<Keyframe> c) {
-		this.keyframes = Collections.unmodifiableList(c);
+	public Scene(final List<Keyframe> kfs) {
+		Validate.notNull(kfs);
+		Validate.notEmpty(kfs);
+		this.keyframes = Collections.unmodifiableList(kfs);
 	}
 
 	public Scene(final Scene c) {
@@ -108,12 +112,18 @@ public class Scene {
 	 * NBTから作成
 	 */
 	public static Scene fromNBT(final NBTTagList nbtlist) {
-		final ArrayList<Keyframe> kfs = new ArrayList<Keyframe>();
-		final int count = nbtlist.tagCount();
-		for (int i=0; i<count; i++) {
-			kfs.add(Keyframe.fromNBT(nbtlist.getCompoundTagAt(i)));
+		if (nbtlist != null) {
+			final ArrayList<Keyframe> kfs = new ArrayList<Keyframe>();
+			final int count = nbtlist.tagCount();
+			for (int i = 0; i < count; i++) {
+				final Keyframe kf = Keyframe.fromNBT(nbtlist.getCompoundTagAt(i));
+				if (kf != null)
+					kfs.add(kf);
+			}
+			if (!kfs.isEmpty())
+				return new Scene(kfs);
 		}
-		return new Scene(kfs);
+		return null;
 	}
 
 	/**
