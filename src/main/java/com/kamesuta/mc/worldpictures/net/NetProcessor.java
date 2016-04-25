@@ -6,7 +6,7 @@ public class NetProcessor extends Thread {
 	private final NetManager manager;
 
 	public NetProcessor(final String threadname, final NetManager manager) {
-		super(threadname);
+		setName(threadname + getId());
 		this.manager = manager;
 	}
 
@@ -14,6 +14,7 @@ public class NetProcessor extends Thread {
 	public void run() {
 		NetTask task;
 		while ((task = this.manager.tasks.poll()) != null) {
+			Reference.logger.info(task);
 			try {
 				task.processTask(this.manager.client);
 			} catch (final Exception e) {

@@ -1,10 +1,9 @@
 package com.kamesuta.mc.worldpictures.net;
 
 import java.util.ArrayList;
-import java.util.LinkedList;
 import java.util.List;
 import java.util.Queue;
-import java.util.concurrent.SynchronousQueue;
+import java.util.concurrent.LinkedBlockingQueue;
 
 import org.apache.http.Header;
 import org.apache.http.client.HttpClient;
@@ -19,7 +18,7 @@ public class NetManager {
 	public final PoolingHttpClientConnectionManager manager;
 	public HttpClient client;
 
-	private final List<NetProcessor> processor;
+	public final NetProcessor[] processor;
 	public final Queue<NetTask> tasks;
 
 	public NetManager(final int max) {
@@ -43,18 +42,17 @@ public class NetManager {
 				.setDefaultHeaders(headers)
 				.build();
 
-		this.processor = new LinkedList<NetProcessor>();
-		for (int i = 0; i < max; i++) {
-			this.processor.add(new NetProcessor(String.format("%s-%d", Reference.MODID, i), this));
-		}
-		this.tasks = new SynchronousQueue<NetTask>();
+		this.processor = new NetProcessor[max];
+		this.tasks = new LinkedBlockingQueue<NetTask>();
 	}
 
 	public void addTask(final NetTask task) {
 		this.tasks.offer(task);
-		for (final NetProcessor p : this.processor) {
-			if (!p.isAlive()) {
-				p.start();
+		for (int i = 0; i < this.processor.length; i++) {
+			if (this.processor[i] == null || !this.processor[i].isAlive()) {
+				this.processor[i] = new NetProcessor(Reference.MODID, this);
+				this.processor[i].start();
+				Reference.logger.info(this.processor[i].getId());
 				break;
 			}
 		}
