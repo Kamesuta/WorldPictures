@@ -1,4 +1,4 @@
-package com.kamesuta.mc.worldpictures.guiwidget;
+package com.kamesuta.mc.worldpictures.gui.widget;
 
 import java.util.Map;
 import java.util.TreeMap;

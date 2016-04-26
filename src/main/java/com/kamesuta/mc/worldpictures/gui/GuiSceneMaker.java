@@ -1,8 +1,8 @@
 package com.kamesuta.mc.worldpictures.gui;
 
-import com.kamesuta.mc.worldpictures.guiwidget.GuiCCButton;
-import com.kamesuta.mc.worldpictures.guiwidget.GuiCCTextField;
-import com.kamesuta.mc.worldpictures.guiwidget.GuiScreenWidget;
+import com.kamesuta.mc.worldpictures.gui.widget.GuiCCButton;
+import com.kamesuta.mc.worldpictures.gui.widget.GuiCCTextField;
+import com.kamesuta.mc.worldpictures.gui.widget.GuiScreenWidget;
 import com.kamesuta.mc.worldpictures.reference.Reference;
 
 public class GuiSceneMaker extends GuiScreenWidget {

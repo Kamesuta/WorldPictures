@@ -1,4 +1,4 @@
-package com.kamesuta.mc.worldpictures.guiwidget;
+package com.kamesuta.mc.worldpictures.gui.widget;
 
 import java.awt.Dimension;
 import java.awt.Point;

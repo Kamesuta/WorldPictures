@@ -1,4 +1,4 @@
-package com.kamesuta.mc.worldpictures.guiwidget;
+package com.kamesuta.mc.worldpictures.gui.widget;
 
 import org.lwjgl.input.Keyboard;
 
