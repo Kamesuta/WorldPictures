@@ -1,5 +1,6 @@
 package com.kamesuta.mc.worldpictures.net;
 
+import com.kamesuta.mc.worldpictures.net.task.ITask;
 import com.kamesuta.mc.worldpictures.reference.Reference;
 
 public class NetProcessor extends Thread {
@@ -12,7 +13,7 @@ public class NetProcessor extends Thread {
 
 	@Override
 	public void run() {
-		NetTask task;
+		ITask task;
 		while ((task = this.manager.tasks.poll()) != null) {
 			try {
 				task.processTask(this.manager.client);

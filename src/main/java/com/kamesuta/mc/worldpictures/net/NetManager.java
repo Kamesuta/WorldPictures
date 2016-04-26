@@ -12,6 +12,7 @@ import org.apache.http.impl.client.HttpClientBuilder;
 import org.apache.http.impl.conn.PoolingHttpClientConnectionManager;
 import org.apache.http.message.BasicHeader;
 
+import com.kamesuta.mc.worldpictures.net.task.ITask;
 import com.kamesuta.mc.worldpictures.reference.Reference;
 
 public class NetManager {
@@ -19,7 +20,7 @@ public class NetManager {
 	public HttpClient client;
 
 	public final NetProcessor[] processor;
-	public final Queue<NetTask> tasks;
+	public final Queue<ITask> tasks;
 
 	public NetManager(final int max) {
 		this.manager = new PoolingHttpClientConnectionManager();
@@ -43,10 +44,10 @@ public class NetManager {
 				.build();
 
 		this.processor = new NetProcessor[max];
-		this.tasks = new LinkedBlockingQueue<NetTask>();
+		this.tasks = new LinkedBlockingQueue<ITask>();
 	}
 
-	public void addTask(final NetTask task) {
+	public void addTask(final ITask task) {
 		this.tasks.offer(task);
 		for (int i = 0; i < this.processor.length; i++) {
 			if (this.processor[i] == null || !this.processor[i].isAlive()) {

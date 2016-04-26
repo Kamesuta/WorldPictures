@@ -6,11 +6,14 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import com.kamesuta.mc.worldpictures.component.builder.Vector3f;
-import com.kamesuta.mc.worldpictures.net.DownloadTask;
 import com.kamesuta.mc.worldpictures.net.LocalManager;
 import com.kamesuta.mc.worldpictures.net.LocalResource;
 import com.kamesuta.mc.worldpictures.net.NetManager;
 import com.kamesuta.mc.worldpictures.net.RemoteResource;
+import com.kamesuta.mc.worldpictures.net.task.DownloadTask;
+import com.kamesuta.mc.worldpictures.net.task.ITask;
+import com.kamesuta.mc.worldpictures.net.task.TaskState;
+import com.kamesuta.mc.worldpictures.reference.Reference;
 
 public class Experimental {
 	//	public static void rotationTest(Logger logger) {
@@ -84,13 +87,20 @@ public class Experimental {
 		final LocalManager lm = new LocalManager(new File("E:/data/local/"));
 		final NetManager m = new NetManager(5);
 
+		//for (int i=0; i<1; i++) {
+		final RemoteResource remote = new RemoteResource("http://modspawner.mc.kamesuta.com/experimental/f41df44e-3757-402d-b011-3f39de937ea8.zip");
+		//			final RemoteResource remote = new RemoteResource("http://auth.kamesuta.com:80/experimental/sleep.php");
+		//			final LocalResource local = new LocalResource("E:/data/local/sleep" + i + ".php");
+		final LocalResource local = lm.getLocalResource(remote);
+		m.addTask(new DownloadTask(remote, local));
 
-		for (int i=0; i<1; i++) {
-			final RemoteResource remote = new RemoteResource("http://auth.kamesuta.com:80/experimental/sleep.php");
-			//			final LocalResource local = new LocalResource("E:/data/local/sleep" + i + ".php");
-			final LocalResource local = lm.getLocalResource(remote);
-			m.addTask(new DownloadTask(remote, local));
-		}
+		final ITask a = m.tasks.peek();
+		do {
+			Reference.logger.info(a.processProgress() + " : " + a.progressMessage());
+
+			Thread.sleep(100);
+		} while(a.getState() != TaskState.COMPLETED);
+		//}
 	}
 
 }
