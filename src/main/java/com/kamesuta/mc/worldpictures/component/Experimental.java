@@ -70,7 +70,7 @@ public class Experimental {
 	}
 
 	public static void urltest(final Logger logger) {
-		final LocalManager m = new LocalManager(new File("D:/data"));
+		final LocalManager m = new LocalManager(new File("D:/data/local/"));
 		final LocalResource l = m.getLocalResource(new RemoteResource(""));
 		logger.info(l.url);
 	}
@@ -81,9 +81,15 @@ public class Experimental {
 		//		collisionTest(logger);
 		//newspeed(logger);
 		//urltest(logger);
+		final LocalManager lm = new LocalManager(new File("E:/data/local/"));
 		final NetManager m = new NetManager(5);
-		for (int i=0; i<100; i++) {
-			m.addTask(new DownloadTask(new RemoteResource("http://auth.kamesuta.com/experimental/sleep.php"), new LocalResource("D:/data/local/")));
+
+
+		for (int i=0; i<1; i++) {
+			final RemoteResource remote = new RemoteResource("http://auth.kamesuta.com:80/experimental/sleep.php");
+			//			final LocalResource local = new LocalResource("E:/data/local/sleep" + i + ".php");
+			final LocalResource local = lm.getLocalResource(remote);
+			m.addTask(new DownloadTask(remote, local));
 		}
 	}
 

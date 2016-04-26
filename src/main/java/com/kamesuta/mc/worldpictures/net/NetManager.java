@@ -52,7 +52,6 @@ public class NetManager {
 			if (this.processor[i] == null || !this.processor[i].isAlive()) {
 				this.processor[i] = new NetProcessor(Reference.MODID, this);
 				this.processor[i].start();
-				Reference.logger.info(this.processor[i].getId());
 				break;
 			}
 		}
