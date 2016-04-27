@@ -9,6 +9,8 @@ import com.kamesuta.mc.worldpictures.handler.ConfigurationHandler;
 import com.kamesuta.mc.worldpictures.handler.GuiHandler;
 import com.kamesuta.mc.worldpictures.handler.PacketHandler;
 import com.kamesuta.mc.worldpictures.item.WildAnimalsMonsterPlacer;
+import com.kamesuta.mc.worldpictures.net.LocalManager;
+import com.kamesuta.mc.worldpictures.net.NetManager;
 import com.kamesuta.mc.worldpictures.reference.Reference;
 import com.kamesuta.mc.worldpictures.resource.WorldResourceManager;
 
@@ -26,15 +28,19 @@ import net.minecraft.client.model.ModelBiped;
 import net.minecraft.item.Item;
 
 public abstract class CommonProxy {
+	public NetManager netmanager;
+	public LocalManager localmanager;
 	public WorldResourceManager resource;
 
-	public void preInit(FMLPreInitializationEvent event) {
+	public void preInit(final FMLPreInitializationEvent event) {
 		Reference.logger = event.getModLog();
 		ConfigurationHandler.init(event.getSuggestedConfigurationFile());
-		resource = new WorldResourceManager(getWorldPicturesDirectory());
+		this.localmanager = new LocalManager(new File(getDataDirectory(), "objects"));
+		this.netmanager = new NetManager(5);
+		this.resource = new WorldResourceManager(getWorldPicturesDirectory());
 	}
 
-	public void init(FMLInitializationEvent event) {
+	public void init(final FMLInitializationEvent event) {
 
 		// GenericItem genericItem = new GenericItem();
 		// GameRegistry.registerItem(genericItem, "genericItem");
@@ -49,16 +55,16 @@ public abstract class CommonProxy {
 		PacketHandler.initPackets();
 		NetworkRegistry.INSTANCE.registerGuiHandler(WorldPictures.instance, new GuiHandler());
 
-		String parSpawnName = "SampleEgg";
-		Item itemSpawnEgg = new WildAnimalsMonsterPlacer("SampleEntity", 0xE18519, 0x000000)
+		final String parSpawnName = "SampleEgg";
+		final Item itemSpawnEgg = new WildAnimalsMonsterPlacer("SampleEntity", 0xE18519, 0x000000)
 				.setUnlocalizedName("spawn_egg_" + parSpawnName.toLowerCase()).setTextureName("minecraft:spawn_egg");
 		GameRegistry.registerItem(itemSpawnEgg, "spawnEgg" + parSpawnName);
 	}
 
-	public void postInit(FMLPostInitializationEvent event) {
+	public void postInit(final FMLPostInitializationEvent event) {
 	}
 
-	public void serverStarting(FMLServerStartingEvent event) {
+	public void serverStarting(final FMLServerStartingEvent event) {
 	}
 
 	public void createFolders() {
