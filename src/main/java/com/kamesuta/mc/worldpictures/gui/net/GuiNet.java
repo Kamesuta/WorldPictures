@@ -1,12 +1,13 @@
 package com.kamesuta.mc.worldpictures.gui.net;
 
-import com.kamesuta.mc.worldpictures.gui.widget.GuiScreenWidget;
+import com.kamesuta.mc.worldpictures.gui.widget2.GuiFrame;
+import com.kamesuta.mc.worldpictures.gui.widget2.GuiPanel;
 import com.kamesuta.mc.worldpictures.net.NetManager;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiButton;
 
-public class GuiNet extends GuiScreenWidget {
+public class GuiNet extends GuiFrame {
 	private final NetManager netmanager;
 
 	public GuiNet(final NetManager netmanager) {
@@ -16,12 +17,6 @@ public class GuiNet extends GuiScreenWidget {
 
 	@Override
 	public void initGui() {
-		this.xSize = this.width;
-		this.ySize = this.height;
-		this.guiTop = 0;
-		this.guiLeft = 0;
-		if (!this.widgets.isEmpty())
-			resize();
 	}
 
 	@Override
@@ -54,11 +49,13 @@ public class GuiNet extends GuiScreenWidget {
 	}
 
 	@Override
-	public void addWidgets() {
-		add(new GuiDirect(0, 0, 10, 10));
-		add(new GuiDirect(0, this.height, 10, 10));
-		add(new GuiDirect(this.width, this.height, 10, 10));
-		add(new GuiDirect(this.width, 0, 10, 10));
+	protected void initWidgets() {
+		final GuiPanel p = new GuiPanel(5, 5, 100, 100);
+		p.add(new GuiDirect(0, 0, 10, 10));
+		p.add(new GuiDirect(0, this.height, 10, 10));
+		p.add(new GuiDirect(this.width, this.height, 10, 10));
+		p.add(new GuiDirect(this.width, 0, 10, 10));
+		add(p);
 	}
 
 	@Override
@@ -67,8 +64,6 @@ public class GuiNet extends GuiScreenWidget {
 	}
 
 	@Override
-	public void resize() {
-		this.xSize = this.width;
-		this.ySize = this.height;
+	protected void onResized() {
 	}
 }

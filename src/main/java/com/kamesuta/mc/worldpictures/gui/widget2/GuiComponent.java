@@ -1,11 +1,8 @@
 package com.kamesuta.mc.worldpictures.gui.widget2;
 
 import net.minecraft.client.gui.Gui;
-import net.minecraft.util.ResourceLocation;
 
 public class GuiComponent extends Gui implements GuiCommon {
-	protected static final ResourceLocation guiTex = new ResourceLocation("textures/gui/widgets.png");
-
 	public int x;
 	public int y;
 	public int width;
@@ -27,19 +24,7 @@ public class GuiComponent extends Gui implements GuiCommon {
 	}
 
 	@Override
-	public void mouseClicked(final GuiEvent event, final int x, final int y, final int button) {
-	}
-
-	@Override
-	public void mouseMovedOrUp(final GuiEvent event, final int x, final int y, final int button) {
-	}
-
-	@Override
-	public void mouseDragged(final GuiEvent event, final int x, final int y, final int button, final long time) {
-	}
-
-	@Override
-	public void update(final GuiEvent event) {
+	public void init(final GuiGraphics g, final GuiEvent e) {
 	}
 
 	@Override
@@ -47,10 +32,26 @@ public class GuiComponent extends Gui implements GuiCommon {
 	}
 
 	@Override
-	public void keyTyped(final GuiEvent event, final char c, final int keycode) {
+	public void update(final GuiGraphics g, final GuiEvent event, final int mousex, final int mousey) {
 	}
 
 	@Override
-	public void mouseScrolled(final GuiEvent event, final int x, final int y, final int scroll) {
+	public void keyTyped(final GuiGraphics g, final GuiEvent event, final char c, final int keycode) {
+	}
+
+	@Override
+	public void mouseScrolled(final GuiGraphics g, final GuiEvent event, final int x, final int y, final int scroll) {
+	}
+
+	@Override
+	public void mouseDragged(final GuiGraphics g, final GuiEvent event, final int x, final int y, final int button, final long time) {
+	}
+
+	@Override
+	public void mouseMovedOrUp(final GuiGraphics g, final GuiEvent event, final int x, final int y, final int button) {
+	}
+
+	@Override
+	public void mouseClicked(final GuiGraphics g, final GuiEvent event, final int x, final int y, final int button) {
 	}
 }

@@ -2,24 +2,41 @@ package com.kamesuta.mc.worldpictures.gui.net;
 
 import org.lwjgl.opengl.GL11;
 
-import com.kamesuta.mc.worldpictures.gui.widget.GuiWidget;
+import com.kamesuta.mc.worldpictures.gui.widget2.GuiComponent;
+import com.kamesuta.mc.worldpictures.gui.widget2.GuiEvent;
+import com.kamesuta.mc.worldpictures.gui.widget2.GuiGraphics;
 
-public class GuiDirect extends GuiWidget {
-
+public class GuiDirect extends GuiComponent {
+	private int i;
 	public GuiDirect(final int x, final int y, final int width, final int height) {
 		super(x, y, width, height);
 	}
 
 	@Override
-	public void draw(final int mousex, final int mousey, final float frame) {
+	public void init(final GuiGraphics g, final GuiEvent event) {
+		this.i = 0;
+	}
+
+	@Override
+	public void mouseMovedOrUp(final GuiGraphics g, final GuiEvent event, final int x, final int y, final int button) {
+	}
+
+	@Override
+	public void update(final GuiGraphics g, final GuiEvent event, final int mousex, final int mousey) {
+		if (pointInside(mousex, mousey))
+			this.i += 1;
+	}
+
+	@Override
+	public void draw(final GuiGraphics g, final int mousex, final int mousey, final float frame) {
 		GL11.glColor4f(1, 1, 1, 1);
-		this.renderEngine.bindTexture(guiTex);
+		g.renderEngine.bindTexture(GuiGraphics.guiTex);
 
 		GL11.glBegin(GL11.GL_QUADS);
-		GL11.glVertex3f(this.x-5, this.y-5, 0);
-		GL11.glVertex3f(this.x-5, this.y+5, 0);
-		GL11.glVertex3f(this.x+5, this.y+5, 0);
-		GL11.glVertex3f(this.x+5, this.y-5, 0);
+		GL11.glVertex3f(this.i+this.x-5, this.y-5, 0);
+		GL11.glVertex3f(this.i+this.x-5, this.y+5, 0);
+		GL11.glVertex3f(this.i+this.x+5, this.y+5, 0);
+		GL11.glVertex3f(this.i+this.x+5, this.y-5, 0);
 		GL11.glEnd();
 
 		//		final int state = 0;

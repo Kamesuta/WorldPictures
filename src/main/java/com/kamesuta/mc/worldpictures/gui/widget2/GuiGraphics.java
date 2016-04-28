@@ -13,8 +13,10 @@ import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.client.gui.ScaledResolution;
 import net.minecraft.client.renderer.texture.TextureManager;
 import net.minecraft.util.EnumChatFormatting;
+import net.minecraft.util.ResourceLocation;
 
 public class GuiGraphics extends Gui {
+	public static final ResourceLocation guiTex = new ResourceLocation("textures/gui/widgets.png");
 
 	public final Minecraft mc;
 	public final TextureManager renderEngine;
