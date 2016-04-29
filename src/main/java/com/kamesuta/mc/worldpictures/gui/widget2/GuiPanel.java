@@ -26,57 +26,57 @@ public class GuiPanel extends GuiComponent implements GuiContainer {
 	}
 
 	@Override
-	public void init(final GuiGraphics g, final GuiEvent event) {
+	public void init(final GuiTools tools) {
 		initWidgets();
 	}
 
 	@Override
-	public void draw(final GuiGraphics g, final int mousex, final int mousey, final float frame) {
-		super.draw(g, mousex, mousey, frame);
+	public void draw(final GuiTools tools, final int mousex, final int mousey, final float frame) {
+		super.draw(tools, mousex, mousey, frame);
 		for (final GuiCommon widget : this.widgets)
-			widget.draw(g, mousex, mousey, frame);
+			widget.draw(tools, mousex, mousey, frame);
 	}
 
 	@Override
-	public void update(final GuiGraphics g, final GuiEvent event, final int mousex, final int mousey) {
-		super.update(g, event, mousex, mousey);
+	public void update(final GuiTools tools, final int mousex, final int mousey) {
+		super.update(tools, mousex, mousey);
 		for (final GuiCommon widget : this.widgets)
-			widget.update(g, event, mousex, mousey);
+			widget.update(tools, mousex, mousey);
 	}
 
 	@Override
-	public void keyTyped(final GuiGraphics g, final GuiEvent event, final char c, final int keycode) {
-		super.keyTyped(g, event, c, keycode);
+	public void keyTyped(final GuiTools tools, final char c, final int keycode) {
+		super.keyTyped(tools, c, keycode);
 		for (final GuiCommon widget : this.widgets)
-			widget.keyTyped(g, event, c, keycode);
+			widget.keyTyped(tools, c, keycode);
 	}
 
 	@Override
-	public void mouseScrolled(final GuiGraphics g, final GuiEvent event, final int x, final int y, final int scroll) {
-		super.mouseScrolled(g, event, x, y, scroll);
+	public void mouseScrolled(final GuiTools tools, final int x, final int y, final int scroll) {
+		super.mouseScrolled(tools, x, y, scroll);
 		for (final GuiCommon widget : this.widgets)
-			widget.mouseScrolled(g, event, x, y, scroll);
+			widget.mouseScrolled(tools, x, y, scroll);
 	}
 
 	@Override
-	public void mouseDragged(final GuiGraphics g, final GuiEvent event, final int x, final int y, final int button, final long time) {
-		super.mouseDragged(g, event, x, y, button, time);
+	public void mouseDragged(final GuiTools tools, final int x, final int y, final int button, final long time) {
+		super.mouseDragged(tools, x, y, button, time);
 		for (final GuiCommon widget : this.widgets)
-			widget.mouseDragged(g, event, x, y, button, time);
+			widget.mouseDragged(tools, x, y, button, time);
 	}
 
 	@Override
-	public void mouseMovedOrUp(final GuiGraphics g, final GuiEvent event, final int x, final int y, final int button) {
-		super.mouseMovedOrUp(g, event, x, y, button);
+	public void mouseMovedOrUp(final GuiTools tools, final int x, final int y, final int button) {
+		super.mouseMovedOrUp(tools, x, y, button);
 		for (final GuiCommon widget : this.widgets)
-			widget.mouseMovedOrUp(g, event, x, y, button);
+			widget.mouseMovedOrUp(tools, x, y, button);
 	}
 
 	@Override
-	public void mouseClicked(final GuiGraphics g, final GuiEvent event, final int x, final int y, final int button) {
-		super.mouseClicked(g, event, x, y, button);
+	public void mouseClicked(final GuiTools tools, final int x, final int y, final int button) {
+		super.mouseClicked(tools, x, y, button);
 		for (final GuiCommon widget : this.widgets)
-			widget.mouseClicked(g, event, x, y, button);
+			widget.mouseClicked(tools, x, y, button);
 	}
 
 	protected void initWidgets() {

@@ -18,14 +18,14 @@ import net.minecraft.util.ResourceLocation;
 public class GuiGraphics extends Gui {
 	public static final ResourceLocation guiTex = new ResourceLocation("textures/gui/widgets.png");
 
-	public final Minecraft mc;
+	private final Minecraft mc;
 	public final TextureManager renderEngine;
 	public final FontRenderer fontRenderer;
 
-	public GuiGraphics(final Minecraft mc) {
-		this.mc = mc;
-		this.renderEngine = mc.renderEngine;
-		this.fontRenderer = mc.fontRenderer;
+	public GuiGraphics() {
+		this.mc = Minecraft.getMinecraft();
+		this.renderEngine = this.mc.renderEngine;
+		this.fontRenderer = this.mc.fontRenderer;
 	}
 
 	public void drawString(final String text, final int x, final int y, final int colour, final boolean shadow) {

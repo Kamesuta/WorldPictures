@@ -12,22 +12,21 @@ import net.minecraft.client.gui.GuiScreen;
 public class GuiFrame extends GuiScreen implements GuiContainer {
 	private final ArrayList<GuiCommon> widgets = new ArrayList<GuiCommon>();
 
-	protected final GuiGraphics graphics;
-	protected final GuiEvent event = new GuiEvent();
+	protected final GuiTools tools;
 
-	public GuiFrame(final GuiGraphics g) {
-		this.graphics = g;
+	public GuiFrame(final GuiTools tools) {
+		this.tools = tools;
 	}
 
 	public GuiFrame() {
-		this(new GuiGraphics(Minecraft.getMinecraft()));
+		this(new GuiTools());
 	}
 
 	@Override
 	public void initGui() {
 		super.initGui();
 		for (final GuiCommon widget : this.widgets)
-			widget.init(this.graphics, this.event);
+			widget.init(this.tools);
 	}
 
 	public void reset() {
@@ -66,7 +65,7 @@ public class GuiFrame extends GuiScreen implements GuiContainer {
 	public void drawScreen(final int mousex, final int mousey, final float f) {
 		drawBackground();
 		for (final GuiCommon widget : this.widgets)
-			widget.draw(this.graphics, mousex, mousey, f);
+			widget.draw(this.tools, mousex, mousey, f);
 		drawForeground();
 	}
 
@@ -80,30 +79,30 @@ public class GuiFrame extends GuiScreen implements GuiContainer {
 	protected void mouseClicked(final int x, final int y, final int button) {
 		super.mouseClicked(x, y, button);
 		for (final GuiCommon widget : this.widgets)
-			widget.mouseClicked(this.graphics, this.event, x, y, button);
+			widget.mouseClicked(this.tools, x, y, button);
 	}
 
 	@Override
 	protected void mouseMovedOrUp(final int x, final int y, final int button) {
 		super.mouseMovedOrUp(x, y, button);
 		for (final GuiCommon widget : this.widgets)
-			widget.mouseMovedOrUp(this.graphics, this.event, x, y, button);
+			widget.mouseMovedOrUp(this.tools, x, y, button);
 	}
 
 	@Override
 	protected void mouseClickMove(final int x, final int y, final int button, final long time) {
 		super.mouseClickMove(x, y, button, time);
 		for (final GuiCommon widget : this.widgets)
-			widget.mouseDragged(this.graphics, this.event, x, y, button, time);
+			widget.mouseDragged(this.tools, x, y, button, time);
 	}
 
 	@Override
 	public void updateScreen() {
 		super.updateScreen();
 		if (this.mc.currentScreen == this) {
+			final Point p = this.tools.g.getScreenMousePosition(this);
 			for (final GuiCommon widget : this.widgets) {
-				final Point p = this.graphics.getScreenMousePosition(this);
-				widget.update(this.graphics, this.event, p.x, p.y);
+				widget.update(this.tools, p.x, p.y);
 			}
 		}
 	}
@@ -112,7 +111,7 @@ public class GuiFrame extends GuiScreen implements GuiContainer {
 	public void keyTyped(final char c, final int keycode) {
 		super.keyTyped(c, keycode);
 		for (final GuiCommon widget : this.widgets)
-			widget.keyTyped(this.graphics, this.event, c, keycode);
+			widget.keyTyped(this.tools, c, keycode);
 	}
 
 	@Override
@@ -120,10 +119,10 @@ public class GuiFrame extends GuiScreen implements GuiContainer {
 		super.handleMouseInput();
 		final int i = Mouse.getEventDWheel();
 		if (i != 0) {
-			final Point p = this.graphics.getScreenMousePosition(this);
+			final Point p = this.tools.g.getScreenMousePosition(this);
 			final int scroll = i > 0 ? 1 : -1;
 			for (final GuiCommon widget : this.widgets)
-				widget.mouseScrolled(this.graphics, this.event, p.x, p.y, scroll);
+				widget.mouseScrolled(this.tools, p.x, p.y, scroll);
 		}
 	}
 

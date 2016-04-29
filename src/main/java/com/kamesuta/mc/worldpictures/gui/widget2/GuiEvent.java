@@ -7,7 +7,7 @@ import java.util.Map;
 
 import org.apache.commons.lang3.Validate;
 
-public final class GuiEvent {
+public class GuiEvent {
 	public final Map<String, List<GuiActionListener>> events;
 
 	public GuiEvent() {
