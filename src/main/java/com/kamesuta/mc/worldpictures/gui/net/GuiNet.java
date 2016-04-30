@@ -2,6 +2,7 @@ package com.kamesuta.mc.worldpictures.gui.net;
 
 import com.kamesuta.mc.worldpictures.gui.widget2.GuiFrame;
 import com.kamesuta.mc.worldpictures.gui.widget2.GuiPanel;
+import com.kamesuta.mc.worldpictures.gui.widget2.position.SimplePosition;
 import com.kamesuta.mc.worldpictures.net.NetManager;
 
 import net.minecraft.client.Minecraft;
@@ -17,6 +18,7 @@ public class GuiNet extends GuiFrame {
 
 	@Override
 	public void initGui() {
+		super.initGui();
 	}
 
 	@Override
@@ -50,11 +52,12 @@ public class GuiNet extends GuiFrame {
 
 	@Override
 	protected void initWidgets() {
-		final GuiPanel p = new GuiPanel(5, 5, 100, 100);
-		p.add(new GuiDirect(0, 0, 10, 10));
-		p.add(new GuiDirect(0, this.height, 10, 10));
-		p.add(new GuiDirect(this.width, this.height, 10, 10));
-		p.add(new GuiDirect(this.width, 0, 10, 10));
+		this.tools.isDebug = true;
+		final GuiPanel p = new GuiPanel(new SimplePosition(0, 0, 100, 100));
+		p.add(new GuiDirect(new SimplePosition(0, 0, 10, 10)));
+		p.add(new GuiDirect(new SimplePosition(0, this.height, 10, 10)));
+		p.add(new GuiDirect(new SimplePosition(this.width, this.height, 10, 10)));
+		p.add(new GuiDirect(new SimplePosition(this.width, 0, 10, 10)));
 		add(p);
 	}
 

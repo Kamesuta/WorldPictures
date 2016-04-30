@@ -2,20 +2,20 @@ package com.kamesuta.mc.worldpictures.gui.widget2;
 
 public interface GuiCommon {
 
-	void init(GuiTools tools);
+	void init(GuiTools tools, GuiPosition pgp);
 
-	void draw(GuiTools tools, int mousex, int mousey, float frame);
+	void draw(GuiTools tools, GuiPosition pgp, int mousex, int mousey, float frame);
 
-	void update(GuiTools tools, int mousex, int mousey);
+	void update(GuiTools tools, GuiPosition pgp, int mousex, int mousey);
 
-	void keyTyped(GuiTools tools, char c, int keycode);
+	void keyTyped(GuiTools tools, GuiPosition pgp, char c, int keycode);
 
-	void mouseScrolled(GuiTools tools, int mousex, int mousey, int scroll);
+	void mouseScrolled(GuiTools tools, GuiPosition pgp, int mousex, int mousey, int scroll);
 
-	void mouseDragged(GuiTools tools, int mousex, int mousey, int button, long time);
+	void mouseDragged(GuiTools tools, GuiPosition pgp, int mousex, int mousey, int button, long time);
 
-	void mouseMovedOrUp(GuiTools tools, int mousex, int mousey, int button);
+	void mouseMovedOrUp(GuiTools tools, GuiPosition pgp, int mousex, int mousey, int button);
 
-	void mouseClicked(GuiTools tools, int mousex, int mousey, int button);
+	void mouseClicked(GuiTools tools, GuiPosition pgp, int mousex, int mousey, int button);
 
 }

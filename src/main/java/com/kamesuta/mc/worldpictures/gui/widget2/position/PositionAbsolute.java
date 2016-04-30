@@ -14,22 +14,22 @@ public class PositionAbsolute implements IPositionAbsolute {
 	}
 
 	@Override
-	public int getAbsoluteX() {
+	public int x() {
 		return this.x;
 	}
 
 	@Override
-	public int getAbsoluteY() {
+	public int y() {
 		return this.y;
 	}
 
 	@Override
-	public int getAbsoluteW() {
+	public int w() {
 		return this.w;
 	}
 
 	@Override
-	public int getAbsoluteH() {
+	public int h() {
 		return this.h;
 	}
 

@@ -1,9 +1,12 @@
-package com.kamesuta.mc.worldpictures.gui.widget2.position;
+package com.kamesuta.mc.worldpictures.gui.widget2;
 
 import javax.annotation.Nullable;
 
+import com.kamesuta.mc.worldpictures.gui.widget2.position.IPositionAbsolute;
+import com.kamesuta.mc.worldpictures.gui.widget2.position.IPositionRelative;
+
 public class GuiPosition {
-	public final GuiPosition parent;
+	public final @Nullable GuiPosition parent;
 	public final IPositionRelative position;
 
 	public GuiPosition(@Nullable final GuiPosition parent, final IPositionRelative position) {

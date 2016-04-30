@@ -1,58 +1,62 @@
 package com.kamesuta.mc.worldpictures.gui.widget2;
 
+import org.lwjgl.opengl.GL11;
+
+import com.kamesuta.mc.worldpictures.gui.widget2.position.IPositionAbsolute;
+import com.kamesuta.mc.worldpictures.gui.widget2.position.IPositionRelative;
+
 import net.minecraft.client.gui.Gui;
 
 public class GuiComponent extends Gui implements GuiCommon {
-	public int x;
-	public int y;
-	public int width;
-	public int height;
+	protected IPositionRelative position;
 
-	public GuiComponent(final int x, final int y, final int width, final int height) {
-		setSize(x, y, width, height);
+	public GuiComponent(final IPositionRelative position) {
+		setPosition(position);
 	}
 
-	public void setSize(final int x, final int y, final int width, final int height) {
-		this.x = x;
-		this.y = y;
-		this.width = width;
-		this.height = height;
-	}
-
-	@Deprecated
-	public final boolean pointInside(final int px, final int py) {
-		return px >= this.x && px < this.x + this.width && py >= this.y && py < this.y + this.height;
+	public void setPosition(final IPositionRelative position) {
+		this.position = position;
 	}
 
 	@Override
-	public void init(final GuiTools tools) {
+	public void init(final GuiTools tools, final GuiPosition pgp) {
 	}
 
 	@Override
-	public void draw(final GuiTools tools, final int mousex, final int mousey, final float frame) {
+	public void draw(final GuiTools tools, final GuiPosition pgp, final int mousex, final int mousey, final float frame) {
+		if (tools.isDebug) {
+			final IPositionAbsolute p = tools.getAbsolute(pgp);
+			GL11.glColor4f(1, 1, 1, 1);
+			GL11.glBegin(GL11.GL_LINE_LOOP);
+			GL11.glVertex3f(p.x(), p.y(), 1);
+			GL11.glVertex3f(p.x(), p.y()+p.h(), 1);
+			GL11.glVertex3f(p.x()+p.w(), p.y()+p.h(), 1);
+			GL11.glVertex3f(p.x()+p.w(), p.y(), 1);
+			GL11.glEnd();
+		}
 	}
 
 	@Override
-	public void update(final GuiTools tools, final int mousex, final int mousey) {
+	public void update(final GuiTools tools, final GuiPosition pgp, final int mousex, final int mousey) {
 	}
 
 	@Override
-	public void keyTyped(final GuiTools tools, final char c, final int keycode) {
+	public void keyTyped(final GuiTools tools, final GuiPosition pgp, final char c, final int keycode) {
 	}
 
 	@Override
-	public void mouseScrolled(final GuiTools tools, final int x, final int y, final int scroll) {
+	public void mouseScrolled(final GuiTools tools, final GuiPosition pgp, final int x, final int y, final int scroll) {
 	}
 
 	@Override
-	public void mouseDragged(final GuiTools tools, final int x, final int y, final int button, final long time) {
+	public void mouseDragged(final GuiTools tools, final GuiPosition pgp, final int x, final int y, final int button, final long time) {
 	}
 
 	@Override
-	public void mouseMovedOrUp(final GuiTools tools, final int x, final int y, final int button) {
+	public void mouseMovedOrUp(final GuiTools tools, final GuiPosition pgp, final int x, final int y, final int button) {
 	}
 
 	@Override
-	public void mouseClicked(final GuiTools tools, final int x, final int y, final int button) {
+	public void mouseClicked(final GuiTools tools, final GuiPosition pgp, final int x, final int y, final int button) {
 	}
 }

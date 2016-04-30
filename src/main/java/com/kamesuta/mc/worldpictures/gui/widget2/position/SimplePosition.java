@@ -15,11 +15,11 @@ public class SimplePosition implements IPositionRelative {
 
 	@Override
 	public IPositionAbsolute getAbsolute(final IPositionAbsolute parent) {
-		final int wid = Math.max(parent.getAbsoluteW() - this.x, 0);
-		final int hei = Math.max(parent.getAbsoluteH() - this.y, 0);
+		final int wid = Math.max(parent.w() - this.x, 0);
+		final int hei = Math.max(parent.h() - this.y, 0);
 		return new PositionAbsolute(
-				parent.getAbsoluteX() + this.x,
-				parent.getAbsoluteY() + this.y,
+				parent.x() + this.x,
+				parent.y() + this.y,
 				Math.min(wid, this.w),
 				Math.min(hei, this.h));
 	}
