@@ -2,14 +2,14 @@ package com.kamesuta.mc.worldpictures.gui.widget2.position;
 
 public interface IPositionAbsolute extends IPosition {
 
-	int x();
+	int x1();
 
-	int y();
+	int y1();
 
-	int w();
+	int x2();
 
-	int h();
+	int y2();
 
-	boolean pointInside(final int px, final int py);
+	boolean pointInside(Point p);
 
 }

@@ -26,19 +26,24 @@ public class RelativePosition implements IPositionRelative {
 
 	@Override
 	public IPositionAbsolute getAbsolute(final IPositionAbsolute parent) {
-		final int px1 = parent.x();
-		final int py1 = parent.y();
-		final int px2 = px1+parent.w();
-		final int py2 = py1+parent.h();
-		final int abs_x1 = (this.x1 >= 0) ? this.x1 : px2 + this.x1;
-		final int abs_y1 = (this.y1 >= 0) ? this.y1 : py2 + this.y1;
-		final int abs_x2 = (this.x2 >= 0) ? this.x2 : px2 + this.x2;
-		final int abs_y2 = (this.y2 >= 0) ? this.y2 : py2 + this.y2;
-		final int rx = Math.min(abs_x1, abs_x2);
-		final int ry = Math.min(abs_y1, abs_y2);
-		final int rw = Math.max(abs_x1, abs_x2) - rx;
-		final int rh = Math.max(abs_y1, abs_y2) - ry;
-		return new PositionAbsolute(rx, ry, rw, rh);
+		final int px1 = parent.x1();
+		final int py1 = parent.y1();
+		final int px2 = parent.x2();
+		final int py2 = parent.y2();
+		final int abs_x1 = (this.x1>=0) ? px1+this.x1 : px2+this.x1+1;
+		final int abs_y1 = (this.y1>=0) ? py1+this.y1 : py2+this.y1+1;
+		final int abs_x2 = (this.x2>=0) ? px1+this.x2 : px2+this.x2+1;
+		final int abs_y2 = (this.y2>=0) ? py1+this.y2 : py2+this.y2+1;
+		final int rx1 = Math.min(abs_x1, abs_x2);
+		final int ry1 = Math.min(abs_y1, abs_y2);
+		final int rx2 = Math.max(abs_x1, abs_x2);
+		final int ry2 = Math.max(abs_y1, abs_y2);
+		return new PositionAbsolute(rx1, ry1, rx2, ry2);
+	}
+
+	@Override
+	public String toString() {
+		return String.format("RelativePosition[x1=%s, y1=%s, x2=%s, y2=%s]", this.x1, this.y1, this.x2, this.y2);
 	}
 
 }

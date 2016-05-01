@@ -1,5 +1,7 @@
 package com.kamesuta.mc.worldpictures.gui.widget2;
 
+import com.kamesuta.mc.worldpictures.gui.widget2.position.Point;
+
 import net.minecraft.client.gui.Gui;
 
 public class GuiComponent extends Gui implements GuiCommon {
@@ -11,11 +13,11 @@ public class GuiComponent extends Gui implements GuiCommon {
 	}
 
 	@Override
-	public void draw(final GuiTools tools, final GuiPosition pgp, final int mousex, final int mousey, final float frame) {
+	public void draw(final GuiTools tools, final GuiPosition pgp, final Point p, final float frame) {
 	}
 
 	@Override
-	public void update(final GuiTools tools, final GuiPosition pgp, final int mousex, final int mousey) {
+	public void update(final GuiTools tools, final GuiPosition pgp, final Point p) {
 	}
 
 	@Override
@@ -23,18 +25,18 @@ public class GuiComponent extends Gui implements GuiCommon {
 	}
 
 	@Override
-	public void mouseScrolled(final GuiTools tools, final GuiPosition pgp, final int x, final int y, final int scroll) {
+	public void mouseScrolled(final GuiTools tools, final GuiPosition pgp, final Point p, final int scroll) {
 	}
 
 	@Override
-	public void mouseDragged(final GuiTools tools, final GuiPosition pgp, final int x, final int y, final int button, final long time) {
+	public void mouseDragged(final GuiTools tools, final GuiPosition pgp, final Point p, final int button, final long time) {
 	}
 
 	@Override
-	public void mouseMovedOrUp(final GuiTools tools, final GuiPosition pgp, final int x, final int y, final int button) {
+	public void mouseMovedOrUp(final GuiTools tools, final GuiPosition pgp, final Point p, final int button) {
 	}
 
 	@Override
-	public void mouseClicked(final GuiTools tools, final GuiPosition pgp, final int x, final int y, final int button) {
+	public void mouseClicked(final GuiTools tools, final GuiPosition pgp, final Point p, final int button) {
 	}
 }

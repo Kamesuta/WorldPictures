@@ -2,6 +2,10 @@ package com.kamesuta.mc.worldpictures.gui.net;
 
 import com.kamesuta.mc.worldpictures.gui.widget2.GuiFrame;
 import com.kamesuta.mc.worldpictures.gui.widget2.GuiPanel;
+import com.kamesuta.mc.worldpictures.gui.widget2.GuiPosition;
+import com.kamesuta.mc.worldpictures.gui.widget2.GuiTools;
+import com.kamesuta.mc.worldpictures.gui.widget2.position.IPositionAbsolute;
+import com.kamesuta.mc.worldpictures.gui.widget2.position.Point;
 import com.kamesuta.mc.worldpictures.gui.widget2.position.RelativePosition;
 import com.kamesuta.mc.worldpictures.net.NetManager;
 
@@ -41,6 +45,13 @@ public class GuiNet extends GuiFrame {
 	}
 
 	@Override
+	public void drawForeground(final GuiTools t, final GuiPosition gp, final Point p) {
+		final GuiPosition gp1 = gp.child(new RelativePosition(-50, -10, -1, -1));
+		final IPositionAbsolute pos = t.getAbsolute(gp1);
+		t.g.drawString(p.x*2 + ":" + p.y*2, pos.x1(), pos.y1(), 0xffffff);
+	}
+
+	@Override
 	public void onGuiClosed() {
 
 	}
@@ -54,9 +65,9 @@ public class GuiNet extends GuiFrame {
 	protected void initWidgets() {
 		final GuiPanel p = new GuiPanel(new RelativePosition(5, 5, 100, 100));
 		p.add(new GuiDirect(new RelativePosition(5, 5, 10, 10)));
-		p.add(new GuiDirect(new RelativePosition(5, -5, 10, 10)));
-		p.add(new GuiDirect(new RelativePosition(-5, -5, 10, 10)));
-		p.add(new GuiDirect(new RelativePosition(-5, 5, 10, 10)));
+		p.add(new GuiDirect(new RelativePosition(5, -5, 10, -10)));
+		p.add(new GuiDirect(new RelativePosition(-5, -5, -10, -10)));
+		p.add(new GuiDirect(new RelativePosition(-5, 5, -10, 10)));
 		add(p);
 	}
 

@@ -24,8 +24,14 @@ public class GuiPosition {
 
 	private IPositionAbsolute getAbsolute(final IPositionAbsolute absolute, @Nullable final GuiPosition parent) {
 		if (parent != null) {
-			return this.position.getAbsolute(parent.getAbsolute(absolute, parent.parent));
+			return parent.position.getAbsolute(parent.getAbsolute(absolute, parent.parent));
 		} else
-			return this.position.getAbsolute(absolute);
+			return absolute;
 	}
+
+	@Override
+	public String toString() {
+		return String.format("%s => %s", (this.parent!=null)?this.parent:"root", this.position);
+	}
+
 }

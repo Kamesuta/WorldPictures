@@ -2,7 +2,6 @@ package com.kamesuta.mc.worldpictures.gui.widget2;
 
 import static com.kamesuta.mc.worldpictures.gui.widget2.position.FlexiblePosition.EnumAbsolute.*;
 
-import java.awt.Point;
 import java.util.EnumSet;
 
 import org.lwjgl.input.Mouse;
@@ -11,6 +10,7 @@ import org.lwjgl.opengl.GL11;
 import com.kamesuta.mc.worldpictures.gui.widget2.position.FlexiblePosition;
 import com.kamesuta.mc.worldpictures.gui.widget2.position.IPositionAbsolute;
 import com.kamesuta.mc.worldpictures.gui.widget2.position.IPositionRelative;
+import com.kamesuta.mc.worldpictures.gui.widget2.position.Point;
 import com.kamesuta.mc.worldpictures.gui.widget2.position.PositionAbsolute;
 
 import net.minecraft.client.Minecraft;
@@ -35,7 +35,7 @@ public class GuiTools {
 	}
 
 	public IPositionAbsolute getAbsolute() {
-		return new PositionAbsolute(0, 0, this.mc.displayWidth, this.mc.displayHeight);
+		return new PositionAbsolute(0, 0, this.mc.displayWidth / 2, this.mc.displayHeight / 2);
 	}
 
 	public IPositionRelative getResolution() {
@@ -48,7 +48,7 @@ public class GuiTools {
 	}
 
 	public Point getAbsoluteMousePosition(final int eventX, final int eventY) {
-		return new Point(eventX, this.mc.displayHeight - eventY - 1);
+		return new Point(eventX / 2, (this.mc.displayHeight - eventY - 1) / 2);
 	}
 
 	public Point getAbsoluteMousePosition() {
@@ -61,10 +61,10 @@ public class GuiTools {
 		GL11.glEnable(GL11.GL_BLEND);
 		GL11.glDisable(GL11.GL_TEXTURE_2D);
 		GL11.glBegin(GL11.GL_LINE_LOOP);
-		GL11.glVertex3f(p.x(), p.y(), 0);
-		GL11.glVertex3f(p.x(), p.y()+p.w(), 0);
-		GL11.glVertex3f(p.x()+p.w(), p.y()+p.w(), 0);
-		GL11.glVertex3f(p.x()+p.w(), p.y(), 0);
+		GL11.glVertex3f(p.x1(), p.y1(), 0);
+		GL11.glVertex3f(p.x1(), p.y2(), 0);
+		GL11.glVertex3f(p.x2(), p.y2(), 0);
+		GL11.glVertex3f(p.x2(), p.y1(), 0);
 		GL11.glEnd();
 		GL11.glEnable(GL11.GL_TEXTURE_2D);
 		GL11.glDisable(GL11.GL_BLEND);

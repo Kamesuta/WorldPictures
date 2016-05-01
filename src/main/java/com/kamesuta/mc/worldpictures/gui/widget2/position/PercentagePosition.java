@@ -22,10 +22,10 @@ public class PercentagePosition implements IPositionRelative {
 
 	@Override
 	public IPositionAbsolute getAbsolute(final IPositionAbsolute parent) {
-		final int pw = parent.w();
-		final int ph = parent.h();
-		final int px = parent.x();
-		final int py = parent.y();
+		final int pw = parent.x2();
+		final int ph = parent.y2();
+		final int px = parent.x1();
+		final int py = parent.y1();
 		final int x = (int) (px * this.per_x);
 		final int y = (int) (py * this.per_y);
 		final int w = (int) (pw * this.per_w);

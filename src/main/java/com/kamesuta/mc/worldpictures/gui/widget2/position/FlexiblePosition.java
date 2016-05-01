@@ -19,10 +19,10 @@ public class FlexiblePosition extends PercentagePosition {
 
 	@Override
 	public IPositionAbsolute getAbsolute(final IPositionAbsolute parent) {
-		final int pw = parent.w();
-		final int ph = parent.h();
-		final int px = parent.x();
-		final int py = parent.y();
+		final int pw = parent.x2();
+		final int ph = parent.y2();
+		final int px = parent.x1();
+		final int py = parent.y1();
 		final int w = getFlexibleW(pw);
 		final int h = getFlexibleH(ph);
 		final int x = getFlexibleX(pw, w, px);
