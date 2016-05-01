@@ -4,6 +4,7 @@ import java.util.EnumSet;
 
 import com.kamesuta.mc.worldpictures.lib.MathHelper;
 
+@Deprecated
 public class FlexiblePosition extends PercentagePosition {
 	private final EnumSet<EnumAbsolute> absolute_value;
 

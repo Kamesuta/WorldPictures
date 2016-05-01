@@ -53,7 +53,7 @@ public class GuiNet extends GuiFrame {
 	@Override
 	protected void initWidgets() {
 		this.tools.isDebug = true;
-		final GuiPanel p = new GuiPanel(new SimplePosition(0, 0, 100, 100));
+		final GuiPanel p = new GuiPanel(new SimplePosition(5, 5, 100, 100));
 		p.add(new GuiDirect(new SimplePosition(0, 0, 10, 10)));
 		p.add(new GuiDirect(new SimplePosition(0, this.height, 10, 10)));
 		p.add(new GuiDirect(new SimplePosition(this.width, this.height, 10, 10)));
