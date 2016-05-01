@@ -1,7 +1,5 @@
 package com.kamesuta.mc.worldpictures.gui.net;
 
-import org.lwjgl.opengl.GL11;
-
 import com.kamesuta.mc.worldpictures.gui.widget2.GuiComponent;
 import com.kamesuta.mc.worldpictures.gui.widget2.GuiPosition;
 import com.kamesuta.mc.worldpictures.gui.widget2.GuiTools;
@@ -10,8 +8,10 @@ import com.kamesuta.mc.worldpictures.gui.widget2.position.IPositionRelative;
 
 public class GuiDirect extends GuiComponent {
 	private int i;
+	public IPositionRelative position;
+
 	public GuiDirect(final IPositionRelative position) {
-		super(position);
+		this.position = position;
 	}
 
 	@Override
@@ -33,7 +33,8 @@ public class GuiDirect extends GuiComponent {
 	@Override
 	public void draw(final GuiTools tools, final GuiPosition pgp, final int mousex, final int mousey, final float frame) {
 		super.draw(tools, pgp, mousex, mousey, frame);
-		GL11.glColor4f(0.5f, 1, 1, 1);
+		tools.drawDebug(pgp.child(this.position));
+		//		GL11.glColor4f(0.5f, 1, 1, 1);
 		//tools.g.renderEngine.bindTexture(GuiGraphics.guiTex);
 		//		final IPositionAbsolute p = tools.getAbsolute(pgp);
 		//		final int x = p.x();

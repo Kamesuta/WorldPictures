@@ -6,6 +6,7 @@ import java.awt.Point;
 import java.util.EnumSet;
 
 import org.lwjgl.input.Mouse;
+import org.lwjgl.opengl.GL11;
 
 import com.kamesuta.mc.worldpictures.gui.widget2.position.FlexiblePosition;
 import com.kamesuta.mc.worldpictures.gui.widget2.position.IPositionAbsolute;
@@ -21,8 +22,6 @@ public class GuiTools {
 	public final GuiGraphics g;
 	public final GuiEvent event;
 	public final GuiState state;
-
-	public boolean isDebug;
 
 	public GuiTools(final GuiGraphics g, final GuiEvent event, final GuiState state) {
 		this.mc = Minecraft.getMinecraft();
@@ -54,6 +53,21 @@ public class GuiTools {
 
 	public Point getAbsoluteMousePosition() {
 		return getAbsoluteMousePosition(Mouse.getX(), Mouse.getY());
+	}
+
+	public void drawDebug(final GuiPosition gposition) {
+		final IPositionAbsolute p = getAbsolute(gposition);
+		GL11.glColor4f(1, 1, 1, 0.2f);
+		GL11.glEnable(GL11.GL_BLEND);
+		GL11.glDisable(GL11.GL_TEXTURE_2D);
+		GL11.glBegin(GL11.GL_LINE_LOOP);
+		GL11.glVertex3f(p.x(), p.y(), 0);
+		GL11.glVertex3f(p.x(), p.y()+p.w(), 0);
+		GL11.glVertex3f(p.x()+p.w(), p.y()+p.w(), 0);
+		GL11.glVertex3f(p.x()+p.w(), p.y(), 0);
+		GL11.glEnd();
+		GL11.glEnable(GL11.GL_TEXTURE_2D);
+		GL11.glDisable(GL11.GL_BLEND);
 	}
 
 }

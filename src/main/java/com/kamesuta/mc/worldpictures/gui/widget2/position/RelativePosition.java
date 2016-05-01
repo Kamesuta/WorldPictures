@@ -26,16 +26,18 @@ public class RelativePosition implements IPositionRelative {
 
 	@Override
 	public IPositionAbsolute getAbsolute(final IPositionAbsolute parent) {
-		final int pw = parent.w();
-		final int ph = parent.h();
-		final int abs_x1 = (this.x1 >= 0) ? this.x1 : pw - this.x1;
-		final int abs_y1 = (this.y1 >= 0) ? this.y1 : ph - this.y1;
-		final int abs_x2 = (this.x2 >= 0) ? this.x2 : pw - this.x2;
-		final int abs_y2 = (this.y2 >= 0) ? this.y2 : ph - this.y2;
+		final int px1 = parent.x();
+		final int py1 = parent.y();
+		final int px2 = px1+parent.w();
+		final int py2 = py1+parent.h();
+		final int abs_x1 = (this.x1 >= 0) ? this.x1 : px2 + this.x1;
+		final int abs_y1 = (this.y1 >= 0) ? this.y1 : py2 + this.y1;
+		final int abs_x2 = (this.x2 >= 0) ? this.x2 : px2 + this.x2;
+		final int abs_y2 = (this.y2 >= 0) ? this.y2 : py2 + this.y2;
 		final int rx = Math.min(abs_x1, abs_x2);
 		final int ry = Math.min(abs_y1, abs_y2);
-		final int rw = Math.abs(abs_x1-abs_x2);
-		final int rh = Math.abs(abs_y1-abs_y2);
+		final int rw = Math.max(abs_x1, abs_x2) - rx;
+		final int rh = Math.max(abs_y1, abs_y2) - ry;
 		return new PositionAbsolute(rx, ry, rw, rh);
 	}
 

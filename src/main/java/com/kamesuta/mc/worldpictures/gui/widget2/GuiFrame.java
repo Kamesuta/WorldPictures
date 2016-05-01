@@ -14,7 +14,7 @@ import net.minecraft.client.gui.GuiScreen;
 
 public class GuiFrame extends GuiScreen implements GuiContainer {
 	private final ArrayList<GuiCommon> widgets = new ArrayList<GuiCommon>();
-	private final IPositionRelative position = new RelativePosition(3, 3, -10, -10);
+	private final IPositionRelative position = new RelativePosition(0, 0, -1, -1);
 	private final GuiPosition gp = new GuiPosition(null, this.position);
 
 	protected final GuiTools tools;

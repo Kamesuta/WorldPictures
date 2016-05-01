@@ -7,9 +7,10 @@ import com.kamesuta.mc.worldpictures.gui.widget2.position.IPositionRelative;
 
 public class GuiPanel extends GuiComponent implements GuiContainer {
 	private final ArrayList<GuiCommon> widgets = new ArrayList<GuiCommon>();
+	protected IPositionRelative position;
 
 	public GuiPanel(final IPositionRelative position) {
-		super(position);
+		this.position = position;
 	}
 
 	@Override
@@ -36,6 +37,7 @@ public class GuiPanel extends GuiComponent implements GuiContainer {
 	public void draw(final GuiTools tools, final GuiPosition pgp, final int mousex, final int mousey, final float frame) {
 		super.draw(tools, pgp, mousex, mousey, frame);
 		final GuiPosition gp = pgp.child(this.position);
+		tools.drawDebug(gp);
 		for (final GuiCommon widget : this.widgets)
 			widget.draw(tools, gp, mousex, mousey, frame);
 	}
