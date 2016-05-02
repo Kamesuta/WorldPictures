@@ -19,11 +19,11 @@ public class MathHelper {
 		SIN_TABLE[49152] = 1;
 	}
 
-	public static double sin(double d) {
+	public static double sin(final double d) {
 		return SIN_TABLE[(int) ((float) d * 10430.378F) & 65535];
 	}
 
-	public static double cos(double d) {
+	public static double cos(final double d) {
 		return SIN_TABLE[(int) ((float) d * 10430.378F + 16384.0F) & 65535];
 	}
 
@@ -36,7 +36,7 @@ public class MathHelper {
 	 *            The maximum step
 	 * @return the closed value to b no less than max from a
 	 */
-	public static float approachLinear(float a, float b, float max) {
+	public static float approachLinear(final float a, final float b, final float max) {
 		return (a > b) ? (a - b < max ? b : a - max) : (b - a < max ? b : a + max);
 	}
 
@@ -49,7 +49,7 @@ public class MathHelper {
 	 *            The maximum step
 	 * @return the closed value to b no less than max from a
 	 */
-	public static double approachLinear(double a, double b, double max) {
+	public static double approachLinear(final double a, final double b, final double max) {
 		return (a > b) ? (a - b < max ? b : a - max) : (b - a < max ? b : a + max);
 	}
 
@@ -62,7 +62,7 @@ public class MathHelper {
 	 *            The interpolation factor, between 0 and 1
 	 * @return a+(b-a)*d
 	 */
-	public static float interpolate(float a, float b, float d) {
+	public static float interpolate(final float a, final float b, final float d) {
 		return a + (b - a) * d;
 	}
 
@@ -75,7 +75,7 @@ public class MathHelper {
 	 *            The interpolation factor, between 0 and 1
 	 * @return a+(b-a)*d
 	 */
-	public static double interpolate(double a, double b, double d) {
+	public static double interpolate(final double a, final double b, final double d) {
 		return a + (b - a) * d;
 	}
 
@@ -88,7 +88,7 @@ public class MathHelper {
 	 *            The ratio to reduce the difference by
 	 * @return a+(b-a)*ratio
 	 */
-	public static double approachExp(double a, double b, double ratio) {
+	public static double approachExp(final double a, final double b, final double ratio) {
 		return a + (b - a) * ratio;
 	}
 
@@ -103,7 +103,7 @@ public class MathHelper {
 	 *            The maximum amount to advance by
 	 * @return a+(b-a)*ratio
 	 */
-	public static double approachExp(double a, double b, double ratio, double cap) {
+	public static double approachExp(final double a, final double b, final double ratio, final double cap) {
 		double d = (b - a) * ratio;
 		if (Math.abs(d) > cap)
 			d = Math.signum(d) * cap;
@@ -123,8 +123,8 @@ public class MathHelper {
 	 *            The difference when a == c
 	 * @return
 	 */
-	public static double retreatExp(double a, double b, double c, double ratio, double kick) {
-		double d = (Math.abs(c - a) + kick) * ratio;
+	public static double retreatExp(final double a, final double b, final double c, final double ratio, final double kick) {
+		final double d = (Math.abs(c - a) + kick) * ratio;
 		if (d > Math.abs(b - a))
 			return b;
 		return a + Math.signum(b - a) * d;
@@ -140,7 +140,7 @@ public class MathHelper {
 	 *            The max value
 	 * @return The clipped value between min and max
 	 */
-	public static double clip(double value, double min, double max) {
+	public static double clip(double value, final double min, final double max) {
 		if (value > max)
 			value = max;
 		if (value < min)
@@ -151,33 +151,41 @@ public class MathHelper {
 	/**
 	 * @return a <= x <= b
 	 */
-	public static boolean between(double a, double x, double b) {
+	public static boolean between(final double a, final double x, final double b) {
 		return a <= x && x <= b;
 	}
 
-	public static int approachExpI(int a, int b, double ratio) {
-		int r = (int) Math.round(approachExp(a, b, ratio));
+	public static int approachExpI(final int a, final int b, final double ratio) {
+		final int r = (int) Math.round(approachExp(a, b, ratio));
 		return r == a ? b : r;
 	}
 
-	public static int retreatExpI(int a, int b, int c, double ratio, int kick) {
-		int r = (int) Math.round(retreatExp(a, b, c, ratio, kick));
+	public static int retreatExpI(final int a, final int b, final int c, final double ratio, final int kick) {
+		final int r = (int) Math.round(retreatExp(a, b, c, ratio, kick));
 		return r == a ? b : r;
 	}
 
-	public static int floor_double(double d) {
+	public static int floor_double(final double d) {
 		return net.minecraft.util.MathHelper.floor_double(d);
 	}
 
-	public static int roundAway(double d) {
+	public static int roundAway(final double d) {
 		return (int) (d < 0 ? Math.floor(d) : Math.ceil(d));
 	}
 
-	public static int compare(int a, int b) {
+	public static int compare(final int a, final int b) {
 		return a == b ? 0 : a < b ? -1 : 1;
 	}
 
-	public static int compare(double a, double b) {
+	public static int compare(final double a, final double b) {
 		return a == b ? 0 : a < b ? -1 : 1;
+	}
+
+	public static double degToRad(final double degree) {
+		return degree * pi / 180;
+	}
+
+	public static double radToDeg(final double radian) {
+		return radian * 180 / pi;
 	}
 }

@@ -10,7 +10,7 @@ public interface GuiCommon {
 
 	void update(GuiTools tools, GuiPosition pgp, Point mouse);
 
-	void keyTyped(GuiTools tools, GuiPosition pgp, char c, int keycode);
+	void keyTyped(GuiTools tools, GuiPosition pgp, Point mouse, char c, int keycode);
 
 	void mouseScrolled(GuiTools tools, GuiPosition pgp, Point mouse, int scroll);
 

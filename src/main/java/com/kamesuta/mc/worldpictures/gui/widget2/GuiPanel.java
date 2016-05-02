@@ -51,11 +51,11 @@ public class GuiPanel extends GuiComponent implements GuiContainer {
 	}
 
 	@Override
-	public void keyTyped(final GuiTools tools, final GuiPosition pgp, final char c, final int keycode) {
+	public void keyTyped(final GuiTools tools, final GuiPosition pgp, final Point p, final char c, final int keycode) {
 		final GuiPosition gp = pgp.child(this.position);
 		if (gp.position.isVaild())
 			for (final GuiCommon widget : this.widgets)
-				widget.keyTyped(tools, gp, c, keycode);
+				widget.keyTyped(tools, gp, p, c, keycode);
 	}
 
 	@Override

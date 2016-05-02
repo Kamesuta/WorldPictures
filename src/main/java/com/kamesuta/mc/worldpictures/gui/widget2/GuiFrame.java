@@ -35,7 +35,6 @@ public class GuiFrame extends GuiScreen implements GuiContainer {
 		this.widgets.clear();
 		initGui();
 		initWidgets();
-		onResized();
 	}
 
 	@Override
@@ -44,7 +43,6 @@ public class GuiFrame extends GuiScreen implements GuiContainer {
 		super.setWorldAndResolution(mc, i, j);
 		if (init) {
 			initWidgets();
-			onResized();
 		}
 	}
 
@@ -114,8 +112,9 @@ public class GuiFrame extends GuiScreen implements GuiContainer {
 	public void keyTyped(final char c, final int keycode) {
 		super.keyTyped(c, keycode);
 		final GuiPosition gp = new GuiPosition(null, this.position, getAbsolute());
+		final Point p = getAbsoluteMousePosition();
 		for (final GuiCommon widget : this.widgets)
-			widget.keyTyped(this.tools, gp, c, keycode);
+			widget.keyTyped(this.tools, gp, p, c, keycode);
 	}
 
 	@Override
@@ -137,9 +136,6 @@ public class GuiFrame extends GuiScreen implements GuiContainer {
 	public Point getAbsoluteMousePosition() {
 		return new Point(Mouse.getX() * this.width / this.mc.displayWidth,
 				this.height - Mouse.getY() * this.height / this.mc.displayHeight - 1);
-	}
-
-	protected void onResized() {
 	}
 
 	protected void initWidgets() {

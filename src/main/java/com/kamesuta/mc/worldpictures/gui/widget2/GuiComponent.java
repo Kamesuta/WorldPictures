@@ -21,7 +21,7 @@ public class GuiComponent extends Gui implements GuiCommon {
 	}
 
 	@Override
-	public void keyTyped(final GuiTools tools, final GuiPosition pgp, final char c, final int keycode) {
+	public void keyTyped(final GuiTools tools, final GuiPosition pgp, final Point p, final char c, final int keycode) {
 	}
 
 	@Override

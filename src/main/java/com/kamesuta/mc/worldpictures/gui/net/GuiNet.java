@@ -1,5 +1,6 @@
 package com.kamesuta.mc.worldpictures.gui.net;
 
+import com.kamesuta.mc.worldpictures.gui.widget2.GuiComponent;
 import com.kamesuta.mc.worldpictures.gui.widget2.GuiFrame;
 import com.kamesuta.mc.worldpictures.gui.widget2.GuiPanel;
 import com.kamesuta.mc.worldpictures.gui.widget2.GuiPosition;
@@ -7,6 +8,7 @@ import com.kamesuta.mc.worldpictures.gui.widget2.GuiTools;
 import com.kamesuta.mc.worldpictures.gui.widget2.position.IPositionAbsolute;
 import com.kamesuta.mc.worldpictures.gui.widget2.position.Point;
 import com.kamesuta.mc.worldpictures.gui.widget2.position.RelativePosition;
+import com.kamesuta.mc.worldpictures.gui.widget2.position.RelativeSizedPosition;
 import com.kamesuta.mc.worldpictures.net.NetManager;
 
 import net.minecraft.client.Minecraft;
@@ -68,15 +70,29 @@ public class GuiNet extends GuiFrame {
 		p.add(new GuiDirect(new RelativePosition(5, -5, 10, -10)));
 		p.add(new GuiDirect(new RelativePosition(-5, -5, -10, -10)));
 		p.add(new GuiDirect(new RelativePosition(-5, 5, -10, 10)));
+		p.add(new GuiComponent() {
+			@Override
+			public void draw(final GuiTools tools, final GuiPosition pgp, final Point p, final float frame) {
+				final String str = p.x + ":" + p.y;
+				final int w = tools.g.fontRenderer.getStringWidth(str);
+				final int h = tools.g.fontRenderer.FONT_HEIGHT;
+				final GuiPosition gp = pgp.child(new RelativeSizedPosition(-10, -10, w, h));
+				tools.drawDebug(gp);
+				final IPositionAbsolute pos = gp.getAbsolute();
+				//				GL11.glPushMatrix();
+				//				GL11.glTranslatef(pos.x1(), pos.y1(), 0);
+				//				GL11.glScalef(0.5f, 0.5f, 1f);
+				//				GL11.glRotated(90, 0, 0, 1);
+				//				GL11.glTranslatef(-pos.x1(), -pos.y1(), 0);
+				tools.g.drawStringR(str, pos.x2(), pos.y1(), 0xffffff);
+				//				GL11.glPopMatrix();
+			}
+		});
 		add(p);
 	}
 
 	@Override
 	public void setWorldAndResolution(final Minecraft mc, final int i, final int j) {
 		super.setWorldAndResolution(mc, i, j);
-	}
-
-	@Override
-	protected void onResized() {
 	}
 }

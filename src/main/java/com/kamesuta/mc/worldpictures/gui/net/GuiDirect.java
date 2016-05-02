@@ -33,9 +33,9 @@ public class GuiDirect extends GuiComponent {
 
 		final IPositionAbsolute pos = gp.getAbsolute();
 		if (pos.pointInside(p))
-			this.i = MathHelper.clip(this.i+0.05, 0, 1);
+			this.i = MathHelper.clip(this.i+0.2, 0, 1);
 		else
-			this.i = MathHelper.clip(this.i-0.05, 0, 1);
+			this.i = MathHelper.clip(this.i-0.2, 0, 1);
 	}
 
 	@Override

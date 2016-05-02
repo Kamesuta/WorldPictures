@@ -15,13 +15,19 @@ public class SimplePosition implements IPositionRelative {
 
 	@Override
 	public IPositionAbsolute getAbsolute(final IPositionAbsolute parent) {
-		final int abs_x = parent.x1() + this.x;
-		final int abs_y = parent.y1() + this.y;
+		final int px1 = parent.x1();
+		final int py1 = parent.y1();
+		final int px2 = parent.x2();
+		final int py2 = parent.y2();
+		final int abs_x1 = px1 + this.x;
+		final int abs_y1 = py1 + this.y;
+		final int abs_x2 = abs_x1 + this.w;
+		final int abs_y2 = abs_y1 + this.h;
 		return new PositionAbsolute(
-				abs_x,
-				abs_y,
-				abs_x + this.w,
-				abs_y + this.h);
+				Math.max(px1, abs_x1),
+				Math.max(py1, abs_y1),
+				Math.min(px2, abs_x2),
+				Math.min(py2, abs_y2));
 	}
 
 	@Override

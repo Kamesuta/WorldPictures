@@ -38,7 +38,11 @@ public class RelativePosition implements IPositionRelative {
 		final int ry1 = Math.min(abs_y1, abs_y2);
 		final int rx2 = Math.max(abs_x1, abs_x2);
 		final int ry2 = Math.max(abs_y1, abs_y2);
-		return new PositionAbsolute(rx1, ry1, rx2, ry2);
+		return new PositionAbsolute(
+				Math.max(px1, rx1),
+				Math.max(py1, ry1),
+				Math.min(px2, rx2),
+				Math.min(py2, ry2));
 	}
 
 	@Override
