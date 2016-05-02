@@ -8,14 +8,20 @@ import com.kamesuta.mc.worldpictures.gui.widget2.position.IPositionRelative;
 public class GuiPosition {
 	public final @Nullable GuiPosition parent;
 	public final IPositionRelative position;
+	public final IPositionAbsolute absolute;
 
-	public GuiPosition(@Nullable final GuiPosition parent, final IPositionRelative position) {
+	public GuiPosition(@Nullable final GuiPosition parent, final IPositionRelative position, final IPositionAbsolute absolute) {
 		this.parent = parent;
 		this.position = position;
+		this.absolute = absolute;
 	}
 
 	public GuiPosition child(final IPositionRelative position) {
-		return new GuiPosition(this, position);
+		return new GuiPosition(this, position, this.absolute);
+	}
+
+	public IPositionAbsolute getAbsolute() {
+		return getAbsolute(this.absolute, this);
 	}
 
 	public IPositionAbsolute getAbsolute(final IPositionAbsolute absolute) {

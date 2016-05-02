@@ -6,9 +6,6 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import com.kamesuta.mc.worldpictures.component.builder.Vector3f;
-import com.kamesuta.mc.worldpictures.gui.widget2.GuiPosition;
-import com.kamesuta.mc.worldpictures.gui.widget2.position.PositionAbsolute;
-import com.kamesuta.mc.worldpictures.gui.widget2.position.RelativePosition;
 import com.kamesuta.mc.worldpictures.net.LocalManager;
 import com.kamesuta.mc.worldpictures.net.LocalResource;
 import com.kamesuta.mc.worldpictures.net.NetManager;
@@ -102,13 +99,13 @@ public class Experimental {
 	}
 
 	public static void postest(final Logger logger) {
-		final PositionAbsolute abs = new PositionAbsolute(0, 0, 100, 100);
-		final GuiPosition p1 = new GuiPosition(null, new RelativePosition(0, 0, -1, -1));
-		logger.info(p1.getAbsolute(abs));
-		final GuiPosition p2 = new GuiPosition(p1, new RelativePosition(5, 5, -6, -6));
-		logger.info(p2.getAbsolute(abs));
-		final GuiPosition p3 = new GuiPosition(p2, new RelativePosition(10, 10, 20, 20));
-		logger.info(p3.getAbsolute(abs));
+		//		final PositionAbsolute abs = new PositionAbsolute(0, 0, 100, 100);
+		//		final GuiPosition p1 = new GuiPosition(null, new RelativePosition(0, 0, -1, -1));
+		//		logger.info(p1.getAbsolute(abs));
+		//		final GuiPosition p2 = new GuiPosition(p1, new RelativePosition(5, 5, -6, -6));
+		//		logger.info(p2.getAbsolute(abs));
+		//		final GuiPosition p3 = new GuiPosition(p2, new RelativePosition(10, 10, 20, 20));
+		//		logger.info(p3.getAbsolute(abs));
 	}
 
 	public static void main(final String[] args) throws Exception {

@@ -31,7 +31,7 @@ public class GuiDirect extends GuiComponent {
 	public void update(final GuiTools tools, final GuiPosition pgp, final Point p) {
 		final GuiPosition gp = pgp.child(this.position);
 
-		final IPositionAbsolute pos = tools.getAbsolute(gp);
+		final IPositionAbsolute pos = gp.getAbsolute();
 		if (pos.pointInside(p))
 			this.i = MathHelper.clip(this.i+0.05, 0, 1);
 		else
@@ -45,7 +45,7 @@ public class GuiDirect extends GuiComponent {
 		GL11.glColor4d(0.5, 1, 1, this.i);
 
 		//tools.g.renderEngine.bindTexture(GuiGraphics.guiTex);
-		final IPositionAbsolute pos = tools.getAbsolute(gp);
+		final IPositionAbsolute pos = gp.getAbsolute();
 		GL11.glEnable(GL11.GL_BLEND);
 		GL11.glDisable(GL11.GL_TEXTURE_2D);
 

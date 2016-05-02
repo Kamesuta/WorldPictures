@@ -13,6 +13,7 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiButton;
 
 public class GuiNet extends GuiFrame {
+	@SuppressWarnings("unused")
 	private final NetManager netmanager;
 
 	public GuiNet(final NetManager netmanager) {
@@ -44,11 +45,10 @@ public class GuiNet extends GuiFrame {
 		super.drawScreen(par1, par2, par3);
 	}
 
-	@Override
-	public void drawForeground(final GuiTools t, final GuiPosition gp, final Point p) {
+	public void drawForeground(final GuiTools t, final IPositionAbsolute absolute, final GuiPosition gp, final Point p) {
 		final GuiPosition gp1 = gp.child(new RelativePosition(-50, -10, -1, -1));
-		final IPositionAbsolute pos = t.getAbsolute(gp1);
-		t.g.drawString(p.x*2 + ":" + p.y*2, pos.x1(), pos.y1(), 0xffffff);
+		final IPositionAbsolute pos = gp1.getAbsolute(absolute);
+		t.g.drawString(p.x + ":" + p.y, pos.x1(), pos.y1(), 0xffffff);
 	}
 
 	@Override
@@ -63,7 +63,7 @@ public class GuiNet extends GuiFrame {
 
 	@Override
 	protected void initWidgets() {
-		final GuiPanel p = new GuiPanel(new RelativePosition(5, 5, 100, 100));
+		final GuiPanel p = new GuiPanel(new RelativePosition(5, 5, -6, -6));
 		p.add(new GuiDirect(new RelativePosition(5, 5, 10, 10)));
 		p.add(new GuiDirect(new RelativePosition(5, -5, 10, -10)));
 		p.add(new GuiDirect(new RelativePosition(-5, -5, -10, -10)));

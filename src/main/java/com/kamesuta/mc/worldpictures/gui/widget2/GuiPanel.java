@@ -36,7 +36,6 @@ public class GuiPanel extends GuiComponent implements GuiContainer {
 
 	@Override
 	public void draw(final GuiTools tools, final GuiPosition pgp, final Point p, final float frame) {
-		super.draw(tools, pgp, p, frame);
 		final GuiPosition gp = pgp.child(this.position);
 		tools.drawDebug(gp);
 		for (final GuiCommon widget : this.widgets)
@@ -45,7 +44,6 @@ public class GuiPanel extends GuiComponent implements GuiContainer {
 
 	@Override
 	public void update(final GuiTools tools, final GuiPosition pgp, final Point p) {
-		super.update(tools, pgp, p);
 		final GuiPosition gp = pgp.child(this.position);
 		if (gp.position.isVaild())
 			for (final GuiCommon widget : this.widgets)
@@ -54,7 +52,6 @@ public class GuiPanel extends GuiComponent implements GuiContainer {
 
 	@Override
 	public void keyTyped(final GuiTools tools, final GuiPosition pgp, final char c, final int keycode) {
-		super.keyTyped(tools, pgp, c, keycode);
 		final GuiPosition gp = pgp.child(this.position);
 		if (gp.position.isVaild())
 			for (final GuiCommon widget : this.widgets)
@@ -63,7 +60,6 @@ public class GuiPanel extends GuiComponent implements GuiContainer {
 
 	@Override
 	public void mouseScrolled(final GuiTools tools, final GuiPosition pgp, final Point p, final int scroll) {
-		super.mouseScrolled(tools, pgp, p, scroll);
 		final GuiPosition gp = pgp.child(this.position);
 		if (gp.position.isVaild())
 			for (final GuiCommon widget : this.widgets)
@@ -72,7 +68,6 @@ public class GuiPanel extends GuiComponent implements GuiContainer {
 
 	@Override
 	public void mouseDragged(final GuiTools tools, final GuiPosition pgp, final Point p, final int button, final long time) {
-		super.mouseDragged(tools, pgp, p, button, time);
 		final GuiPosition gp = pgp.child(this.position);
 		if (gp.position.isVaild())
 			for (final GuiCommon widget : this.widgets)
@@ -81,7 +76,6 @@ public class GuiPanel extends GuiComponent implements GuiContainer {
 
 	@Override
 	public void mouseMovedOrUp(final GuiTools tools, final GuiPosition pgp, final Point p, final int button) {
-		super.mouseMovedOrUp(tools, pgp, p, button);
 		final GuiPosition gp = pgp.child(this.position);
 		if (gp.position.isVaild())
 			for (final GuiCommon widget : this.widgets)
@@ -90,7 +84,6 @@ public class GuiPanel extends GuiComponent implements GuiContainer {
 
 	@Override
 	public void mouseClicked(final GuiTools tools, final GuiPosition pgp, final Point p, final int button) {
-		super.mouseClicked(tools, pgp, p, button);
 		final GuiPosition gp = pgp.child(this.position);
 		if (gp.position.isVaild())
 			for (final GuiCommon widget : this.widgets)
