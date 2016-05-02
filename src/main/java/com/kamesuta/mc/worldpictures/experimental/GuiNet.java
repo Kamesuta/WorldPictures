@@ -1,4 +1,4 @@
-package com.kamesuta.mc.worldpictures.gui.net;
+package com.kamesuta.mc.worldpictures.experimental;
 
 import com.kamesuta.mc.guiwidget.GuiComponent;
 import com.kamesuta.mc.guiwidget.GuiFrame;

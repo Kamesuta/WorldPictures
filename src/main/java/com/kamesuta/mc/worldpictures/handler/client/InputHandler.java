@@ -3,8 +3,8 @@ package com.kamesuta.mc.worldpictures.handler.client;
 import org.lwjgl.input.Keyboard;
 
 import com.kamesuta.mc.worldpictures.WorldPictures;
+import com.kamesuta.mc.worldpictures.experimental.GuiNet;
 import com.kamesuta.mc.worldpictures.gui.GuiWorldPictures;
-import com.kamesuta.mc.worldpictures.gui.net.GuiNet;
 import com.kamesuta.mc.worldpictures.proxy.ClientProxy;
 import com.kamesuta.mc.worldpictures.reference.Names;
 

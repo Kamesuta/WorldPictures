@@ -1,4 +1,4 @@
-package com.kamesuta.mc.worldpictures.gui.widget2;
+package com.kamesuta.mc.guiwidget;
 
 import org.apache.commons.lang3.StringUtils;
 

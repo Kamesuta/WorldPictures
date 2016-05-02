@@ -1,10 +1,10 @@
-package com.kamesuta.mc.worldpictures.gui.widget2;
+package com.kamesuta.mc.guiwidget;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import com.kamesuta.mc.worldpictures.gui.widget2.position.IPositionRelative;
-import com.kamesuta.mc.worldpictures.gui.widget2.position.Point;
+import com.kamesuta.mc.guiwidget.position.IPositionRelative;
+import com.kamesuta.mc.guiwidget.position.Point;
 
 public class GuiPanel extends GuiComponent implements GuiContainer {
 	private final ArrayList<GuiCommon> widgets = new ArrayList<GuiCommon>();

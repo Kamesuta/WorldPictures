@@ -1,10 +1,12 @@
-package com.kamesuta.mc.worldpictures.component;
+package com.kamesuta.mc.worldpictures.experimental;
 
 import java.io.File;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
+import com.kamesuta.mc.worldpictures.component.Position;
+import com.kamesuta.mc.worldpictures.component.Square;
 import com.kamesuta.mc.worldpictures.component.builder.Vector3f;
 import com.kamesuta.mc.worldpictures.net.LocalManager;
 import com.kamesuta.mc.worldpictures.net.LocalResource;

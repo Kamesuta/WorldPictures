@@ -1,4 +1,4 @@
-package com.kamesuta.mc.worldpictures.gui.net;
+package com.kamesuta.mc.worldpictures.experimental;
 
 import org.lwjgl.opengl.GL11;
 

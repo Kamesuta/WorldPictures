@@ -1,4 +1,4 @@
-package com.kamesuta.mc.worldpictures.gui.widget2.position;
+package com.kamesuta.mc.guiwidget.position;
 
 import com.kamesuta.mc.worldpictures.lib.MathHelper;
 

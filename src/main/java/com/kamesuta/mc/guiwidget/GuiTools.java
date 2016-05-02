@@ -1,13 +1,13 @@
-package com.kamesuta.mc.worldpictures.gui.widget2;
+package com.kamesuta.mc.guiwidget;
 
-import static com.kamesuta.mc.worldpictures.gui.widget2.position.FlexiblePosition.EnumAbsolute.*;
+import static com.kamesuta.mc.guiwidget.position.FlexiblePosition.EnumAbsolute.*;
 
 import java.util.EnumSet;
 
 import org.lwjgl.opengl.GL11;
 
-import com.kamesuta.mc.worldpictures.gui.widget2.position.IPositionAbsolute;
-import com.kamesuta.mc.worldpictures.gui.widget2.position.IPositionRelative;
+import com.kamesuta.mc.guiwidget.position.IPositionAbsolute;
+import com.kamesuta.mc.guiwidget.position.IPositionRelative;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.ScaledResolution;
@@ -33,7 +33,7 @@ public class GuiTools {
 	@Deprecated
 	public IPositionRelative getResolution() {
 		final ScaledResolution res = new ScaledResolution(this.mc, this.mc.displayWidth, this.mc.displayHeight);
-		return new com.kamesuta.mc.worldpictures.gui.widget2.position.FlexiblePosition(EnumSet.of(ABSOLUTE_W, ABSOLUTE_H), 0.5f, 0.5f, res.getScaledWidth(), res.getScaledHeight());
+		return new com.kamesuta.mc.guiwidget.position.FlexiblePosition(EnumSet.of(ABSOLUTE_W, ABSOLUTE_H), 0.5f, 0.5f, res.getScaledWidth(), res.getScaledHeight());
 	}
 
 	public void drawDebug(final GuiPosition gposition) {

@@ -1,6 +1,6 @@
-package com.kamesuta.mc.worldpictures.gui.widget2;
+package com.kamesuta.mc.guiwidget;
 
-import com.kamesuta.mc.worldpictures.gui.widget2.position.Point;
+import com.kamesuta.mc.guiwidget.position.Point;
 
 import net.minecraft.client.gui.Gui;
 

@@ -1,4 +1,4 @@
-package com.kamesuta.mc.worldpictures.gui.widget2;
+package com.kamesuta.mc.guiwidget;
 
 public interface GuiActionListener {
 	public void actionPerformed(String command, Object... params);

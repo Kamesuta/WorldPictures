@@ -1,15 +1,15 @@
-package com.kamesuta.mc.worldpictures.gui.widget2;
+package com.kamesuta.mc.guiwidget;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import org.lwjgl.input.Mouse;
 
-import com.kamesuta.mc.worldpictures.gui.widget2.position.IPositionAbsolute;
-import com.kamesuta.mc.worldpictures.gui.widget2.position.IPositionRelative;
-import com.kamesuta.mc.worldpictures.gui.widget2.position.Point;
-import com.kamesuta.mc.worldpictures.gui.widget2.position.PositionAbsolute;
-import com.kamesuta.mc.worldpictures.gui.widget2.position.RelativePosition;
+import com.kamesuta.mc.guiwidget.position.IPositionAbsolute;
+import com.kamesuta.mc.guiwidget.position.IPositionRelative;
+import com.kamesuta.mc.guiwidget.position.Point;
+import com.kamesuta.mc.guiwidget.position.PositionAbsolute;
+import com.kamesuta.mc.guiwidget.position.RelativePosition;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiScreen;
