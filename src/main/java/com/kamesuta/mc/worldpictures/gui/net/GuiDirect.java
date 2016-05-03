@@ -1,5 +1,7 @@
 package com.kamesuta.mc.worldpictures.gui.net;
 
+import org.lwjgl.opengl.GL11;
+
 import com.kamesuta.mc.guiwidget.GuiComponent;
 import com.kamesuta.mc.guiwidget.GuiPosition;
 import com.kamesuta.mc.guiwidget.GuiTools;
@@ -43,23 +45,23 @@ public class GuiDirect extends GuiComponent {
 	@Override
 	public void draw(final GuiTools tools, final GuiPosition pgp, final Point p, final float frame) {
 		final GuiPosition gp = pgp.child(this.position);
-		tools.drawDebug(gp);
-		//		GL11.glColor4d(0.5, 1, 1, this.i);
+		// tools.drawDebug(gp);
+		GL11.glColor4d(0, 0, 0, 0.6);
 		//
 		//		//tools.g.renderEngine.bindTexture(GuiGraphics.guiTex);
-		//		final IPositionAbsolute pos = gp.getAbsolute();
-		//		GL11.glEnable(GL11.GL_BLEND);
-		//		GL11.glDisable(GL11.GL_TEXTURE_2D);
-		//
-		//		GL11.glBegin(GL11.GL_QUADS);
-		//		GL11.glVertex3f(pos.x1(), pos.y1(), 0);
-		//		GL11.glVertex3f(pos.x1(), pos.y2(), 0);
-		//		GL11.glVertex3f(pos.x2(), pos.y2(), 0);
-		//		GL11.glVertex3f(pos.x2(), pos.y1(), 0);
-		//		GL11.glEnd();
-		//
-		//		GL11.glEnable(GL11.GL_TEXTURE_2D);
-		//		GL11.glDisable(GL11.GL_BLEND);
+		final IPositionAbsolute pos = gp.getAbsolute();
+		GL11.glEnable(GL11.GL_BLEND);
+		GL11.glDisable(GL11.GL_TEXTURE_2D);
+
+		GL11.glBegin(GL11.GL_QUADS);
+		GL11.glVertex3f(pos.x1(), pos.y1(), 0);
+		GL11.glVertex3f(pos.x1(), pos.y2(), 0);
+		GL11.glVertex3f(pos.x2(), pos.y2(), 0);
+		GL11.glVertex3f(pos.x2(), pos.y1(), 0);
+		GL11.glEnd();
+
+		GL11.glEnable(GL11.GL_TEXTURE_2D);
+		GL11.glDisable(GL11.GL_BLEND);
 		//		final Tessellator t = Tessellator.instance;
 		//		t.startDrawingQuads();
 		//		t.addVertex(x, y, 0);
