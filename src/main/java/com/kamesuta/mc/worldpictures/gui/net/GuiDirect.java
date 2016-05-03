@@ -30,9 +30,13 @@ public class GuiDirect extends GuiComponent {
 
 	@Override
 	public void update(final GuiTools tools, final GuiPosition pgp, final Point p) {
-		final GuiPosition gp = pgp.child(this.position);
+	}
 
+	@Override
+	public void draw(final GuiTools tools, final GuiPosition pgp, final Point p, final float frame) {
+		final GuiPosition gp = pgp.child(this.position);
 		final IPositionAbsolute pos = gp.getAbsolute();
+
 		if (pos.pointInside(p)) {
 			if (this.i != 0) {this.anime = new Animation(1); this.i = 0;}
 			this.position.x2 = (int) this.anime.addElapsedByTime().easingBetween(Easings.easeOutExpo, -5, -100);
@@ -40,16 +44,11 @@ public class GuiDirect extends GuiComponent {
 			if (this.i != 1) {this.anime = new Animation(1); this.i = 1;}
 			this.position.x2 = (int) this.anime.addElapsedByTime().easingBetween(Easings.easeOutExpo, -100, -5);
 		}
-	}
 
-	@Override
-	public void draw(final GuiTools tools, final GuiPosition pgp, final Point p, final float frame) {
-		final GuiPosition gp = pgp.child(this.position);
 		// tools.drawDebug(gp);
 		GL11.glColor4d(0, 0, 0, 0.6);
 		//
 		//		//tools.g.renderEngine.bindTexture(GuiGraphics.guiTex);
-		final IPositionAbsolute pos = gp.getAbsolute();
 		GL11.glEnable(GL11.GL_BLEND);
 		GL11.glDisable(GL11.GL_TEXTURE_2D);
 

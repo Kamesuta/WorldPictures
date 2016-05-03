@@ -50,7 +50,7 @@ public class GuiNet extends GuiFrame {
 	@Override
 	protected void initWidgets() {
 		final GuiPanel p = new GuiPanel(new RelativePosition(0, 0, -1, -1));
-		p.add(new GuiDirect(new RelativePosition(-1, 50, -5, -51)));
+		p.add(new GuiDirect(new RelativePosition(-1, 20, -5, -21)));
 		add(p);
 	}
 
