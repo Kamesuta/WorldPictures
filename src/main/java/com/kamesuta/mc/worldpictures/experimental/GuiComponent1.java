@@ -6,21 +6,21 @@ import com.kamesuta.mc.guiwidget.GuiComponent;
 import com.kamesuta.mc.guiwidget.GuiPosition;
 import com.kamesuta.mc.guiwidget.GuiTools;
 import com.kamesuta.mc.guiwidget.position.IPositionAbsolute;
-import com.kamesuta.mc.guiwidget.position.IPositionRelative;
 import com.kamesuta.mc.guiwidget.position.Point;
-import com.kamesuta.mc.worldpictures.lib.MathHelper;
+import com.kamesuta.mc.guiwidget.position.RelativeSizedPosition;
 
 public class GuiComponent1 extends GuiComponent {
-	private double i;
-	public IPositionRelative position;
+//	private int mode = -1;
+//	private Animation ani = new Animation(3);
+	public RelativeSizedPosition position;
+//	private double x;
 
-	public GuiComponent1(final IPositionRelative position) {
+	public GuiComponent1(final RelativeSizedPosition position) {
 		this.position = position;
 	}
 
 	@Override
 	public void init(final GuiTools tools, final GuiPosition pgp) {
-		this.i = 0;
 	}
 
 	@Override
@@ -30,22 +30,28 @@ public class GuiComponent1 extends GuiComponent {
 	@Override
 	public void update(final GuiTools tools, final GuiPosition pgp, final Point p) {
 		final GuiPosition gp = pgp.child(this.position);
-
+		position.x = p.x;
+		position.y = p.y;
 		final IPositionAbsolute pos = gp.getAbsolute();
-		if (pos.pointInside(p))
-			this.i = MathHelper.clip(this.i+0.2, 0, 1);
-		else
-			this.i = MathHelper.clip(this.i-0.2, 0, 1);
+
+
+//		if (pos.pointInside(p)) {
+//			if (mode != 0) {ani = new Animation(3); mode = 0;}
+//			x = ani.addElapsedByTime().easingBetween(Easings.easeInOutQuad, 0, 1);
+//		} else {
+//			if (mode != 1) {ani = new Animation(3); mode = 1;}
+//			x = ani.addElapsedByTime().easingBetween(Easings.easeInOutQuad, 1, 0);
+//		}
 	}
 
 	@Override
 	public void draw(final GuiTools tools, final GuiPosition pgp, final Point p, final float frame) {
 		final GuiPosition gp = pgp.child(this.position);
 		tools.drawDebug(gp);
-		GL11.glColor4d(0.5, 1, 1, this.i);
-
-		//tools.g.renderEngine.bindTexture(GuiGraphics.guiTex);
 		final IPositionAbsolute pos = gp.getAbsolute();
+
+		GL11.glColor4d(0, 1, 0, 1);
+
 		GL11.glEnable(GL11.GL_BLEND);
 		GL11.glDisable(GL11.GL_TEXTURE_2D);
 
@@ -58,14 +64,6 @@ public class GuiComponent1 extends GuiComponent {
 
 		GL11.glEnable(GL11.GL_TEXTURE_2D);
 		GL11.glDisable(GL11.GL_BLEND);
-		//		final Tessellator t = Tessellator.instance;
-		//		t.startDrawingQuads();
-		//		t.addVertex(x, y, 0);
-		//		t.addVertex(x, y+h, 0);
-		//		t.addVertex(x+w, y+h, 0);
-		//		t.addVertex(x+w, y, 0);
-		//		t.draw();
-		//		drawRect(x, y, w, h, 0x000000);
 	}
 
 }
