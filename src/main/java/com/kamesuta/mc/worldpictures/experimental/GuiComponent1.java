@@ -10,11 +10,11 @@ import com.kamesuta.mc.guiwidget.position.IPositionRelative;
 import com.kamesuta.mc.guiwidget.position.Point;
 import com.kamesuta.mc.worldpictures.lib.MathHelper;
 
-public class GuiDirect extends GuiComponent {
+public class GuiComponent1 extends GuiComponent {
 	private double i;
 	public IPositionRelative position;
 
-	public GuiDirect(final IPositionRelative position) {
+	public GuiComponent1(final IPositionRelative position) {
 		this.position = position;
 	}
 

@@ -14,11 +14,11 @@ import com.kamesuta.mc.worldpictures.net.NetManager;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiButton;
 
-public class GuiNet extends GuiFrame {
+public class GuiFrame1 extends GuiFrame {
 	@SuppressWarnings("unused")
 	private final NetManager netmanager;
 
-	public GuiNet(final NetManager netmanager) {
+	public GuiFrame1(final NetManager netmanager) {
 		super();
 		this.netmanager = netmanager;
 	}
@@ -66,10 +66,10 @@ public class GuiNet extends GuiFrame {
 	@Override
 	protected void initWidgets() {
 		final GuiPanel p = new GuiPanel(new RelativePosition(5, 5, -6, -6));
-		p.add(new GuiDirect(new RelativePosition(5, 5, 10, 10)));
-		p.add(new GuiDirect(new RelativePosition(5, -5, 10, -10)));
-		p.add(new GuiDirect(new RelativePosition(-5, -5, -10, -10)));
-		p.add(new GuiDirect(new RelativePosition(-5, 5, -10, 10)));
+		p.add(new GuiComponent1(new RelativePosition(5, 5, 10, 10)));
+		p.add(new GuiComponent1(new RelativePosition(5, -5, 10, -10)));
+		p.add(new GuiComponent1(new RelativePosition(-5, -5, -10, -10)));
+		p.add(new GuiComponent1(new RelativePosition(-5, 5, -10, 10)));
 		p.add(new GuiComponent() {
 			@Override
 			public void draw(final GuiTools tools, final GuiPosition pgp, final Point p, final float frame) {
